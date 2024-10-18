@@ -24,15 +24,16 @@ public class ClientService implements UserDetailsService {
     }
 
     public Clients save(Clients client) {
-        getRole(client);
-//        client.setPassword(passwordEncoder.encode(client.getPassword()));
+
         return clientsRep.save(client);
     }
 
     public Optional<Clients> findById(long id) {
         return clientsRep.findById(id);
     }
-
+    public Optional<Clients> findByLogin(Clients client) {
+        return clientsRep.findByLogin(client.getLogin());
+    }
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Optional<Clients> optionalClient = clientsRep.findByLogin(login);
@@ -58,9 +59,6 @@ public class ClientService implements UserDetailsService {
         return clients.getRole().split(",");
     }
 
-    public boolean existByLoginAndPassword(Clients client) {
-        return clientsRep.existsByLoginAndPassword(client.getLogin(), client.getPassword());
-    }
 
     public boolean existByPasport(Clients client) {
         return clientsRep.existsBySeriesPasport(client.getSeriesPasport()) && clientsRep.existsByNumberPasport(client.getNumberPasport());

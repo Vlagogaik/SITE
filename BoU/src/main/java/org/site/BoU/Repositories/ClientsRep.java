@@ -12,7 +12,6 @@ public interface ClientsRep extends JpaRepository<Clients, Long> {
     Optional<Clients> findByNumber(String number);
     Optional<Clients> findByLogin(String login);
     boolean existsByLogin(String login);
-    boolean existsByLoginAndPassword(String login, String password);
     boolean existsBySeriesPasport(Long seriesPasport);
     boolean existsByNumberPasport(Long numberPasport);
     boolean existsByNumber(String number);

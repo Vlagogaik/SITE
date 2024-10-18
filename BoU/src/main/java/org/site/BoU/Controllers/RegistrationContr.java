@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Objects;
+import java.util.Optional;
+
 @RequestMapping("/clients")
 @Controller
 public class RegistrationContr {
@@ -34,7 +37,7 @@ public class RegistrationContr {
         if (!bindingResult.hasErrors()) {
             if (!clientService.existByLogin(client) && !clientService.existByPasport(client) && !clientService.existByNumber(client)) {
                 client.setPassword(passwordEncoder.encode(client.getPassword()));
-                client.getRole();
+                client.setRole("USER");
                 clientService.save(client);
                 return "/home";
             } else {
@@ -47,28 +50,23 @@ public class RegistrationContr {
     }
     @PostMapping("/signIn")
     public String sign(@ModelAttribute("clients") Clients client, Model model) {
-//        if (clientService.existByLoginAndPassword(client)) {
-//            clientService.loadUserByUsername(client.getLogin());
-//            return "/home";
-//        } else {
-//            System.out.println("Login failed for: " + client.getLogin());
-//            model.addAttribute("error", "Неверный логин или пароль!");
-//            return "/signIn";
-//        }
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(client.getLogin(), client.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            return "/home";
+            Optional<Clients> optionalClient = clientService.findByLogin(client);
+            client = optionalClient.get();
+            if(Objects.equals(client.getRole(), "ADMIN")){
+                return  "/home_admin";
+            }else{
+                return "/home_user";
+            }
         } catch (BadCredentialsException e) {
             model.addAttribute("error", "Неправильный логин или пароль");
             return "signIn";
         }
     }
-//    public Clients createClient(@RequestBody Clients client){
-//
-//        return clientsRep.save(client);
-//    }
+
 }
