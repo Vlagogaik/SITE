@@ -64,7 +64,7 @@ public class RegistrationContr {
                 return "/home_user";
             }
         } catch (BadCredentialsException e) {
-            model.addAttribute("error", "Неправильный логин или пароль");
+            System.out.println( model.addAttribute("error", "Неправильный логин или пароль"));
             return "signIn";
         }
     }

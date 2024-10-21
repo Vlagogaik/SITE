@@ -29,9 +29,7 @@
             </div>
         </header>
         <div class="containerIn">
-            <div class="registration-banner">
-                <h1>Вход</h1>
-            </div>
+            <div class="registration-banner"><h1>Вход</h1></div>
             <div class="signin-form">
                 <h2>Bank Of Univers</h2>
                 <form method="POST" th:action="@{/clients/signIn}" th:object="${clients}">
@@ -39,11 +37,11 @@
                     <div class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Ошибка ввода логина</div>
 
                     <input name="password" type="password" placeholder="Пароль" id="password" th:field="*{password}" required/>
-                                <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка ввода пароля</div>
-          
-                </form>
+                    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка ввода пароля</div>
+
                 <div class="signin">
                     Еще нет аккаунта? <a th:href="@{/register}"class="reg-link"> Зарегистрироваться</a> <input type="submit" value="Вход"></div>
+                </form>
             </div>
         </div>
         <footer>
