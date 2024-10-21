@@ -1,80 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Вход</title>
-    <style>
-        body {
-            background-color: #1A1A1A;
-            font-family: 'Arial', sans-serif;
-            color: #FFFFFF;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            font-size: 48px;
-            color: #FF69B4;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-        form {
-            background-color: #2C2C2C;
-            border: 2px solid #FF69B4;
-            border-radius: 10px;
-            padding: 30px;
-            display: inline-block;
-            text-align: left;
-            box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
-        }
-        label, input {
-            font-size: 18px;
-            margin-bottom: 15px;
-            display: block;
-            width: 100%;
-            color: #FFFFFF;
-        }
-        input[type="text"], input[type="password"] {
-            background-color: #3C3C3C;
-            border: 1px solid #FF69B4;
-            border-radius: 5px;
-            padding: 10px;
-            color: #FFFFFF;
-        }
-        input[type="submit"] {
-            font-family: 'Arial', sans-serif;
-            font-size: 20px;
-            color: #FFFFFF;
-            background-color: #FF69B4;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        input[type="submit"]:hover {
-            background-color: #FF1493;
-        }
-    </style>
+    <title>>Bank Of Universe/Вход</title>
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
-<h1>Вход</h1>
-<form method="POST" th:action="@{/clients/signIn}" th:object="${clients}">
-    <label for="login">Логин</label>
-    <input name="login" type="text" id="login" th:field="*{login}" required/>
-    <div class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login Error</div>
+    <div class="wrapper">
+        <header>
+            <div class="navbar">
+                <div class="navbar-logo">
+                    <a href="home.html">Bank Of Universe</a>
+                </div>
+                <ul class="navbar-links">
+                    <li><a href="#">Переводы</a></li>
+                    <li><a href="#">Вклады</a></li>
+                    <li><a href="#">Карты</a></li>
+                    <li><a href="home_user.html">Профиль</a></li>
+                    <li><a href="#">О банке</a></li>
+                </ul>
+                <div class="navbar-register">
+                    <a href="register.html" class="register-btn">Регистрация</a>
+                </div>
+            </div>
+        </header>
+        <div class="containerIn">
+            <div class="registration-banner">
+                <h1>Вход</h1>
+            </div>
+            <div class="signin-form">
+                <h2>Bank Of Univers</h2>
+                <form method="POST" th:action="@{/clients/signIn}" th:object="${clients}">
+                    <input name="login" type="text" placeholder="Логин" id="login" th:field="*{login}" required/>
+                    <div class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Ошибка ввода логина</div>
 
-    <label for="password">Пароль</label>
-    <input name="password" type="password" id="password" th:field="*{password}" required/>
-    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
-
-    <div class="error" th:if="${error}">
-        <p th:text="${error}"></p>
+                    <input name="password" type="password" placeholder="Пароль" id="password" th:field="*{password}" required/>
+                                <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка ввода пароля</div>
+          
+                </form>
+                <div class="signin">
+                    Еще нет аккаунта? <a th:href="@{/register}"class="reg-link"> Зарегистрироваться</a> <input type="submit" value="Вход"></div>
+            </div>
+        </div>
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
+                <ul class="footer-links">
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+        </footer>
     </div>
-    <input type="submit" value="Вход">
-</form>
-    <p>Еще нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a></p>
+
 </body>
 </html>
