@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>>Bank Of Universe/Вход</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link th:href="@{/style/style.css}" rel="stylesheet" />
 </head>
 <body>
     <div class="wrapper">
         <header>
             <div class="navbar">
                 <div class="navbar-logo">
-                    <a href="home.html">Bank Of Universe</a>
+                    <a th:href="@{/home}">Bank Of Universe</a>
                 </div>
                 <ul class="navbar-links">
                     <li><a href="#">Переводы</a></li>
                     <li><a href="#">Вклады</a></li>
                     <li><a href="#">Карты</a></li>
-                    <li><a href="home_user.html">Профиль</a></li>
+                    <!--                    <li><a th:href="#">Переводы</a></li>-->
+                    <!--                    <li><a th:href="#">Вклады</a></li>-->
+                    <!--                    <li><a th:href="#">Карты</a></li>-->
+                    <li><a th:href="@{home_user}">Профиль</a></li>
+                    <!--                    <li><a th:href="#">О банке</a></li>-->
                     <li><a href="#">О банке</a></li>
                 </ul>
                 <div class="navbar-register">
-                    <a href="register.html" class="register-btn">Регистрация</a>
+                    <a th:href="@{/register}" class="register-btn">Регистрация</a>
                 </div>
             </div>
         </header>
