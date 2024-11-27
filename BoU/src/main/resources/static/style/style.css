@@ -163,6 +163,9 @@ body {
     background-color: #282828;
     margin-bottom: 10%;
 }
+.container{
+    margin: 25px;
+}
 h1 {
     font-size: 3rem;
     color: white;
@@ -194,15 +197,28 @@ h1 {
     text-align: center;
     /* margin-left: 10px; */
 }
+.admin-form {
+    background-color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 70%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    /* margin-left: 10px; */
+}
 h2 {
     text-align: left;
     color: white;
     /* margin-bottom: 20px; */
 }
-
 input[type="text"],
 input[type="password"],
-input[type="email"] {
+input[type="email"],
+input[type="number"],
+input[type="checkbox"]
+{
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -253,6 +269,11 @@ a:hover {
 .signin {
     display: flex;
     justify-content: space-between; 
+    align-items: center;
+}
+.createDeposit {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 .login-link {

@@ -23,7 +23,7 @@
                 <li><a href="#">О банке</a></li>
             </ul>
             <div class="navbar-register">
-                <a sec:authorize="isAuthenticated()" th:href="@{/profile}" class="register-btn">Личный кабинет</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
             </div>
         </div>
     </header>
