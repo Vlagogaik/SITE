@@ -1,7 +1,10 @@
 package org.site.BoU.Controllers;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.site.BoU.Entities.Clients;
+import org.site.BoU.JwtTokenProvider;
 import org.site.BoU.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,21 +19,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RequestMapping("/clients")
 @Controller
 public class RegistrationContr {
 
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationContr.class);
     @Autowired
     AuthenticationManager authenticationManager;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/register")
     public String save(@ModelAttribute("clients") @Valid Clients client, BindingResult bindingResult, Model model) {
@@ -39,17 +48,20 @@ public class RegistrationContr {
                 client.setPassword(passwordEncoder.encode(client.getPassword()));
                 client.setRole("USER");
                 clientService.save(client);
-                return "/home";
+                logger.info("Пользователь {} успешно зарегистрирован", client.getLogin());
+                return "/profile";
             } else {
-                model.addAttribute("error", "Пользователь с таким логином уже существует!");
+                logger.warn("Ошибка регистрации: пользователь с логином {} или паспортными данными {} или номером телефона {} уже существует", client.getLogin(), client.getNumberPasport(), client.getNumber());
+                model.addAttribute("error", "Пользователь с таким логином уже существует или не найден.");
                 return "/register";
             }
         } else {
+            logger.error("Ошибка при регистрации пользователя {}", client.getLogin());
             return "/register";
         }
     }
     @PostMapping("/signIn")
-    public String sign(@ModelAttribute("clients") Clients client, Model model) {
+    public String sign(@ModelAttribute("clients") Clients client, Model model, HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(client.getLogin(), client.getPassword())
@@ -58,14 +70,39 @@ public class RegistrationContr {
 
             Optional<Clients> optionalClient = clientService.findByLogin(client);
             client = optionalClient.get();
+            logger.info("Пользователь {} успешно вошел в систему", client.getLogin());
+
+            String token = jwtTokenProvider.generateToken(client.getLogin());
+            Cookie cookie = new Cookie("JWT", token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(60 * 60);
+            response.addCookie(cookie);
+
             if(Objects.equals(client.getRole(), "ADMIN")){
                 return  "/home_admin";
             }else{
-                return "/home_user";
+                return "/profile";
             }
         } catch (BadCredentialsException e) {
-            System.out.println( model.addAttribute("error", "Неправильный логин или пароль"));
+            logger.warn("Неудачная попытка входа для пользователя {}", client.getLogin());
+            model.addAttribute("error", "Неправильный логин или пароль");
             return "signIn";
+        } catch (Exception e) {
+            logger.error("Ошибка при входе пользователя {}: {}", client.getLogin(), e.getMessage());
+            model.addAttribute("error", "Произошла ошибка при входе.");
+            return "signIn";
+        }
+    }
+
+    @GetMapping("/profile")
+    public String profile(@AuthenticationPrincipal Clients client, Model model) {
+        if (client != null) {
+            model.addAttribute("login", client.getLogin());
+            return "profile";
+        } else {
+            return "redirect:/signIn";
         }
     }
 

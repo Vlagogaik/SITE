@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>>Bank Of Universe/Вход</title>
@@ -19,13 +19,14 @@
                     <!--                    <li><a th:href="#">Переводы</a></li>-->
                     <!--                    <li><a th:href="#">Вклады</a></li>-->
                     <!--                    <li><a th:href="#">Карты</a></li>-->
-                    <li><a th:href="@{home_user}">Профиль</a></li>
                     <!--                    <li><a th:href="#">О банке</a></li>-->
                     <li><a href="#">О банке</a></li>
                 </ul>
                 <div class="navbar-register">
-                    <a th:href="@{/register}" class="register-btn">Регистрация</a>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/profile}" class="register-btn">Личный кабинет</a>
                 </div>
+
+
             </div>
         </header>
         <div class="containerIn">

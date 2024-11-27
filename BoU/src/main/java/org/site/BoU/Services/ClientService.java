@@ -61,7 +61,7 @@ public class ClientService implements UserDetailsService {
 
 
     public boolean existByPasport(Clients client) {
-        return clientsRep.existsBySeriesPasport(client.getSeriesPasport()) && clientsRep.existsByNumberPasport(client.getNumberPasport());
+        return clientsRep.existsByNumberPasport(client.getNumberPasport());
     }
 
     public boolean existByNumber(Clients client) {

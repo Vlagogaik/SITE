@@ -21,8 +21,8 @@ public class Clients {
     @Column(name = "number_pasport", nullable = false)
     private Long numberPasport;
 
-    @Column(name = "series_pasport", nullable = false)
-    private Long seriesPasport;
+//    @Column(name = "series_pasport", nullable = false)
+//    private Long seriesPasport;
 
     @Column(nullable = false)
     private String first_name;

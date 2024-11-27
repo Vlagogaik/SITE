@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Bank Of Universe/Регистрация</title>
@@ -19,12 +19,11 @@
                     <!--                    <li><a th:href="#">Переводы</a></li>-->
                     <!--                    <li><a th:href="#">Вклады</a></li>-->
                     <!--                    <li><a th:href="#">Карты</a></li>-->
-                    <li><a th:href="@{home_user}">Профиль</a></li>
                     <!--                    <li><a th:href="#">О банке</a></li>-->
                     <li><a href="#">О банке</a></li>
                 </ul>
                 <div class="navbar-register">
-                    <a th:href="@{/register}" class="register-btn">Регистрация</a>
+                    <a sec:authorize="isAuthenticated()" th:href="@{/profile}" class="register-btn">Личный кабинет</a>
                 </div>
             </div>
         </header>
@@ -43,14 +42,21 @@
                 <input name="mail" type="email" placeholder="Почта" id="mail" th:field="*{mail}" required/>
                 <div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}">Ошибка ввода почты</div> 
 
-                <input name="password" type="password" placeholder="Пароль" id="password" th:field="*{password}" required/>
+                <input name="password" type="password" placeholder="Пароль" id="password" th:field="*{password}"
+                       minlength="8" maxlength="30"
+                       pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                       title="Пароль должен быть от 8 символов, содержать хотя бы одну букву, одну цифру и один специальный символ"
+                       required
+                />
                 <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка ввода пароля</div>
 
-                <input name="numberPasport" type="text" placeholder="Номер паспорта" id="numberPasport" th:field="*{numberPasport}" required/>
-                <div class="error" th:if="${#fields.hasErrors('numberPasport')}" th:errors="*{numberPasport}">Ошибка ввода номера паспорта</div>
+                <input name="numberPasport" type="text" placeholder="Номер и серия паспорта" id="numberPasport" th:field="*{numberPasport}" required
+                       minlength="10" maxlength="10"
+                />
+                <div class="error" th:if="${#fields.hasErrors('numberPasport')}" th:errors="*{numberPasport}">Ошибка ввода номера и серии паспорта</div>
 
-                <input name="seriesPasport" type="text" placeholder="Серия поспорта" id="seriesPasport" th:field="*{seriesPasport}" required />
-                <div class="error" th:if="${#fields.hasErrors('seriesPasport')}" th:errors="*{seriesPasport}">Ошибка ввода серии паспорта</div>
+<!--                <input name="seriesPasport" type="text" placeholder="Серия поспорта" id="seriesPasport" th:field="*{seriesPasport}" required />-->
+<!--                <div class="error" th:if="${#fields.hasErrors('seriesPasport')}" th:errors="*{seriesPasport}">Ошибка ввода серии паспорта</div>-->
 
                 <input name="first_name" type="text" placeholder="Имя" id="first_name" th:field="*{first_name}" required />
                 <div class="error" th:if="${#fields.hasErrors('first_name')}" th:errors="*{first_name}">Ошибка ввода имени</div>
@@ -61,7 +67,11 @@
                 <input name="surname" type="text" placeholder="Отчество" id="surname" th:field="*{surname}" />
                 <div class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Ошибка ввода отчества</div>
 
-                <input name="number" type="text" placeholder="Номер телефона" id="number" th:field="*{number}"  required/>
+                <input name="number" type="text" placeholder="+7XXXXXXXXXX" id="number" th:field="*{number}"
+                       minlength="12" maxlength="12"
+                       pattern="\+7\d{10}"
+                       required
+                />
                 <div class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}">Ошибка ввода номера телефона</div>
 
                 <div class="error" th:if="${error}">
