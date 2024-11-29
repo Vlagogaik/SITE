@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Of Universe/Админ</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="navbar">
+            <div class="navbar-logo">
+                <a th:href="@{/admin/home_admin}">Bank Of Universe</a>
+            </div>
+            <ul class="navbar-links">
+                <li><a href="#">Переводы</a></li>
+                <li><a href="#">Вклады</a></li>
+                <li><a href="#">Карты</a></li>
+                <!--                    <li><a th:href="#">Переводы</a></li>-->
+                <!--                    <li><a th:href="#">Вклады</a></li>-->
+                <!--                    <li><a th:href="#">Карты</a></li>-->
+                <!--                    <li><a th:href="#">О банке</a></li>-->
+                <li><a href="#">О банке</a></li>
+            </ul>
+            <div class="navbar-register">
+                <a href="/logout" class="logout-btn">Выйти</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/admin/home_admin}" class="register-btn">Личный кабинет</a>
+
+                <!--                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/home_admin}" class="register-btn">Личный кабинет</a>-->
+                <!--                <a sec:authorize="hasRole('USER')" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>-->
+
+            </div>
+        </div>
+    </header>
+    <div class="containerIn">
+        <div class="admin-form">
+
+            <form th:action="@{/admin/deposit}" method="POST" th:object="${deposits}">
+                <label for="name">Название вклада:</label>
+                <input type="text" id="name" th:field="*{name}" required />
+                <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"> Name error</div>
+
+                <div class="container">
+                    <label for="prolongation">Пролонгация (y/n):</label>
+                    <input type="radio" id="Pyes" th:field="*{prolongation}" value="y" />
+                    <label for="Pyes">Да</label>
+                    <input type="radio" id="Pno" th:field="*{prolongation}" value="n" />
+                    <label for="Pno">Нет</label>
+                    <div class="error" th:if="${#fields.hasErrors('prolongation')}" th:errors="*{prolongation}"></div>
+
+                </div>
+
+                <div class="container">
+                    <label for="replenishmentCapasity">Возможность пополнения (y/n):</label>
+                    <input type="radio" id="Cyes" th:field="*{replenishmentCapasity}" value="y" />
+                    <label for="Cyes">Да</label>
+                    <input type="radio" id="Cno" th:field="*{replenishmentCapasity}" value="n" />
+                    <label for="Cno">Нет</label>
+                    <div class="error" th:if="${#fields.hasErrors('replenishmentCapasity')}" th:errors="*{replenishmentCapasity}"></div>
+                </div>
+
+                <label for="rate">Ставка:</label>
+                <input type="number" id="rate" th:field="*{rate}" required />
+                <div class="error" th:if="${#fields.hasErrors('rate')}" th:errors="*{rate}"></div>
+
+                <div class="container">
+                    <label for="depositStatus">Статус вклада (o/c):</label>
+                    <input type="radio" id="open" th:field="*{depositStatus}" value="o" />
+                    <label for="open">Открыт</label>
+                    <input type="radio" id="close" th:field="*{depositStatus}" value="c" />
+                    <label for="close">Закрыт</label>
+                    <div class="error" th:if="${#fields.hasErrors('depositStatus')}" th:errors="*{depositStatus}"></div>
+                </div>
+
+                <label for="minTermDays">Минимальный срок (дней):</label>
+                <input type="number" id="minTermDays" th:field="*{minTermDays}" required />
+                <div class="error" th:if="${#fields.hasErrors('minTermDays')}" th:errors="*{minTermDays}"></div>
+
+                <label for="maxTermDays">Максимальный срок (дней):</label>
+                <input type="number" id="maxTermDays" th:field="*{maxTermDays}" required />
+                <div class="error" th:if="${#fields.hasErrors('maxTermDays')}" th:errors="*{maxTermDays}"></div>
+
+                <label for="minAmount">Минимальная сумма:</label>
+                <input type="number" id="minAmount" th:field="*{minAmount}" required />
+                <div class="error" th:if="${#fields.hasErrors('minAmount')}" th:errors="*{minAmount}"></div>
+
+                <label for="maxAmount">Максимальная сумма:</label>
+                <input type="number" id="maxAmount" th:field="*{maxAmount}" required />
+                <div class="error" th:if="${#fields.hasErrors('maxAmount')}" th:errors="*{maxAmount}"></div>
+
+                <div class="createDeposit">
+                    <input type="submit" value="Создать вклад">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
+            <ul class="footer-links">
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

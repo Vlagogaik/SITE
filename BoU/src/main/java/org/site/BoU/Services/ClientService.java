@@ -24,7 +24,6 @@ public class ClientService implements UserDetailsService {
     }
 
     public Clients save(Clients client) {
-
         return clientsRep.save(client);
     }
 

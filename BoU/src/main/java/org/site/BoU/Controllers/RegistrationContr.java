@@ -1,15 +1,12 @@
 package org.site.BoU.Controllers;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.site.BoU.Entities.Clients;
 import org.site.BoU.JWT.JwtTokenProvider;
 import org.site.BoU.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,15 +42,21 @@ public class RegistrationContr {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+
     @PostMapping("/register")
-    public String save(@ModelAttribute("clients") @Valid Clients client, BindingResult bindingResult, Model model) {
+    public String save(@ModelAttribute("clients") @Valid Clients client, BindingResult bindingResult, Model model, HttpSession httpSession) {
         if (!bindingResult.hasErrors()) {
             if (!clientService.existByLogin(client) && !clientService.existByPasport(client) && !clientService.existByNumber(client)) {
                 client.setPassword(passwordEncoder.encode(client.getPassword()));
                 client.setRole("USER");
                 clientService.save(client);
                 logger.info("Пользователь {} успешно зарегистрирован", client.getLogin());
-                return "/user/profile";
+
+                httpSession.setAttribute("login", client.getLogin());
+                httpSession.setAttribute("lastAccessed", LocalDateTime.now());
+                logger.info("Cессия при регистрации: id: {}; login: {}", httpSession.getId(), httpSession.getAttribute("login"));
+
+                return "redirect:/user/profile";
             } else {
                 logger.warn("Ошибка регистрации: пользователь с логином {} или паспортными данными {} или номером телефона {} уже существует", client.getLogin(), client.getNumberPasport(), client.getNumber());
                 model.addAttribute("error", "Пользователь с таким логином уже существует или не найден.");
@@ -63,8 +68,8 @@ public class RegistrationContr {
         }
     }
     @PostMapping("/signIn")
-//    public String sign(@ModelAttribute("clients") Clients client, Model model, HttpServletResponse response) {
-    public String sign(@ModelAttribute("clients") Clients client, HttpServletRequest request, HttpServletResponse response, Model model) {
+    public String sign(@ModelAttribute("clients") Clients client, Model model, HttpServletRequest request, HttpSession httpSession) {
+//    public String sign(@ModelAttribute("clients") Clients client, HttpServletRequest request, HttpServletResponse response, Model model) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(client.getLogin(), client.getPassword())
@@ -73,23 +78,22 @@ public class RegistrationContr {
 
             Optional<Clients> optionalClient = clientService.findByLogin(client);
             client = optionalClient.get();
-            logger.info("Пользователь {} успешно вошел в систему, роль: {}", client.getLogin(), client.getRole());
-//            String role = client.getRole();
-//            HttpSession session = request.getSession();
-//            session.setAttribute("USER_ROLE", role);
+            logger.info("Аутентификация прошла успешно. Роль: {}; {}", authentication.getAuthorities(), authentication);
+            logger.info("Текущие аутентифицированные данные: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
-            String token = jwtTokenProvider.generateToken(client.getLogin(), client.getRole());
-            Cookie cookie = new Cookie("JWT", token);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(60 * 60);
-            response.addCookie(cookie);
+            HttpSession session = request.getSession(true);
+            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
+            httpSession.setAttribute("login", client.getLogin());
+            httpSession.setAttribute("lastAccessed", LocalDateTime.now());
+
+            logger.info("Cессия при входе: id: {}; login: {}", httpSession.getId(), httpSession.getAttribute("login"));
+
 
             if(Objects.equals(client.getRole(), "ADMIN")){
-                return  "/admin/home_admin";
+                return  "redirect:/admin/home_admin";
             }else{
-                return "/user/profile";
+                return "redirect:/user/profile";
             }
 
         } catch (BadCredentialsException e) {
@@ -103,12 +107,12 @@ public class RegistrationContr {
         }
     }
 
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/user/profile")
-    public String profile(@AuthenticationPrincipal Clients client, Model model) {
-        if (client != null) {
-            model.addAttribute("login", client.getLogin());
-            return "profile";
+    public String profile(@AuthenticationPrincipal HttpSession httpSession, Model model) {
+        if (httpSession != null) {
+            model.addAttribute("login", httpSession.getAttribute("login"));
+            model.addAttribute("role", httpSession.getAttribute("role"));
+            return "/user/profile";
         } else {
             return "redirect:/signIn";
         }

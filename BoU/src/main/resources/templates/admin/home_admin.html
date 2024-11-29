@@ -30,50 +30,12 @@
     </header>
     <div class="containerIn">
         <div class="admin-form">
-        <form th:action="@{/admin/deposit/create}" method="POST"  th:object="${deposits}">
-            <label for="name">Название вклада:</label>
-            <input type="text" id="name" name="name" required>
-            <div class="container">
-                <label for="prolongation">Пролонгация (y/n):</label>
-    <!--            <input type="text" id="prolongation" name="prolongation" required>-->
-                <input type="radio" id="Pyes" name="depositStatus" value="y">
-                <label for="Pyes">Да</label>
-                <input type="radio" id="Pno" name="depositStatus" value="n">
-                <label for="Pno">Нет</label>
+            <div th:if="${errorMessage}" class="error-message">
+                <p th:text="${errorMessage}"></p>
             </div>
-            <div class="container">
-                <label for="replenishmentCapasity">Возможность пополнения (y/n):</label>
-    <!--            <input type="text" id="replenishmentCapasity" name="replenishmentCapasity" required>-->
-                <input type="radio" id="Cyes" name="depositStatus" value="y">
-                <label for="Cyes">Да</label>
-                <input type="radio" id="Cno" name="depositStatus" value="n">
-                <label for="Cno">Нет</label>
+            <div class="redirect-button">
+                <a th:href="@{/admin/deposit}" class="redirect-btn">Перейти к списку вкладов</a>
             </div>
-            <label for="rate">Ставка:</label>
-            <input type="number" id="rate" name="rate" required>
-
-            <div class="container">
-                <label for="depositStatus">Статус вклада (o/c):</label>
-    <!--            <input type="text" id="depositStatus" name="depositStatus" required>-->
-                <input type="radio" id="open" name="depositStatus" value="o">
-                <label for="open">Открыт</label>
-                <input type="radio" id="close" name="depositStatus" value="c">
-                <label for="close">Закрыт</label>
-            </div>
-            <label for="minTermDays">Минимальный срок (дней):</label>
-            <input type="number" id="minTermDays" name="minTermDays" required>
-
-            <label for="maxTermDays">Максимальный срок (дней):</label>
-            <input type="number" id="maxTermDays" name="maxTermDays" required>
-
-            <label for="minAmount">Минимальная сумма:</label>
-            <input type="number" id="minAmount" name="minAmount" required>
-
-            <label for="maxAmount">Максимальная сумма:</label>
-            <input type="number" id="maxAmount" name="maxAmount" required>
-            <div class="createDeposit">
-                <input type="submit" value="Создать вклад"></input> </div>
-        </form>
         </div>
     </div>
 

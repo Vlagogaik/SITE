@@ -85,6 +85,7 @@
 <!--			<artifactId>spring-session-jdbc</artifactId>-->
 <!--			<version>3.3.2</version>-->
 <!--		</dependency>-->
+
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>

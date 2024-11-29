@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface DepositsRep extends JpaRepository<Deposits, Long> {
     Optional<Deposits> findByName(String name);
+    boolean existsByName(String name);
 }
