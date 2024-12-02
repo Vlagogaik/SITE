@@ -41,7 +41,8 @@ public class SecurityConfig {
                 .authorizeRequests(auth -> {
                     auth.requestMatchers("/home", "/register", "/signIn", "/clients/signIn", "/clients/register", "/", "/style/**", "/favicon.ico", "/error", "/allDeposits").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
-                    auth.requestMatchers("/user/**").hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers("/user/** , /account/**").hasAnyRole("USER", "ADMIN");
+
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(formLogin -> formLogin

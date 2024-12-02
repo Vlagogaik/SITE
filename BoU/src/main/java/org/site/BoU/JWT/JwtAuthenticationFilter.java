@@ -19,41 +19,41 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-public class JwtAuthenticationFilter implements Filter {
+public class JwtAuthenticationFilter /*implements Filter*/ {
 
-    private JwtTokenProvider jwtTokenProvider;
-
-    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
-            throws IOException, ServletException {
-
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-
-        Cookie[] cookies = httpServletRequest.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("JWT".equals(cookie.getName())) {
-                    String token = cookie.getValue();
-                    if (jwtTokenProvider.validateToken(token)) {
-                        String loginFromToken = jwtTokenProvider.getLoginFromToken(token);
-                        String roles = jwtTokenProvider.getRolesFromToken(token);
-                        List<GrantedAuthority> authorities = Arrays.stream(roles.split(","))
-                                .map(SimpleGrantedAuthority::new)
-                                .collect(Collectors.toList());
-                        Authentication authentication = new UsernamePasswordAuthenticationToken(loginFromToken, null, authorities);
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
-                    break;
-                }
-            }
-        }
-        filterChain.doFilter(request, response);
-    }
+//    private JwtTokenProvider jwtTokenProvider;
+//
+//    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
+//        this.jwtTokenProvider = jwtTokenProvider;
+//    }
+//
+//    @Override
+//    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
+//            throws IOException, ServletException {
+//
+//        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+//        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+//
+//        Cookie[] cookies = httpServletRequest.getCookies();
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if ("JWT".equals(cookie.getName())) {
+//                    String token = cookie.getValue();
+//                    if (jwtTokenProvider.validateToken(token)) {
+//                        String loginFromToken = jwtTokenProvider.getLoginFromToken(token);
+//                        String roles = jwtTokenProvider.getRolesFromToken(token);
+//                        List<GrantedAuthority> authorities = Arrays.stream(roles.split(","))
+//                                .map(SimpleGrantedAuthority::new)
+//                                .collect(Collectors.toList());
+//                        Authentication authentication = new UsernamePasswordAuthenticationToken(loginFromToken, null, authorities);
+//                        SecurityContextHolder.getContext().setAuthentication(authentication);
+//                    }
+//                    break;
+//                }
+//            }
+//        }
+//        filterChain.doFilter(request, response);
+//    }
 //    @Override
 //    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
 //            throws IOException, ServletException {

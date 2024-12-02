@@ -24,4 +24,10 @@ public class DepositService {
     public List<Deposits> getAllDeposits() {
         return depositsRep.findAll();
     }
+    public Deposits findByIdDeposit(Long idDeposit){
+        return depositsRep.findByIdDeposit(idDeposit);
+    }
+    public void deleteById(Long idDeposit){
+        depositsRep.deleteById(idDeposit);
+    }
 }

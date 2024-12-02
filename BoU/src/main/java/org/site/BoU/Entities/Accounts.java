@@ -14,11 +14,12 @@ public class Accounts {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accounts_id_account_seq")
     @SequenceGenerator(name = "accounts_id_account_seq", sequenceName = "accounts_id_account_seq", allocationSize = 1)
-    private Long id_account;
+    @Column(name = "id_account")
+    private Long idAccount;
 
     @ManyToOne
     @JoinColumn(name = "id_client")
-    private Clients id_client;
+    private Clients idClient;
 
     @Column(nullable = false)
     private Long amount;
@@ -28,4 +29,5 @@ public class Accounts {
 
     @Column(nullable = false)
     private char status;
+
 }

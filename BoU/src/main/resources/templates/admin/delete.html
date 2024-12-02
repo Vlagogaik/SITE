@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Of Universe/Вклады</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="navbar">
+            <div class="navbar-logo">
+                <a th:href="@{/home}">Bank Of Universe</a>
+            </div>
+            <ul class="navbar-links">
+                <li><a href="#">Переводы</a></li>
+                <li><a th:href="@{/allDeposits}">Вклады</a></li>
+                <li><a href="#">Карты</a></li>
+                <!--                    <li><a th:href="#">Переводы</a></li>-->
+                <!--                    <li><a th:href="#">Вклады</a></li>-->
+                <!--                    <li><a th:href="#">Карты</a></li>-->
+                <!--                    <li><a th:href="#">О банке</a></li>-->
+                <li><a href="#">О банке</a></li>
+            </ul>
+            <div class="navbar-register">
+                <a href="/logout" class="logout-btn">Выйти</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="deposit-list">
+        <div th:each="deposit : ${deposits}" class="deposit-card">
+            <h3 th:text="${deposit.name}">Название депозита</h3>
+            <div class="info">
+                <label>Id:</label>
+                <span th:text="${deposit.idDeposit}"></span>
+            </div>
+            <div class="info">
+                <label>Пролонгация:</label>
+                <span th:text="${deposit.prolongation}">Да/Нет</span>
+            </div>
+            <div class="info">
+                <label>Возможность пополнения:</label>
+                <span th:text="${deposit.replenishmentCapasity}">Да/Нет</span>
+            </div>
+            <div class="info">
+                <label>Ставка:</label>
+                <span th:text="${deposit.rate}">Ставка</span>
+            </div>
+            <div class="info">
+                <label>Минимальный срок (дней):</label>
+                <span th:text="${deposit.minTermDays}">Мин. срок</span>
+            </div>
+            <div class="info">
+                <label>Максимальный срок (дней):</label>
+                <span th:text="${deposit.maxTermDays}">Макс. срок</span>
+            </div>
+            <div class="info">
+                <label>Минимальная сумма:</label>
+                <span th:text="${deposit.minAmount}">Мин. сумма</span>
+            </div>
+            <div class="info">
+                <label>Максимальная сумма:</label>
+                <span th:text="${deposit.maxAmount}">Макс. сумма</span>
+            </div>
+            <form th:action="@{'/admin/deposit/delete/' + ${deposit.idDeposit}}" method="post">
+                <input type="hidden" th:value="${deposit.idDeposit}" name="idDeposit" />
+                <button type="submit" class="btn delete-btn">Удалить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
+        <ul class="footer-links">
+            <li><a href="#">Контакты</a></li>
+        </ul>
+    </div>
+</footer>
+</div>
+</body>
+</html>

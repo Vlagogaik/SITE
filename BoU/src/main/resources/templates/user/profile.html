@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Bank Of Universe/Профиль</title>
+    <title>Bank Of Universe</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
 <body>
@@ -14,12 +14,8 @@
             </div>
             <ul class="navbar-links">
                 <li><a href="#">Переводы</a></li>
-                <li><a href="#">Вклады</a></li>
+                <li><a th:href="@{/allDeposits}">Вклады</a></li>
                 <li><a href="#">Карты</a></li>
-                <!--                    <li><a th:href="#">Переводы</a></li>-->
-                <!--                    <li><a th:href="#">Вклады</a></li>-->
-                <!--                    <li><a th:href="#">Карты</a></li>-->
-                <!--                    <li><a th:href="#">О банке</a></li>-->
                 <li><a href="#">О банке</a></li>
             </ul>
             <div class="navbar-register">
@@ -28,9 +24,46 @@
             </div>
         </div>
     </header>
-    <div class="containerIn">
-        OLEGPROFILE
-    </div>
+
+    <main>
+        <div class="content">
+            <h2>Личный кабинет</h2>
+            <div>
+                <h3>Информация о клиенте:</h3>
+                <p>Имя: <span th:text="${clients.firstName}"></span></p>
+                <p th:if="${clients.surname != null}">
+                    Отчество: <span th:text="${clients.surname}"></span>
+                </p>
+                <p th:if="${clients.surname == null}">
+                    Отчество: -
+                </p>
+                <p>Имя: <span th:text="${clients.lastName}"></span></p>
+                <p>Email: <span th:text="${clients.mail}"></span></p>
+                <p>Номер телефона: <span th:text="${clients.number}"></span></p>
+                <p th:if="${accounts != null}">
+                    <th:block th:each="accounts : ${accounts}">
+                        <li th:text="'Account ID: ' + ${accounts.idAccount}"></li>
+                        <li th:text="'Balance: ' + ${accounts.amount}"></li>
+                        <li th:text="'Currency: ' + ${accounts.currency}"></li>
+                </p>
+                <p th:if="${accounts == null}">
+                    У вас ещё нет открытого счета.
+                </p>
+            </div>
+            <div>
+                <h3>Создать новый счет</h3>
+                <form th:action="@{/account/create}" method="post">
+                    <label for="currency">Валюта:</label>
+                    <select name="currency" id="currency" required>
+                        <option value="RUB">RUB</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                    <button type="submit">Создать счет</button>
+                </form>
+            </div>
+        </div>
+    </main>
 
     <footer>
         <div class="footer-content">

@@ -59,11 +59,22 @@
                 <label>Максимальная сумма:</label>
                 <span th:text="${deposit.maxAmount}">Макс. сумма</span>
             </div>
-            <div class="button-container">
-                <a href="#" class="btn">Оформить</a>
-            </div>
+            <form th:action="@{/user/deposit/create}" method="post">
+                <input type="hidden" th:value="${deposit.idDeposit}" name="depositId" />
+                <label for="amount">Сумма:</label>
+                <input type="number" id="amount" name="amount" min="${deposit.minAmount}" max="${deposit.maxAmount}" required/>
+                <label for="currency">Валюта:</label>
+                <select id="currency" name="currency">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="RUB">RUB</option>
+                </select>
+                <button type="submit" class="btn">Оформить</button>
+            </form>
         </div>
     </div>
+</div>
+
 
     <footer>
         <div class="footer-content">

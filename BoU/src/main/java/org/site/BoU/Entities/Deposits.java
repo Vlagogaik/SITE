@@ -16,7 +16,8 @@ public class Deposits {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "deposits_id_deposit_seq")
     @SequenceGenerator(name = "deposits_id_deposit_seq", sequenceName = "deposits_id_deposit_seq", allocationSize = 1)
-    private Long id_deposit;
+    @Column(name = "id_deposit")
+    private Long idDeposit;
 
     @Column(name = "name", nullable = false)
     private String name;

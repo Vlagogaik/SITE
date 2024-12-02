@@ -9,5 +9,7 @@ import java.util.Optional;
 @Repository
 public interface DepositsRep extends JpaRepository<Deposits, Long> {
     Optional<Deposits> findByName(String name);
+    Deposits findByIdDeposit(Long idDeposit);
     boolean existsByName(String name);
+    void deleteById(Long idDeposit);
 }

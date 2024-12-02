@@ -14,7 +14,7 @@
             </div>
             <ul class="navbar-links">
                 <li><a href="#">Переводы</a></li>
-                <li><a href="#">Вклады</a></li>
+                <li><a th:href="@{/allDeposits}">Вклады</a></li>
                 <li><a href="#">Карты</a></li>
                 <!--                    <li><a th:href="#">Переводы</a></li>-->
                 <!--                    <li><a th:href="#">Вклады</a></li>-->
@@ -34,7 +34,22 @@
                 <p th:text="${errorMessage}"></p>
             </div>
             <div class="redirect-button">
-                <a th:href="@{/admin/deposit}" class="redirect-btn">Перейти к списку вкладов</a>
+                <a th:href="@{/admin/deposit}" class="redirect-btn">Создать вклад</a>
+            </div>
+            <div class="redirect-button">
+                <a th:href="@{/admin/delete}" class="redirect-btn">Удалить вклад</a>
+            </div>
+            <div class="redirect-button">
+                <a th:href="@{/admin/clientDel}" class="redirect-btn">Удалить клиента</a>
+            </div>
+            <div class="redirect-button">
+                <a th:href="@{/admin/clientAdd}" class="redirect-btn">Добавить клиента</a>
+            </div>
+            <div class="redirect-button">
+                <a th:href="@{/admin/accountDel}" class="redirect-btn">Удалить счет</a>
+            </div>
+            <div class="redirect-button">
+                <a th:href="@{/admin/accountAdd}" class="redirect-btn">Добавить счет</a>
             </div>
         </div>
     </div>

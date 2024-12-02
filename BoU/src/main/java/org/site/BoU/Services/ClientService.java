@@ -1,5 +1,6 @@
 package org.site.BoU.Services;
 
+import org.site.BoU.Entities.Accounts;
 import org.site.BoU.Entities.Clients;
 import org.site.BoU.Repositories.ClientsRep;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,16 +32,20 @@ public class ClientService implements UserDetailsService {
     public Optional<Clients> findById(long id) {
         return clientsRep.findById(id);
     }
-    public Optional<Clients> findByLogin(Clients client) {
-        return clientsRep.findByLogin(client.getLogin());
+    public List<Clients> findAll() {
+        return clientsRep.findAll();
     }
+    public Clients findByLogin(String login) {
+        return clientsRep.findByLogin(login);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Optional<Clients> optionalClient = clientsRep.findByLogin(login);
-        if (optionalClient.isEmpty()){
+        Clients client = clientsRep.findByLogin(login);
+        if (client == null){
             throw new UsernameNotFoundException(login);
         }else{
-            Clients client = optionalClient.get();
+//            Clients client = optionalClient.get();
             return User.builder()
                     .username(client.getLogin())
                     .password(client.getPassword())
@@ -65,5 +71,8 @@ public class ClientService implements UserDetailsService {
 
     public boolean existByNumber(Clients client) {
         return clientsRep.existsByNumber(client.getNumber());
+    }
+    public void deleteById(Long id){
+        clientsRep.deleteById(id);
     }
 }

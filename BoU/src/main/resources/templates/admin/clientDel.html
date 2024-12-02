@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Of Universe/Клиенты</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="navbar">
+            <div class="navbar-logo">
+                <a th:href="@{/home}">Bank Of Universe</a>
+            </div>
+            <ul class="navbar-links">
+                <li><a href="#">Переводы</a></li>
+                <li><a th:href="@{/allDeposits}">Вклады</a></li>
+                <li><a href="#">Карты</a></li>
+                <!--                    <li><a th:href="#">Переводы</a></li>-->
+                <!--                    <li><a th:href="#">Вклады</a></li>-->
+                <!--                    <li><a th:href="#">Карты</a></li>-->
+                <!--                    <li><a th:href="#">О банке</a></li>-->
+                <li><a href="#">О банке</a></li>
+            </ul>
+            <div class="navbar-register">
+                <a href="/logout" class="logout-btn">Выйти</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="client-list">
+        <div th:each="client : ${clients}" class="client-card">
+            <h3>Информация о клиенте:</h3>
+            <p>Id: <span th:text="${client.idClient}"></span></p>
+            <p>Имя: <span th:text="${client.firstName}"></span></p>
+            <p th:if="${client.surname != null}">
+                Отчество: <span th:text="${client.surname}"></span>
+            </p>
+            <p th:if="${client.surname == null}">
+                Отчество: -
+            </p>
+            <p>Фамилия: <span th:text="${client.lastName}"></span></p>
+
+            <p>Email: <span th:text="${client.mail}"></span></p>
+            <p>Номер телефона: <span th:text="${client.number}"></span></p>
+
+            <form th:action="@{'/admin/client/delete/' + ${client.idClient}}" method="post">
+                <input type="hidden" th:value="${client.idClient}" name="id"/>
+                <button type="submit" class="btn delete-btn">Удалить клиента</button>
+            </form>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
+            <ul class="footer-links">
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
