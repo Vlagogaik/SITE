@@ -76,7 +76,7 @@
                     <div class="profile-card">
                         <h3>Вклады:</h3>
                         <p th:if="${depaccounts != null}">
-                            <div th:each ="depaccounts : ${accounts}">
+                            <div th:each ="depaccounts : ${depaccounts}">
                                 <p th:text="'Account ID: ' + ${depaccounts.idAccount}"></p>
                                 <p th:text="'Balance: ' + ${depaccounts.amount}"></p>
                                 <p th:text="'Currency: ' + ${depaccounts.currency}"></p>

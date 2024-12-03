@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: BoU
+    env: java
+    runtime: java18
+    buildCommand: ./mvnw clean package
+    startCommand: java -jar target/BoU-0.0.1-SNAPSHOT.jar
