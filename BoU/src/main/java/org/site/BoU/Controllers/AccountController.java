@@ -33,7 +33,7 @@ public class AccountController {
         newAccount.setIdClient(client);
         newAccount.setAmount(0L);
         newAccount.setCurrency(currency);
-        newAccount.setStatus('o');
+        newAccount.setStatus("o");
         accountsRep.save(newAccount);
 
 

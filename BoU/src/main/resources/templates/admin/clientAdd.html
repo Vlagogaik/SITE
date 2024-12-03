@@ -1,12 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
+    <title>Bank Of Universe/Добавить клиента</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
-
 <body>
+<div class="wrapper">
+    <header>
+        <div class="navbar">
+            <div class="navbar-logo">
+                <a th:href="@{/home}">Bank Of Universe</a>
+            </div>
+            <ul class="navbar-links">
+                <li><a href="#">Переводы</a></li>
+                <li><a th:href="@{/allDeposits}">Вклады</a></li>
+                <li><a href="#">Карты</a></li>
+                <li><a href="#">О банке</a></li>
+            </ul>
+            <div class="navbar-register">
+                <a href="/logout" class="logout-btn">Выйти</a>
+                <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
+            </div>
+        </div>
+    </header>
 
+    <main>
+        <div class="content">
+            <div class="ADMregistration-form">
+                <h2>Добавить клиента</h2>
+                <form method="POST" th:action="@{/admin/clientAdd}" th:object="${clients}">
+
+                    <input name="login" type="text" placeholder="Логин" id="login" th:field="*{login}" required/>
+                    <div class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Ошибка ввода логина</div>
+
+                    <input name="mail" type="email" placeholder="Почта" id="mail" th:field="*{mail}" required/>
+                    <div class="error" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}">Ошибка ввода почты</div>
+
+                    <input name="password" type="password" placeholder="Пароль" id="password" th:field="*{password}"
+                           minlength="8" maxlength="30"
+                           pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                           title="Пароль должен быть от 8 символов, содержать хотя бы одну букву, одну цифру и один специальный символ"
+                           required
+                    />
+                    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка ввода пароля</div>
+
+                    <input name="numberPasport" type="text" placeholder="Номер и серия паспорта" id="numberPasport" th:field="*{numberPasport}" required
+                           minlength="10" maxlength="10"
+                    />
+                    <div class="error" th:if="${#fields.hasErrors('numberPasport')}" th:errors="*{numberPasport}">Ошибка ввода номера и серии паспорта</div>
+
+                    <input name="firstName" type="text" placeholder="Имя" id="firstNName" th:field="*{firstName}" required />
+                    <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Ошибка ввода имени</div>
+
+                    <input name="lastName" type="text" placeholder="Фамилия" id="last_name" th:field="*{lastName}"  required/>
+                    <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Ошибка ввода фамилии</div>
+
+                    <input name="surname" type="text" placeholder="Отчество" id="surname" th:field="*{surname}" />
+                    <div class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Ошибка ввода отчества</div>
+
+                    <input name="number" type="text" placeholder="+7XXXXXXXXXX" id="number" th:field="*{number}"
+                           minlength="12" maxlength="12"
+                           pattern="\+7\d{10}"
+                           required
+                    />
+                    <div class="error" th:if="${#fields.hasErrors('number')}" th:errors="*{number}">Ошибка ввода номера телефона</div>
+
+                    <div class="error" th:if="${error}">
+                        <p th:text="${error}"></p>
+                    </div>
+                    <div>
+                        <label for="role">Роль:</label>
+                        <select id="role" name="role">
+                            <option value="USER">Пользователь</option>
+                            <option value="ADMIN">Администратор</option>
+                        </select>
+                    </div>
+                    <div class="signin">
+                        <button type="submit">Добавить клиента</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
+        </div>
+    </footer>
+</div>
 </body>
 </html>

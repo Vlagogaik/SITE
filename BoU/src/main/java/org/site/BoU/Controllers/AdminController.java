@@ -2,18 +2,22 @@ package org.site.BoU.Controllers;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.site.BoU.Entities.Clients;
 import org.site.BoU.Entities.Deposits;
 import org.site.BoU.Repositories.DepositsRep;
 import org.site.BoU.Services.AccountsService;
 import org.site.BoU.Services.ClientService;
 import org.site.BoU.Services.DepositService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
+
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/admin")
@@ -24,13 +28,16 @@ public class AdminController {
     AccountsService accountsService;
     @Autowired
     ClientService clientService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationContr.class);
 
     @PostMapping("/account/delete/{id}")
     public String deleteAccount(@PathVariable Long id, Model model, HttpSession session) {
         accountsService.deleteById(id);
-        return "redirect:/admin/accountDel";
+
+        return "/admin/accountDel";
     }
 
     @PostMapping("/client/delete/{id}")
@@ -38,7 +45,58 @@ public class AdminController {
         clientService.deleteById(id);
         return "redirect:/admin/clientDel";
     }
+//    @PostMapping("/clientAdd")
+//    public String addClient(@RequestParam String firstName,
+//                            @RequestParam String lastName,
+//                            String surname,
+//                            @RequestParam String mail,
+//                            @RequestParam String number,
+//                            @RequestParam String login,
+//                            @RequestParam String password,
+//                            @RequestParam String role,
+//                            @RequestParam Long numberPasport) {
+//
+//        Clients newClient = new Clients();
+//        newClient.setFirstName(firstName);
+//        newClient.setLastName(lastName);
+//        if (surname != null) {
+//            newClient.setSurname(surname);
+//        }
+//        newClient.setMail(mail);
+//        newClient.setNumber(number);
+//        newClient.setLogin(login);
+//        newClient.setPassword(password);
+//        newClient.setNumberPasport(numberPasport);
+//        newClient.setRole(role);
+//
+//        clientService.save(newClient);
+//
+//        return "/admin/clientAdd";
+//    }
+    @PostMapping("/clientAdd")
+    public String clientAdd(@ModelAttribute("clients") @Valid Clients client, BindingResult bindingResult, Model model, HttpSession httpSession) {
+        if (!bindingResult.hasErrors()) {
+            if (!clientService.existByLogin(client) && !clientService.existByPasport(client) && !clientService.existByNumber(client)) {
+                client.setPassword(passwordEncoder.encode(client.getPassword()));
+                client.setRole("USER");
+                clientService.save(client);
+                logger.info("Пользователь {} успешно зарегистрирован", client.getLogin());
 
+                httpSession.setAttribute("login", client.getLogin());
+                httpSession.setAttribute("lastAccessed", LocalDateTime.now());
+                logger.info("Cессия при регистрации: id: {}; login: {}", httpSession.getId(), httpSession.getAttribute("login"));
+
+                return "redirect:/user/profile";
+            } else {
+                logger.warn("Ошибка регистрации: пользователь с логином {} или паспортными данными {} или номером телефона {} уже существует", client.getLogin(), client.getNumberPasport(), client.getNumber());
+                model.addAttribute("error", "Пользователь с таким логином уже существует или не найден.");
+                return "/admin/clientAdd";
+            }
+        } else {
+            logger.error("Ошибка при регистрации пользователя {}", client.getLogin());
+            return "/admin/clientAdd";
+        }
+    }
     @PostMapping("/deposit")
     public String createDeposit(@ModelAttribute("deposits") @Valid Deposits deposit, Model model, BindingResult bindingResult) {
 

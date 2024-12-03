@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountsService {
@@ -15,13 +16,25 @@ public class AccountsService {
     private AccountsRep accountsRep;
 
     public List<Accounts> getAccountsByClient(Clients client) {
-        return accountsRep.findByIdClient(client);
+        List<Accounts> accounts = accountsRep.findByIdClient(client);
+        return accounts.stream()
+                .filter(account -> !"od".equals(account.getStatus()))
+                .collect(Collectors.toList());
+    }
+    public List<Accounts> getDepositAccountsByClient(Clients client) {
+        List<Accounts> accounts = accountsRep.findByIdClient(client);
+        return accounts.stream()
+                .filter(account -> "od".equals(account.getStatus()))
+                .collect(Collectors.toList());
     }
     public List<Accounts> findAll() {
         return accountsRep.findAll();
     }
     public void deleteById(Long id){
         accountsRep.deleteById(id);
+    }
+    public Accounts findById(Long id){
+        return accountsRep.findByidAccount(id);
     }
 
 }

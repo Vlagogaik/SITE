@@ -1,8 +1,10 @@
 package org.site.BoU.Controllers;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.site.BoU.Entities.*;
 import org.site.BoU.Repositories.AccountsRep;
+import org.site.BoU.Services.AccountsService;
 import org.site.BoU.Services.ClientDepositService;
 import org.site.BoU.Services.ClientService;
 import org.site.BoU.Services.DepositService;
@@ -11,11 +13,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -31,25 +36,69 @@ public class DepositController {
 
     @Autowired
     private AccountsRep accountsRep;
+    @Autowired
+    private AccountsService accountsService;
 
     @Autowired
     private ClientDepositService clientDepositService;
 
     @PostMapping("/deposit/create")
-    public String createDeposit(@RequestParam Long depositId, @RequestParam Long amount, @RequestParam String currency, Model model, HttpSession session) {
+    public String createDeposit(@RequestParam Long idDeposit, @RequestParam Long amount, @RequestParam String currency, @RequestParam Long idAccount,
+                                Model model, HttpSession session) {
         Clients client = clientService.findByLogin((String) session.getAttribute("login"));
         if (client == null) {
             return "redirect:/signIn";
         }
+        Accounts account = accountsService.findById(idAccount);
+        Deposits deposit = depositService.findByIdDeposit(idDeposit);
 
-
-
-        Deposits deposit = depositService.findByIdDeposit(depositId);
+        if (deposit == null) {
+            logger.warn("Депозит не найден для ID: {}", idDeposit);
+            model.addAttribute("error", "Указанный депозит не найден.");
+            List<Deposits> deposits = depositService.getAllDeposits();
+            model.addAttribute("deposits", deposits);
+            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            return "allDeposits";
+//            result.rejectValue("idDeposit", "error.deposit", "Указанный депозит не найден.");
+        }
+        if (account == null) {
+            logger.warn("Счёт не найден для ID: {}", idAccount);
+            model.addAttribute("error", "Указанный счёт не найден.");
+            List<Deposits> deposits = depositService.getAllDeposits();
+            model.addAttribute("deposits", deposits);
+            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            return "allDeposits";
+//            result.rejectValue("idAccount", "error.account", "Указанный счёт не найден.");
+        }
+        if (!account.getCurrency().equals(currency)) {
+            logger.warn("Валюта счёта не совпадает с валютой вклада. Пользователь: {}, Счёт ID: {}, Баланс: {} {}, Валюта счёта: {}",
+                    client.getLogin(), idAccount, account.getAmount(), account.getCurrency(), currency);
+            model.addAttribute("error", "Валюта счёта не совпадает с валютой вклада.");
+            List<Deposits> deposits = depositService.getAllDeposits();
+            model.addAttribute("deposits", deposits);
+            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            return "allDeposits";
+            //            result.rejectValue("currency", "error.currency", "Валюта счёта не совпадает с валютой вклада.");
+        }
+        if (account.getAmount() < amount) {
+            model.addAttribute("error", "Недостаточно средств на счете.");
+            List<Deposits> deposits = depositService.getAllDeposits();
+            model.addAttribute("deposits", deposits);
+            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            return "allDeposits";
+            //            result.rejectValue("amount", "error.amount", "Недостаточно средств на счете.");
+        }
+//        if (result.hasErrors()) {
+//            List<Deposits> deposits = depositService.getAllDeposits();
+//            model.addAttribute("deposits", deposits);
+//            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+//            return "redirect:/allDeposits";
+//        }
         Accounts newAccount = new Accounts();
         newAccount.setIdClient(client);
         newAccount.setAmount(0L);
         newAccount.setCurrency(currency);
-        newAccount.setStatus('o');
+        newAccount.setStatus("od");
         accountsRep.save(newAccount);
         logger.info("Создался счет: {}.", newAccount);
 
@@ -62,6 +111,12 @@ public class DepositController {
         clientDeposit.setIdDeposit(deposit);
         logger.info("Создался ClientDeposit: {} с idAcc: {}, idDep: {}.", clientDeposit, newAccount.getIdAccount(), deposit.getIdDeposit());
         clientDepositService.save(clientDeposit);
+
+        account.setAmount(account.getAmount() - amount);
+        newAccount.setAmount(amount);
+        accountsRep.save(newAccount);
+        accountsRep.save(account);
+        logger.info("Сумма {} списана со счёта {}.", amount, idAccount);
 
         return "redirect:/user/profile";
     }

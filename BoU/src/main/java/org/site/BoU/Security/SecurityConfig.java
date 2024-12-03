@@ -1,6 +1,5 @@
 package org.site.BoU.Security;
 
-import org.site.BoU.JWT.JwtTokenProvider;
 import org.site.BoU.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,9 +29,6 @@ public class SecurityConfig {
 
     @Autowired
     private ClientService clientService;
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

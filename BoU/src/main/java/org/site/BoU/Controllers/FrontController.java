@@ -42,11 +42,15 @@ public class FrontController {
     }
     @RequestMapping("/admin/accountAdd")
     public String accAdd(Model model, HttpSession session) {
+
         return "/admin/accountAdd";
     }
+
     @RequestMapping("/admin/accountDel")
     public String accDel(Model model, HttpSession session) {
         List<Accounts> account = accountService.findAll();
+        String login = (String) session.getAttribute("login");
+        model.addAttribute("clients", clientService.findByLogin(login));
         model.addAttribute("accounts", account);
         return "/admin/accountDel";
     }
@@ -58,19 +62,34 @@ public class FrontController {
     }
     @RequestMapping("/admin/clientAdd")
     public String clientAdd(Model model, HttpSession session) {
-
+        model.addAttribute("clients", new Clients());
         return "/admin/clientAdd";
     }
     @GetMapping("/allDeposits")
     public String getDeposits(Model model, HttpSession session) {
-        List<Deposits> deposits = depositService.getAllDeposits();
-        model.addAttribute("deposits", deposits);
+        String login = (String) session.getAttribute("login");
+        if (login != null) {
+            Clients client = clientService.findByLogin(login);
+            List<Deposits> deposits = depositService.getAllDeposits();
+            List<Accounts> accounts = accountService.getAccountsByClient(client);
+
+            model.addAttribute("deposits", deposits);
+            model.addAttribute("accounts", accounts);
+        } else {
+            List<Deposits> deposits = depositService.getAllDeposits();
+            model.addAttribute("deposits", deposits);
+            return "/allDeposits";
+        }
         return "/allDeposits";
     }
-//    @RequestMapping("/allDeposits")
-//    public String allDeposits(Model model) {
+//    ksxtirjd20!
+//    @GetMapping("/allDeposits")
+//    public String getDeposits(Model model, HttpSession session) {
+//        List<Deposits> deposits = depositService.getAllDeposits();
+//        model.addAttribute("deposits", deposits);
 //        return "/allDeposits";
 //    }
+
     @RequestMapping("/home")
     public String home(HttpSession session) {
         return "/home";
@@ -98,16 +117,16 @@ public class FrontController {
         }
     }
 
-//    ksxtirjd20!
     @RequestMapping("/user/deposit/create")
-    public String userDepositCreate(Model model, HttpSession session, @RequestParam Long depositId, @RequestParam Long amount, @RequestParam String currency) {
+    public String userDepositCreate(Model model, HttpSession session, @RequestParam Long depositId, @RequestParam Long amount, @RequestParam String currency,
+                                    @RequestParam Long accountId) {
         String login = (String) session.getAttribute("login");
         if (login != null) {
             Clients client = clientService.findByLogin(login);
             model.addAttribute("clients", client);
 //            List<Accounts> accountsList = accountService.getAccountsByClient(client);
 //            model.addAttribute("accounts", accountsList);
-//            model.addAttribute("depositId", depositId);
+            model.addAttribute("depositId", depositId);
             model.addAttribute("accounts", accountService.getAccountsByClient(client));
             return "/user/deposit/create";
         }else{
@@ -119,9 +138,13 @@ public class FrontController {
         String login = (String) session.getAttribute("login");
         if (login != null) {
             Clients client = clientService.findByLogin(login);
-            model.addAttribute("clients", client);
-            List<Accounts> accountsList = accountService.getAccountsByClient(client);
-            model.addAttribute("accounts", accountsList);
+            if (client != null) {
+                model.addAttribute("clients", client);
+                model.addAttribute("accounts", accountService.getAccountsByClient(client));
+                model.addAttribute("depaccounts", accountService.getDepositAccountsByClient(client));
+            } else {
+                model.addAttribute("error", "Client not found.");
+            }
             if(client.getRole().equals("ADMIN")){
                 return "redirect:/admin/home_admin";
             }else{

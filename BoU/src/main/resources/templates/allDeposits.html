@@ -59,18 +59,42 @@
                 <label>Максимальная сумма:</label>
                 <span th:text="${deposit.maxAmount}">Макс. сумма</span>
             </div>
-            <form th:action="@{/user/deposit/create}" method="post">
-                <input type="hidden" th:value="${deposit.idDeposit}" name="depositId" />
+            <form sec:authorize="isAuthenticated()" th:action="@{/user/deposit/create}" method="post">
+                <input type="hidden" th:value="${deposit.idDeposit}" name="idDeposit" />
                 <label for="amount">Сумма:</label>
-                <input type="number" id="amount" name="amount" min="${deposit.minAmount}" max="${deposit.maxAmount}" required/>
+                <input type="number" id="amount"  name="amount" min="${deposit.minAmount}" max="${deposit.maxAmount} " required/>
                 <label for="currency">Валюта:</label>
-                <select id="currency" name="currency">
+                <select id="currency" name ="currency">
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     <option value="RUB">RUB</option>
                 </select>
+                <label for="account">Выберите счёт:</label>
+                <select id="account" name="idAccount" required>
+                    <option th:each="account : ${accounts}"
+                            th:value="${account.idAccount}"
+                            th:text="${account.amount} + ' ' + ${account.currency}">
+<!--                            th:text="${account.number} + ' (' + account.amount + ' ' + account.currency + ')'">-->
+                    </option>
+                </select>
                 <button type="submit" class="btn">Оформить</button>
+                <div class="error" th:if="${error}" th:text="${error}"></div>
             </form>
+<!--            <p sec:authorize="!isAuthenticated()" class="info-message">-->
+<!--                Для оформления вклада необходимо <a th:href="@{/signIn}">войти</a>.-->
+<!--            </p>-->
+<!--            <form th:action="@{/user/deposit/create}" method="post">-->
+<!--                <input type="hidden" th:value="${deposit.idDeposit}" name="depositId" />-->
+<!--                <label for="amount">Сумма:</label>-->
+<!--                <input type="number" id="amount" name="amount" min="${deposit.minAmount}" max="${deposit.maxAmount}" required/>-->
+<!--                <label for="currency">Валюта:</label>-->
+<!--                <select id="currency" name="currency">-->
+<!--                    <option value="USD">USD</option>-->
+<!--                    <option value="EUR">EUR</option>-->
+<!--                    <option value="RUB">RUB</option>-->
+<!--                </select>-->
+<!--                <button type="submit" class="btn">Оформить</button>-->
+<!--            </form>-->
         </div>
     </div>
 </div>

@@ -28,6 +28,6 @@ public class Accounts {
     private String currency;
 
     @Column(nullable = false)
-    private char status;
+    private String status;
 
 }

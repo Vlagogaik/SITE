@@ -5,74 +5,101 @@
     <title>Bank Of Universe</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
-<body>
-<div class="wrapper">
-    <header>
-        <div class="navbar">
-            <div class="navbar-logo">
-                <a th:href="@{/home}">Bank Of Universe</a>
-            </div>
-            <ul class="navbar-links">
-                <li><a href="#">Переводы</a></li>
-                <li><a th:href="@{/allDeposits}">Вклады</a></li>
-                <li><a href="#">Карты</a></li>
-                <li><a href="#">О банке</a></li>
-            </ul>
-            <div class="navbar-register">
-                <a href="/logout" class="logout-btn">Выйти</a>
-                <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
-            </div>
-        </div>
-    </header>
+    <body>
+        <div class="wrapper">
+            <header>
+                <div class="navbar">
+                    <div class="navbar-logo">
+                        <a th:href="@{/home}">Bank Of Universe</a>
+                    </div>
+                    <ul class="navbar-links">
+                        <li><a href="#">Переводы</a></li>
+                        <li><a th:href="@{/allDeposits}">Вклады</a></li>
+                        <li><a href="#">Карты</a></li>
+                        <li><a href="#">О банке</a></li>
+                    </ul>
+                    <div class="navbar-register">
+                        <a href="/logout" class="logout-btn">Выйти</a>
+                        <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
+                    </div>
+                </div>
+            </header>
 
-    <main>
-        <div class="content">
-            <h2>Личный кабинет</h2>
-            <div>
-                <h3>Информация о клиенте:</h3>
-                <p>Имя: <span th:text="${clients.firstName}"></span></p>
-                <p th:if="${clients.surname != null}">
-                    Отчество: <span th:text="${clients.surname}"></span>
-                </p>
-                <p th:if="${clients.surname == null}">
-                    Отчество: -
-                </p>
-                <p>Имя: <span th:text="${clients.lastName}"></span></p>
-                <p>Email: <span th:text="${clients.mail}"></span></p>
-                <p>Номер телефона: <span th:text="${clients.number}"></span></p>
-                <p th:if="${accounts != null}">
-                    <th:block th:each="accounts : ${accounts}">
-                        <li th:text="'Account ID: ' + ${accounts.idAccount}"></li>
-                        <li th:text="'Balance: ' + ${accounts.amount}"></li>
-                        <li th:text="'Currency: ' + ${accounts.currency}"></li>
-                </p>
-                <p th:if="${accounts == null}">
-                    У вас ещё нет открытого счета.
-                </p>
-            </div>
-            <div>
-                <h3>Создать новый счет</h3>
-                <form th:action="@{/account/create}" method="post">
-                    <label for="currency">Валюта:</label>
-                    <select name="currency" id="currency" required>
-                        <option value="RUB">RUB</option>
-                        <option value="USD">USD</option>
-                        <option value="EUR">EUR</option>
-                    </select>
-                    <button type="submit">Создать счет</button>
-                </form>
-            </div>
-        </div>
-    </main>
+            <main>
+                <div class="content">
+                    <h2>Личный кабинет</h2>
+                    <div class="profile-card">
+                        <h3>Информация о клиенте:</h3>
+                        <p>Имя: <span th:text="${clients.firstName}"></span></p>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
-            <ul class="footer-links">
-                <li><a href="#">Контакты</a></li>
-            </ul>
+                        <p th:if="${clients.surname != null}">
+                            Отчество: <span th:text="${clients.surname}"></span>
+                        </p>
+
+                        <p th:if="${clients.surname == null}">
+                            Отчество: -
+                        </p>
+                        <p>Имя: <span th:text="${clients.lastName}"></span></p>
+                        <p>Email: <span th:text="${clients.mail}"></span></p>
+                        <p>Номер телефона: <span th:text="${clients.number}"></span></p>
+
+                    </div>
+
+                    <div class="profile-card">
+                        <h3>Счета:</h3>
+                        <div class="containerIn">
+                            <h3>Создать новый счет</h3>
+                            <form th:action="@{/account/create}" method="post">
+                                <label for="currency">Валюта:</label>
+                                <select name="currency" id="currency" required>
+                                    <option value="RUB">RUB</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                </select>
+                                <button type="submit">Создать счет</button>
+                            </form>
+                        </div>
+
+                        <p th:if="${accounts != null}">
+                        <div th:each ="account : ${accounts}">
+                            <p th:text="'Account ID: ' + ${account.idAccount}"></p>
+                            <p th:text="'Balance: ' + ${account.amount}"></p>
+                            <p th:text="'Currency: ' + ${account.currency}"></p>
+                        </div>
+                        </p>
+                        <p th:if="${accounts == null}">
+                            У вас ещё нет открытого счета.
+                        </p>
+
+                    </div>
+
+                    <div class="profile-card">
+                        <h3>Вклады:</h3>
+                        <p th:if="${depaccounts != null}">
+                            <div th:each ="depaccounts : ${accounts}">
+                                <p th:text="'Account ID: ' + ${depaccounts.idAccount}"></p>
+                                <p th:text="'Balance: ' + ${depaccounts.amount}"></p>
+                                <p th:text="'Currency: ' + ${depaccounts.currency}"></p>
+                            </div>
+                        </p>
+                        <p th:if="${depaccounts == null}">
+                            У вас ещё нет открытого вклада.
+                        </p>
+                    </div>
+
+
+
+                </div>
+            </main>
+
+            <footer>
+                <div class="footer-content">
+                    <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+            </footer>
         </div>
-    </footer>
-</div>
-</body>
+    </body>
 </html>

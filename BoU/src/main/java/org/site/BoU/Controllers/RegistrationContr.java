@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.site.BoU.Entities.Clients;
-import org.site.BoU.JWT.JwtTokenProvider;
 import org.site.BoU.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,13 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Optional;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @RequestMapping("/clients")
 @Controller
@@ -40,9 +34,6 @@ public class RegistrationContr {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private ClientService clientService;
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
 
     @PostMapping("/register")
     public String save(@ModelAttribute("clients") @Valid Clients client, BindingResult bindingResult, Model model, HttpSession httpSession) {
@@ -53,7 +44,6 @@ public class RegistrationContr {
                 clientService.save(client);
                 logger.info("Пользователь {} успешно зарегистрирован", client.getLogin());
 
-//                httpSession.setAttribute("client", client);
                 httpSession.setAttribute("login", client.getLogin());
                 httpSession.setAttribute("lastAccessed", LocalDateTime.now());
                 logger.info("Cессия при регистрации: id: {}; login: {}", httpSession.getId(), httpSession.getAttribute("login"));
@@ -71,15 +61,12 @@ public class RegistrationContr {
     }
     @PostMapping("/signIn")
     public String sign(@ModelAttribute("clients") Clients client, Model model, HttpServletRequest request, HttpSession httpSession) {
-//    public String sign(@ModelAttribute("clients") Clients client, HttpServletRequest request, HttpServletResponse response, Model model) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(client.getLogin(), client.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-//            Clients client = clientService.findByLogin(client.getLogin());
-//            client = optionalClient.get();
             logger.info("Аутентификация прошла успешно. Роль: {}; {}", authentication.getAuthorities(), authentication);
             logger.info("Текущие аутентифицированные данные: {}", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
@@ -87,7 +74,6 @@ public class RegistrationContr {
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
             httpSession.setAttribute("login", client.getLogin());
-//            httpSession.setAttribute("clients", client);
             httpSession.setAttribute("lastAccessed", LocalDateTime.now());
 
             logger.info("Cессия при входе: id: {}; login: {}", httpSession.getId(), httpSession.getAttribute("login"));
@@ -109,17 +95,4 @@ public class RegistrationContr {
             return "signIn";
         }
     }
-//ksxtirjd20!
-//    @GetMapping("/user/profile")
-//    public String profile(HttpSession session, Model model) {
-//        Clients client = (Clients) session.getAttribute("clients");
-//        if (client != null) {
-//            model.addAttribute("clients", client);
-//            return "/user/profile";
-//        } else {
-//            return "redirect:/signIn";
-//        }
-//    }
-
-
 }

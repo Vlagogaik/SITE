@@ -58,11 +58,11 @@
 <!--                <input name="seriesPasport" type="text" placeholder="Серия поспорта" id="seriesPasport" th:field="*{seriesPasport}" required />-->
 <!--                <div class="error" th:if="${#fields.hasErrors('seriesPasport')}" th:errors="*{seriesPasport}">Ошибка ввода серии паспорта</div>-->
 
-                <input name="first_name" type="text" placeholder="Имя" id="first_name" th:field="*{first_name}" required />
-                <div class="error" th:if="${#fields.hasErrors('first_name')}" th:errors="*{first_name}">Ошибка ввода имени</div>
+                <input name="firstName" type="text" placeholder="Имя" id="firstNName" th:field="*{firstName}" required />
+                <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Ошибка ввода имени</div>
 
-                <input name="last_name" type="text" placeholder="Фамилия" id="last_name" th:field="*{last_name}"  required/>
-                <div class="error" th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}">Ошибка ввода фамилии</div>
+                <input name="lastName" type="text" placeholder="Фамилия" id="last_name" th:field="*{lastName}"  required/>
+                <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Ошибка ввода фамилии</div>
 
                 <input name="surname" type="text" placeholder="Отчество" id="surname" th:field="*{surname}" />
                 <div class="error" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Ошибка ввода отчества</div>
