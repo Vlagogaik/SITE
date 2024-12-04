@@ -84,10 +84,13 @@ public class FrontController {
     }
 
     @RequestMapping("")
+    public String start(HttpSession session) {
+        return "home";
+    }
+    @RequestMapping("home")
     public String home(HttpSession session) {
         return "home";
     }
-
     @RequestMapping("admin/home_admin")
     public String homeAdmin(Model model, @AuthenticationPrincipal Clients client, HttpSession session) {
         return "admin/home_admin";
