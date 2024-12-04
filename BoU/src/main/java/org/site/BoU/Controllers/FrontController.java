@@ -83,7 +83,7 @@ public class FrontController {
         return "allDeposits";
     }
 
-    @RequestMapping("home")
+    @RequestMapping("")
     public String home(HttpSession session) {
         return "home";
     }
