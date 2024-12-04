@@ -35,7 +35,7 @@ public class RegistrationContr {
     @Autowired
     private ClientService clientService;
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public String save(@ModelAttribute("clients") @Valid Clients client, BindingResult bindingResult, Model model, HttpSession httpSession) {
         if (!bindingResult.hasErrors()) {
             if (!clientService.existByLogin(client) && !clientService.existByPasport(client) && !clientService.existByNumber(client)) {
@@ -52,14 +52,14 @@ public class RegistrationContr {
             } else {
                 logger.warn("Ошибка регистрации: пользователь с логином {} или паспортными данными {} или номером телефона {} уже существует", client.getLogin(), client.getNumberPasport(), client.getNumber());
                 model.addAttribute("error", "Пользователь с таким логином уже существует или не найден.");
-                return "/register";
+                return "register";
             }
         } else {
             logger.error("Ошибка при регистрации пользователя {}", client.getLogin());
-            return "/register";
+            return "register";
         }
     }
-    @PostMapping("/signIn")
+    @PostMapping("signIn")
     public String sign(@ModelAttribute("clients") Clients client, Model model, HttpServletRequest request, HttpSession httpSession) {
         try {
             Authentication authentication = authenticationManager.authenticate(

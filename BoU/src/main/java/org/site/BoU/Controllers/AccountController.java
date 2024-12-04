@@ -24,7 +24,7 @@ public class AccountController {
     @Autowired
     private ClientService clientService;
 
-    @PostMapping("/create")
+    @PostMapping("create")
     public String createAccount(@RequestParam("currency") String currency, Model model, HttpSession session) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = (String) session.getAttribute("login");

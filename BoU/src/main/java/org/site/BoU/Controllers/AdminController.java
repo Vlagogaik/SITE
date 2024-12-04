@@ -33,47 +33,20 @@ public class AdminController {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationContr.class);
 
-    @PostMapping("/account/delete/{id}")
+    @PostMapping("account/delete/{id}")
     public String deleteAccount(@PathVariable Long id, Model model, HttpSession session) {
         accountsService.deleteById(id);
 
-        return "/admin/accountDel";
+        return "redirect:/admin/accountDel";
     }
 
-    @PostMapping("/client/delete/{id}")
+    @PostMapping("client/delete/{id}")
     public String deleteClient(@PathVariable Long id, Model model, HttpSession session) {
         clientService.deleteById(id);
         return "redirect:/admin/clientDel";
     }
-//    @PostMapping("/clientAdd")
-//    public String addClient(@RequestParam String firstName,
-//                            @RequestParam String lastName,
-//                            String surname,
-//                            @RequestParam String mail,
-//                            @RequestParam String number,
-//                            @RequestParam String login,
-//                            @RequestParam String password,
-//                            @RequestParam String role,
-//                            @RequestParam Long numberPasport) {
-//
-//        Clients newClient = new Clients();
-//        newClient.setFirstName(firstName);
-//        newClient.setLastName(lastName);
-//        if (surname != null) {
-//            newClient.setSurname(surname);
-//        }
-//        newClient.setMail(mail);
-//        newClient.setNumber(number);
-//        newClient.setLogin(login);
-//        newClient.setPassword(password);
-//        newClient.setNumberPasport(numberPasport);
-//        newClient.setRole(role);
-//
-//        clientService.save(newClient);
-//
-//        return "/admin/clientAdd";
-//    }
-    @PostMapping("/clientAdd")
+
+    @PostMapping("clientAdd")
     public String clientAdd(@ModelAttribute("clients") @Valid Clients client, BindingResult bindingResult, Model model, HttpSession httpSession) {
         if (!bindingResult.hasErrors()) {
             if (!clientService.existByLogin(client) && !clientService.existByPasport(client) && !clientService.existByNumber(client)) {
@@ -90,14 +63,14 @@ public class AdminController {
             } else {
                 logger.warn("Ошибка регистрации: пользователь с логином {} или паспортными данными {} или номером телефона {} уже существует", client.getLogin(), client.getNumberPasport(), client.getNumber());
                 model.addAttribute("error", "Пользователь с таким логином уже существует или не найден.");
-                return "/admin/clientAdd";
+                return "admin/clientAdd";
             }
         } else {
             logger.error("Ошибка при регистрации пользователя {}", client.getLogin());
-            return "/admin/clientAdd";
+            return "admin/clientAdd";
         }
     }
-    @PostMapping("/deposit")
+    @PostMapping("deposit")
     public String createDeposit(@ModelAttribute("deposits") @Valid Deposits deposit, Model model, BindingResult bindingResult) {
 
         try {
@@ -118,7 +91,7 @@ public class AdminController {
             if (bindingResult.hasErrors()) {
                 model.addAttribute("deposits", deposit);
                 model.addAttribute("errorMessage", "Что-то пошло не так, проверьте данные");
-                return "/admin/deposit";
+                return "admin/deposit";
             }
             depositService.save(deposit);
             model.addAttribute("successMessage", "Вклад успешно создан.");
@@ -126,10 +99,10 @@ public class AdminController {
             return "redirect:/admin/home_admin";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Ошибка при создании вклада.");
-            return "/admin/deposit";
+            return "admin/deposit";
         }
     }
-    @PostMapping("/deposit/delete/{id}")
+    @PostMapping("deposit/delete/{id}")
     public String deleteDeposit(@PathVariable Long id, Model model, HttpSession session) {
         try {
             depositService.deleteById(id);

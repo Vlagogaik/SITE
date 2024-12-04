@@ -42,7 +42,7 @@ public class DepositController {
     @Autowired
     private ClientDepositService clientDepositService;
 
-    @PostMapping("/deposit/create")
+    @PostMapping("deposit/create")
     public String createDeposit(@RequestParam Long idDeposit, @RequestParam Long amount, @RequestParam String currency, @RequestParam Long idAccount,
                                 Model model, HttpSession session) {
         Clients client = clientService.findByLogin((String) session.getAttribute("login"));
@@ -59,7 +59,6 @@ public class DepositController {
             model.addAttribute("deposits", deposits);
             model.addAttribute("accounts", accountsService.getAccountsByClient(client));
             return "allDeposits";
-//            result.rejectValue("idDeposit", "error.deposit", "Указанный депозит не найден.");
         }
         if (account == null) {
             logger.warn("Счёт не найден для ID: {}", idAccount);
@@ -68,7 +67,6 @@ public class DepositController {
             model.addAttribute("deposits", deposits);
             model.addAttribute("accounts", accountsService.getAccountsByClient(client));
             return "allDeposits";
-//            result.rejectValue("idAccount", "error.account", "Указанный счёт не найден.");
         }
         if (!account.getCurrency().equals(currency)) {
             logger.warn("Валюта счёта не совпадает с валютой вклада. Пользователь: {}, Счёт ID: {}, Баланс: {} {}, Валюта счёта: {}",
@@ -78,7 +76,6 @@ public class DepositController {
             model.addAttribute("deposits", deposits);
             model.addAttribute("accounts", accountsService.getAccountsByClient(client));
             return "allDeposits";
-            //            result.rejectValue("currency", "error.currency", "Валюта счёта не совпадает с валютой вклада.");
         }
         if (account.getAmount() < amount) {
             model.addAttribute("error", "Недостаточно средств на счете.");
@@ -86,14 +83,8 @@ public class DepositController {
             model.addAttribute("deposits", deposits);
             model.addAttribute("accounts", accountsService.getAccountsByClient(client));
             return "allDeposits";
-            //            result.rejectValue("amount", "error.amount", "Недостаточно средств на счете.");
         }
-//        if (result.hasErrors()) {
-//            List<Deposits> deposits = depositService.getAllDeposits();
-//            model.addAttribute("deposits", deposits);
-//            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
-//            return "redirect:/allDeposits";
-//        }
+
         Accounts newAccount = new Accounts();
         newAccount.setIdClient(client);
         newAccount.setAmount(0L);

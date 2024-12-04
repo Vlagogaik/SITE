@@ -34,38 +34,38 @@ public class FrontController {
 
     @Autowired
     private DepositService depositService;
-    @RequestMapping("/admin/delete")
+    @RequestMapping("admin/delete")
     public String depDel(Model model, HttpSession session) {
         List<Deposits> deposits = depositService.getAllDeposits();
         model.addAttribute("deposits", deposits);
-        return "/admin/delete";
+        return "admin/delete";
     }
-    @RequestMapping("/admin/accountAdd")
+    @RequestMapping("admin/accountAdd")
     public String accAdd(Model model, HttpSession session) {
 
-        return "/admin/accountAdd";
+        return "admin/accountAdd";
     }
 
-    @RequestMapping("/admin/accountDel")
+    @RequestMapping("admin/accountDel")
     public String accDel(Model model, HttpSession session) {
         List<Accounts> account = accountService.findAll();
         String login = (String) session.getAttribute("login");
         model.addAttribute("clients", clientService.findByLogin(login));
         model.addAttribute("accounts", account);
-        return "/admin/accountDel";
+        return "admin/accountDel";
     }
-    @RequestMapping("/admin/clientDel")
+    @RequestMapping("admin/clientDel")
     public String clientDel(Model model, HttpSession session) {
         List<Clients> client = clientService.findAll();
         model.addAttribute("clients", client);
-        return "/admin/clientDel";
+        return "admin/clientDel";
     }
-    @RequestMapping("/admin/clientAdd")
+    @RequestMapping("admin/clientAdd")
     public String clientAdd(Model model, HttpSession session) {
         model.addAttribute("clients", new Clients());
-        return "/admin/clientAdd";
+        return "admin/clientAdd";
     }
-    @GetMapping("/allDeposits")
+    @GetMapping("allDeposits")
     public String getDeposits(Model model, HttpSession session) {
         String login = (String) session.getAttribute("login");
         if (login != null) {
@@ -78,40 +78,33 @@ public class FrontController {
         } else {
             List<Deposits> deposits = depositService.getAllDeposits();
             model.addAttribute("deposits", deposits);
-            return "/allDeposits";
+            return "allDeposits";
         }
-        return "/allDeposits";
+        return "allDeposits";
     }
-//    ksxtirjd20!
-//    @GetMapping("/allDeposits")
-//    public String getDeposits(Model model, HttpSession session) {
-//        List<Deposits> deposits = depositService.getAllDeposits();
-//        model.addAttribute("deposits", deposits);
-//        return "/allDeposits";
-//    }
 
-    @RequestMapping("/home")
+    @RequestMapping("home")
     public String home(HttpSession session) {
-        return "/home";
+        return "home";
     }
-    @RequestMapping("/admin/home_admin")
+
+    @RequestMapping("admin/home_admin")
     public String homeAdmin(Model model, @AuthenticationPrincipal Clients client, HttpSession session) {
-//        model.addAttribute("clients", new Clients());
-        return "/admin/home_admin";
+        return "admin/home_admin";
     }
-    @RequestMapping("/admin/deposit")
+    @RequestMapping("admin/deposit")
     public String depositCreate(Model model) {
         model.addAttribute("deposits", new Deposits());
-        return "/admin/deposit";
+        return "admin/deposit";
     }
-    @RequestMapping("/account/create")
+    @RequestMapping("account/create")
     public String accountCreate(Model model, HttpSession session) {
         String login = (String) session.getAttribute("login");
         if (login != null) {
             Clients client = clientService.findByLogin(login);
             model.addAttribute("clients", client);
 
-            return "/account/create";
+            return "account/create";
         } else {
             return "redirect:/user/profile";
         }
@@ -124,16 +117,14 @@ public class FrontController {
         if (login != null) {
             Clients client = clientService.findByLogin(login);
             model.addAttribute("clients", client);
-//            List<Accounts> accountsList = accountService.getAccountsByClient(client);
-//            model.addAttribute("accounts", accountsList);
             model.addAttribute("depositId", depositId);
             model.addAttribute("accounts", accountService.getAccountsByClient(client));
-            return "/user/deposit/create";
+            return "user/deposit/create";
         }else{
-            return "/allDeposits";
+            return "allDeposits";
         }
     }
-    @RequestMapping("/user/profile")
+    @RequestMapping("user/profile")
     public String profile(Model model, HttpSession session) {
         String login = (String) session.getAttribute("login");
         if (login != null) {
@@ -148,25 +139,25 @@ public class FrontController {
             if(client.getRole().equals("ADMIN")){
                 return "redirect:/admin/home_admin";
             }else{
-                return "/user/profile";
+                return "user/profile";
             }
         } else {
             return "redirect:/signIn";
         }
     }
-    @RequestMapping("/register")
+    @RequestMapping("register")
     public String regIn(Model model, HttpSession session) {
         model.addAttribute("clients", new Clients());
-        return "/register";
+        return "register";
     }
 
-    @RequestMapping("/signIn")
+    @RequestMapping("signIn")
     public String signIn(Model model, @AuthenticationPrincipal Clients client, HttpSession session) {
         if (client != null) {
             return "redirect:/signIn";
         }
         model.addAttribute("clients", new Clients());
-        return "/signIn";
+        return "signIn";
     }
 
 }
