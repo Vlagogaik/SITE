@@ -1,5 +1,9 @@
-logging:
-  level:
-    org.site.BoU: INFO
-  file:
-    name: logs/app.log
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://dpg-ct7h3e2j1k6c73b8llj0-a.bou:5432/bou
+#    username: sys
+#    password: 0NA4Hp1mkNRsJ5WzAXvVozMp4PW7HRNn
+#    driver-class-name: org.postgresql.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#
