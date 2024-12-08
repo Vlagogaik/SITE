@@ -1,7 +1,30 @@
 services:
   - type: web
-    name: BoU
-    env: java
-    runtime: java17
-    buildCommand: ./mvnw clean package
-    startCommand: java -jar target/BoU-0.0.1-SNAPSHOT.jar
+    name: SITE
+    runtime: docker
+    repo: https://github.com/Vlagogaik/SITE
+    plan: free
+    region: frankfurt
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    rootDir: BoU
+  - type: worker
+    name: Restart Scheduler
+    runtime: docker
+    repo: https://github.com/Vlagogaik/SITE
+    plan: free
+    region: frankfurt
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
+    rootDir: BoU
+    envVars:
+      - key: SERVICE_ID
+        value: "srv-ct7h7bi3esus73bs7o4g"
+      - key: API_KEY
+        value: "rnd_u1qYMYo8KpLkrJ4C8sGB6z8FIJ53"
+    dockerCommand: >
+      bash -c 'while true; do
+        sleep 21600; # 6 часов
+        curl -X POST https://api.render.com/v1/services/$SERVICE_ID/deploys \
+        -H "Authorization: Bearer $API_KEY";
+      done'
