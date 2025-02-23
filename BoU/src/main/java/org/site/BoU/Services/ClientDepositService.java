@@ -1,9 +1,12 @@
 package org.site.BoU.Services;
 
+import org.site.BoU.Entities.Accounts;
 import org.site.BoU.Entities.ClientDeposit;
 import org.site.BoU.Repositories.ClientsDepositsRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class ClientDepositService {
@@ -13,6 +16,9 @@ public class ClientDepositService {
 
     public ClientDeposit save(ClientDeposit clientDeposit) {
         return clientDepositRepository.save(clientDeposit);
+    }
+    public ClientDeposit findByAccountId(Long idAccount){
+        return clientDepositRepository.findByAccountId(idAccount);
     }
 
 }

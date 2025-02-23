@@ -87,10 +87,12 @@ public class RegistrationContr {
 
         } catch (BadCredentialsException e) {
             logger.warn("Неудачная попытка входа для пользователя {}", client.getLogin());
+            model.addAttribute("error", "Неверный логин или пароль.");
             model.addAttribute("error", "Неправильный логин или пароль");
             return "signIn";
         } catch (Exception e) {
             logger.error("Ошибка при входе пользователя {}: {}", client.getLogin(), e.getMessage());
+            model.addAttribute("error", "Неверный логин или пароль, а может проблема у нас :).");
             model.addAttribute("error", "Произошла ошибка при входе.");
             return "signIn";
         }

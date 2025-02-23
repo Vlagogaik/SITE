@@ -2,8 +2,10 @@ package org.site.BoU.Controllers;
 
 import jakarta.servlet.http.HttpSession;
 import org.site.BoU.Entities.Accounts;
+import org.site.BoU.Entities.ClientDeposit;
 import org.site.BoU.Entities.Deposits;
 import org.site.BoU.Services.AccountsService;
+import org.site.BoU.Services.ClientDepositService;
 import org.site.BoU.Services.ClientService;
 import org.site.BoU.Services.DepositService;
 import org.slf4j.Logger;
@@ -30,6 +32,9 @@ public class FrontController {
     private ClientService clientService;
 
     @Autowired
+    private ClientDepositService clientDepositService;
+
+    @Autowired
     private AccountsService accountService;
 
     @Autowired
@@ -48,10 +53,16 @@ public class FrontController {
 
     @RequestMapping("admin/accountDel")
     public String accDel(Model model, HttpSession session) {
-        List<Accounts> account = accountService.findAll();
+        List<Accounts> accounts = accountService.findAll();
         String login = (String) session.getAttribute("login");
         model.addAttribute("clients", clientService.findByLogin(login));
-        model.addAttribute("accounts", account);
+        model.addAttribute("accounts", accounts);
+        for (Accounts account : accounts) {
+            ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+            if (clientDeposit != null) {
+                model.addAttribute("clientDeposit" + account.getIdAccount(), clientDeposit);
+            }
+        }
         return "admin/accountDel";
     }
     @RequestMapping("admin/clientDel")

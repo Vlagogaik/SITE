@@ -47,6 +47,16 @@
 
                     <div class="profile-card">
                         <h3>Счета:</h3>
+                        <p th:if="${accounts != null}">
+                        <div th:each ="account : ${accounts}">
+                            <p th:text="'Account ID: ' + ${account.idAccount}"></p>
+                            <p th:text="'Balance: ' + ${account.amount}"></p>
+                            <p th:text="'Currency: ' + ${account.currency}"></p>
+                        </div>
+                        </p>
+                        <p th:if="${accounts == null}">
+                            У вас ещё нет открытого счета.
+                        </p>
                         <div class="containerIn">
                             <h3>Создать новый счет</h3>
                             <form th:action="@{/account/create}" method="post">
@@ -59,17 +69,6 @@
                                 <button type="submit">Создать счет</button>
                             </form>
                         </div>
-
-                        <p th:if="${accounts != null}">
-                        <div th:each ="account : ${accounts}">
-                            <p th:text="'Account ID: ' + ${account.idAccount}"></p>
-                            <p th:text="'Balance: ' + ${account.amount}"></p>
-                            <p th:text="'Currency: ' + ${account.currency}"></p>
-                        </div>
-                        </p>
-                        <p th:if="${accounts == null}">
-                            У вас ещё нет открытого счета.
-                        </p>
 
                     </div>
 

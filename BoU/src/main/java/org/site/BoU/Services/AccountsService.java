@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +27,13 @@ public class AccountsService {
         return accounts.stream()
                 .filter(account -> "od".equals(account.getStatus()))
                 .collect(Collectors.toList());
+    }
+    public boolean isAccount(Accounts accounts){
+        if(Objects.equals(accounts.getStatus(), "od")){
+            return false;
+        } else{
+            return true;
+        }
     }
     public List<Accounts> findAll() {
         return accountsRep.findAll();

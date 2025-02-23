@@ -29,17 +29,37 @@
         </div>
     </header>
 
-    <div class="account-list">
-        <div th:each="account : ${accounts}" class="account-card">
+    <div class="client-list">
+        <div th:each="account : ${accounts}" class="client-card">
             <h3 th:text="'Счет № ' + ${account.idAccount}">Номер счета</h3>
-            <h3 th:text="'Принадлежит ' + ${account.idClient}">IdClient</h3>
-            <div class="info">
-                <label>Баланс:</label>
-                <span th:text="${account.amount}">Баланс</span>
+            <div class="info-list">
+                <div class="info">
+                    <label>Владелец:</label>
+                    <span th:text="${account.idClient.firstName} + ' ' + ${account.idClient.lastName}"></span>
+                </div>
+                <div class="info">
+                    <label>Паспорт:</label>
+                    <span th:text="${account.idClient.numberPasport}"></span>
+                </div>
+                <div class="info">
+                    <label>Баланс:</label>
+                    <span th:text="${account.amount}">Баланс</span>
+                </div>
+                <div class="info">
+                    <label>Валюта:</label>
+                    <span th:text="${account.currency}">Валюта</span>
+                </div>
+                <div class="info">
+                    <label>Тип:</label>
+                    <span th:text="${account.status}">Тип</span>
+                </div>
+                <div th:if="${account.status == 'od' and ${clientDeposit${account.idAccount}.id} != null}" class="linked-account-info">
+                    <label>Привязанный счет:</label>
+                    <span th:text="${clientDeposit${account.idAccount}.id}">ID привязанного счета</span>
+                </div>
             </div>
-            <div class="info">
-                <label>Валюта:</label>
-                <span th:text="${account.currency}">Валюта</span>
+            <div th:if="${errorId == account.idAccount}" class="error-message">
+                <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
             </div>
             <form th:action="@{'/admin/account/delete/' + ${account.idAccount}}" method="post">
                 <input type="hidden" th:value="${account.idAccount}" name="idAccount"/>

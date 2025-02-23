@@ -44,7 +44,9 @@
 
             <p>Email: <span th:text="${client.mail}"></span></p>
             <p>Номер телефона: <span th:text="${client.number}"></span></p>
-
+            <div th:if="${errorId == client.idClient}" class="error-message">
+                <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
+            </div>
             <form th:action="@{'/admin/client/delete/' + ${client.idClient}}" method="post">
                 <input type="hidden" th:value="${client.idClient}" name="id"/>
                 <button type="submit" class="btn delete-btn">Удалить клиента</button>

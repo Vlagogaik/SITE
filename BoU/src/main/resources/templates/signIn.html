@@ -34,12 +34,14 @@
             <div class="signin-form">
                 <h2>Bank Of Univers</h2>
                 <form method="POST" th:action="@{/clients/signIn}" th:object="${clients}">
+                    <div th:if="${error}" class="error-message">
+                        <p th:text="${error}" style="color: red; font-weight: bold;"></p>
+                    </div>
                     <input name="login" type="text" placeholder="Логин" id="login" th:field="*{login}" required/>
                     <div class="error" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Ошибка ввода логина</div>
 
                     <input name="password" type="password" placeholder="Пароль" id="password" th:field="*{password}" required/>
                     <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибка ввода пароля</div>
-
                 <div class="signin">
                     Еще нет аккаунта? <a th:href="@{/register}"class="reg-link"> Зарегистрироваться</a> <input type="submit" value="Вход"></div>
                 </form>

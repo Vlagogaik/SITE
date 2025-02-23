@@ -2,10 +2,13 @@ package org.site.BoU.Controllers;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.site.BoU.Entities.Accounts;
+import org.site.BoU.Entities.ClientDeposit;
 import org.site.BoU.Entities.Clients;
 import org.site.BoU.Entities.Deposits;
 import org.site.BoU.Repositories.DepositsRep;
 import org.site.BoU.Services.AccountsService;
+import org.site.BoU.Services.ClientDepositService;
 import org.site.BoU.Services.ClientService;
 import org.site.BoU.Services.DepositService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -29,21 +33,53 @@ public class AdminController {
     @Autowired
     ClientService clientService;
     @Autowired
+    ClientDepositService clientDepositService;
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationContr.class);
 
     @PostMapping("account/delete/{id}")
     public String deleteAccount(@PathVariable Long id, Model model, HttpSession session) {
+        Accounts acc = accountsService.findById(id);
+        ClientDeposit clientDepositOpt = clientDepositService.findByAccountId(acc.getIdAccount());
+        if (clientDepositOpt != null) {
+            model.addAttribute("account", acc);
+            model.addAttribute("clientDeposit", clientDepositOpt);
+        }
+        if (!accountsService.isAccount(acc)){
+            model.addAttribute("errorId", id);
+            model.addAttribute("errorMessage", "Невозможно удалить счет: на него ссылается открытый вклад.");
+            model.addAttribute("accounts", accountsService.findAll());
+            return "admin/accountDel";
+        }
         accountsService.deleteById(id);
-
         return "redirect:/admin/accountDel";
     }
 
     @PostMapping("client/delete/{id}")
     public String deleteClient(@PathVariable Long id, Model model, HttpSession session) {
-        clientService.deleteById(id);
-        return "redirect:/admin/clientDel";
+        Optional<Clients> optionalClient = clientService.findById(id);
+
+        if (optionalClient.isPresent()) {
+            Clients client = optionalClient.get();
+
+            if (clientService.existById(client)) {
+                model.addAttribute("errorId", id);
+                model.addAttribute("errorMessage", "Невозможно удалить клиента: у него есть счета.");
+                model.addAttribute("clients", clientService.findAll());
+                return "admin/clientDel";
+            }
+
+            clientService.deleteById(id);
+            model.addAttribute("success", "Клиент успешно удален.");
+            return "redirect:/admin/clientDel";
+        } else {
+
+            model.addAttribute("errorMessage", "Клиент не найден.");
+            model.addAttribute("clients", clientService.findAll());
+            return "admin/clientDel";
+        }
     }
 
     @PostMapping("clientAdd")

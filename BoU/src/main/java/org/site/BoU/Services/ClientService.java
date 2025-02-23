@@ -53,6 +53,9 @@ public class ClientService implements UserDetailsService {
                     .build();
         }
     }
+    public boolean existById(Clients client) {
+        return clientsRep.existsById(client.getIdClient());
+    }
     public boolean existByLogin(Clients client) {
         return clientsRep.existsByLogin(client.getLogin());
     }
