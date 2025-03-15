@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -38,6 +39,37 @@ public class AdminController {
     private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationContr.class);
+
+    @PostMapping("closeDeposit/{id}")
+    public String closeDeposit(@PathVariable("id") Long depositId,
+                               @RequestParam("accountId") Long accountId,
+                               Model model) {
+        ClientDeposit clientDeposit = clientDepositService.findById(depositId);
+        List<Accounts> accounts = accountsService.findAll();
+
+        if (clientDeposit == null || clientDeposit.getDepositStatus().equals("c")) {
+            model.addAttribute("errorId", accountId);
+            model.addAttribute("errorMessage", "Невозможно закрыть депозит: он уже закрыт или не найден.");
+//            model.addAttribute("accounts", accounts);
+//            model.addAttribute("clientDeposits", getClientDepositsMap(accounts));
+            return "admin/accountDel";
+        }
+
+//        Accounts linkedAccount = clientDeposit.getIdAccount();
+//        if (linkedAccount != null) {
+//            linkedAccount.setAmount(linkedAccount.getAmount() + clientDeposit.getInitialAmount());
+//            accountsService.save(linkedAccount);
+//        }
+
+        clientDeposit.setDepositStatus("c");
+        clientDepositService.save(clientDeposit);
+
+//        model.addAttribute("accounts", accounts);
+//        model.addAttribute("clientDeposits", getClientDepositsMap(accounts));
+
+        return "admin/accountDel";
+    }
+
 
     @PostMapping("account/delete/{id}")
     public String deleteAccount(@PathVariable Long id, Model model, HttpSession session) {

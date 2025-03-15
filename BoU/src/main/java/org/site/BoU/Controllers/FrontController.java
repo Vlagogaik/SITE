@@ -20,7 +20,9 @@ import org.springframework.ui.Model;
 import org.site.BoU.Entities.Clients;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -57,12 +59,15 @@ public class FrontController {
         String login = (String) session.getAttribute("login");
         model.addAttribute("clients", clientService.findByLogin(login));
         model.addAttribute("accounts", accounts);
+//        model.addAttribute("clientDeposits", clientDeposits);
+        Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
         for (Accounts account : accounts) {
             ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
             if (clientDeposit != null) {
-                model.addAttribute("clientDeposit" + account.getIdAccount(), clientDeposit);
+                clientDepositsMap.put(account.getIdAccount(), clientDeposit);
             }
         }
+        model.addAttribute("clientDeposits", clientDepositsMap);
         return "admin/accountDel";
     }
     @RequestMapping("admin/clientDel")

@@ -53,11 +53,43 @@
                     <label>Тип:</label>
                     <span th:text="${account.status}">Тип</span>
                 </div>
-                <div th:if="${account.status == 'od' and ${clientDeposit${account.idAccount}.id} != null}" class="linked-account-info">
-                    <label>Привязанный счет:</label>
-                    <span th:text="${clientDeposit${account.idAccount}.id}">ID привязанного счета</span>
+
+                <!-- Вложенный контейнер депозита -->
+                <div th:if="${account.status == 'od' and clientDeposits[account.idAccount] != null}" class="deposit-container">
+                    <h4>Привязанный депозит</h4>
+                    <div class="info">
+                        <label>ID депозита:</label>
+                        <span th:text="${clientDeposits[account.idAccount].idCD}"></span>
+                    </div>
+                    <div class="info">
+                        <label>Статус депозита:</label>
+                        <span th:text="${clientDeposits[account.idAccount].depositStatus}"></span>
+                    </div>
+                    <div class="info">
+                        <label>Первоначальная сумма:</label>
+                        <span th:text="${clientDeposits[account.idAccount].initialAmount}"></span>
+                    </div>
+                    <div class="info">
+                        <label>Срок в днях:</label>
+                        <span th:text="${clientDeposits[account.idAccount].timeInDays}"></span>
+                    </div>
+                    <div class="info">
+                        <label>Дата открытия:</label>
+                        <span th:text="${#dates.format(clientDeposits[account.idAccount].openDate, 'dd.MM.yyyy')}"></span>
+                    </div>
+
+                    <!-- Кнопка для закрытия депозита -->
+                    <form th:action="@{'/admin/closeDeposit/' + ${clientDeposits[account.idAccount].idCD}}" method="post">
+                        <input type="hidden" name="accountId" th:value="${account.idAccount}"/>
+                        <button type="submit" class="btn close-btn"
+                                th:classappend="${clientDeposits[account.idAccount].depositStatus == 'c'} ? 'disabled-button' : ''"
+                                th:disabled="${clientDeposits[account.idAccount].depositStatus == 'c'}">
+                            Закрыть депозит
+                        </button>
+                    </form>
                 </div>
             </div>
+
             <div th:if="${errorId == account.idAccount}" class="error-message">
                 <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
             </div>
@@ -66,6 +98,7 @@
                 <button type="submit" class="btn delete-btn">Удалить счет</button>
             </form>
         </div>
+
     </div>
 
     <footer>
