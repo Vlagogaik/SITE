@@ -16,6 +16,10 @@ public class AccountsService {
     @Autowired
     private AccountsRep accountsRep;
 
+    public List<Accounts> findAllByClientId(Clients client){
+        return  accountsRep.findByIdClient(client);
+    }
+
     public List<Accounts> getAccountsByClient(Clients client) {
         List<Accounts> accounts = accountsRep.findByIdClient(client);
         return accounts.stream()

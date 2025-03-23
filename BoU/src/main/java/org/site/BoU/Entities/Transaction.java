@@ -20,11 +20,13 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "id_account")
-    private Accounts idAccount;
+//    private Accounts idAccount;
+    private Accounts fromAccount;
 
     @ManyToOne
     @JoinColumn(name = "id_account1")
-    private Accounts idAccount1;
+//    private Accounts idAccount1;
+    private Accounts toAccount;
 
     @Column(name = "tr_amount", nullable = false)
     private Long trAmount;
@@ -34,7 +36,5 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "id_transaction")
-    private Transaction id_transaction;
-
-
+    private TypeOfTransaction idTransaction;
 }

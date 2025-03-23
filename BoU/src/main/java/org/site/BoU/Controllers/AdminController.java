@@ -2,15 +2,9 @@ package org.site.BoU.Controllers;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.site.BoU.Entities.Accounts;
-import org.site.BoU.Entities.ClientDeposit;
-import org.site.BoU.Entities.Clients;
-import org.site.BoU.Entities.Deposits;
+import org.site.BoU.Entities.*;
 import org.site.BoU.Repositories.DepositsRep;
-import org.site.BoU.Services.AccountsService;
-import org.site.BoU.Services.ClientDepositService;
-import org.site.BoU.Services.ClientService;
-import org.site.BoU.Services.DepositService;
+import org.site.BoU.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -30,6 +24,8 @@ public class AdminController {
     @Autowired
     DepositService depositService;
     @Autowired
+    TransactionService transactionService;
+    @Autowired
     AccountsService accountsService;
     @Autowired
     ClientService clientService;
@@ -38,7 +34,7 @@ public class AdminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static final Logger logger = LoggerFactory.getLogger(RegistrationContr.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @PostMapping("closeDeposit/{id}")
     public String closeDeposit(@PathVariable("id") Long depositId,
@@ -50,24 +46,41 @@ public class AdminController {
         if (clientDeposit == null || clientDeposit.getDepositStatus().equals("c")) {
             model.addAttribute("errorId", accountId);
             model.addAttribute("errorMessage", "Невозможно закрыть депозит: он уже закрыт или не найден.");
-//            model.addAttribute("accounts", accounts);
-//            model.addAttribute("clientDeposits", getClientDepositsMap(accounts));
+            return "admin/accountDel";
+        }
+        Accounts depositAccount = clientDeposit.getIdAccount();
+        if (depositAccount == null) {
+            model.addAttribute("errorMessage", "Ошибка: у вклада нет привязанного счета.");
+            return "admin/accountDel";
+        }
+        Clients client = depositAccount.getIdClient();
+        if (client == null) {
+            model.addAttribute("errorMessage", "Ошибка: не найден владелец вклада.");
+            return "admin/accountDel";
+        }
+        List<Accounts> clientAccounts = accountsService.findAllByClientId(client);
+        Accounts targetAccount = clientAccounts.stream()
+                .filter(acc -> !acc.getIdAccount().equals(depositAccount.getIdAccount()) && acc.getStatus().equals("o"))
+                .findFirst()
+                .orElse(null);
+
+        if (targetAccount == null) {
+            model.addAttribute("errorMessage", "Ошибка: у клиента нет активных счетов для перевода денег.");
             return "admin/accountDel";
         }
 
-//        Accounts linkedAccount = clientDeposit.getIdAccount();
-//        if (linkedAccount != null) {
-//            linkedAccount.setAmount(linkedAccount.getAmount() + clientDeposit.getInitialAmount());
-//            accountsService.save(linkedAccount);
-//        }
+        Deposits deposit = depositService.findByIdDeposit(clientDeposit.getIdDeposit().getIdDeposit());
+
+        Long amount = clientDeposit.getInitialAmount() +  Math.round(clientDeposit.getTimeInDays()/365.0 *deposit.getRate() / 100.0);
+        logger.info("Закрытие депозита. accountId={}, targetAccount={}, amount={}", accountId, targetAccount.getIdAccount(), amount);
+        transactionService.closeDeposit(accountId, targetAccount.getIdAccount(), amount);
 
         clientDeposit.setDepositStatus("c");
         clientDepositService.save(clientDeposit);
-
 //        model.addAttribute("accounts", accounts);
 //        model.addAttribute("clientDeposits", getClientDepositsMap(accounts));
 
-        return "admin/accountDel";
+        return "redirect:/admin/accountDel";
     }
 
 
