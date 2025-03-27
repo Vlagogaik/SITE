@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -61,13 +62,25 @@ public class FrontController {
         model.addAttribute("accounts", accounts);
 //        model.addAttribute("clientDeposits", clientDeposits);
         Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+        Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
         for (Accounts account : accounts) {
             ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
             if (clientDeposit != null) {
                 clientDepositsMap.put(account.getIdAccount(), clientDeposit);
+                Clients owner = account.getIdClient();
+                if ((owner != null)) {
+                    List<Accounts> ownerAccounts = accountService.findAllByClientId(owner);
+                    List<Accounts> availableAccounts = ownerAccounts.stream()
+                            .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                            .filter(acc -> "o".equals(acc.getStatus()))
+                            .collect(Collectors.toList());
+                    availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+                }
             }
         }
         model.addAttribute("clientDeposits", clientDepositsMap);
+        model.addAttribute("availableAccountsMap", availableAccountsMap);
+//        logger.info("Доступные счета для закрытия вклада: {}", availableAccountsMap);
         return "admin/accountDel";
     }
     @RequestMapping("admin/clientDel")

@@ -464,3 +464,37 @@ a:hover {
     flex-direction: column;
     gap: 8px;
 }
+/* Стили для  select */
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.custom-select select {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  background-color:#7d5e5e;
+  font-size: 16px;
+  color: white;
+}
+
+
+.custom-select::after {
+  content: '▼';
+  position: absolute;
+  font-size: 12px;
+  color: #333;
+  right: 10%;
+  top: 50%;
+/* transform: translateY(-50%);*/
+  pointer-events: none;
+}
+
+.custom-select option {
+  padding: 10px;
+}

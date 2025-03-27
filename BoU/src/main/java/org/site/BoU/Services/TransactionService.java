@@ -48,6 +48,12 @@ public class TransactionService {
                 toAccount.setAmount(toAccount.getAmount() + amount/course);
                 accountRepository.save(toAccount);
             }
+        }else{
+            logger.info("Транзакция. Одна валюта. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+            fromAccount.setAmount(fromAccount.getAmount() - amount);
+            accountRepository.save(fromAccount);
+            toAccount.setAmount(toAccount.getAmount() + amount);
+            accountRepository.save(toAccount);
         }
 
         fromAccount.setAmount(fromAccount.getAmount() - amount);
@@ -74,24 +80,30 @@ public class TransactionService {
         Accounts toAccount = accountRepository.findById(toAccountId)
                 .orElseThrow(() -> new IllegalArgumentException("Счет получателя не найден"));
 
-        if (fromAccount.getAmount() < amount) {
-            throw new IllegalStateException("Недостаточно средств на счете");
-        }
-        logger.info("Транзакция. fromAccount={}, toAccount={}, amount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+//        if (fromAccount.getAmount() < amount) {
+//            throw new IllegalStateException("Недостаточно средств на счете");
+//        }
+        logger.info("Транзакция. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
         if (!Objects.equals(fromAccount.getCurrency(), toAccount.getCurrency())) {
             if (Objects.equals(fromAccount.getCurrency(), "USD") || Objects.equals(fromAccount.getCurrency(), "EUR")) {
-                fromAccount.setAmount(fromAccount.getAmount() - amount);
-                accountRepository.save(fromAccount);
+//                fromAccount.setAmount(fromAccount.getAmount() - amount);
+//                accountRepository.save(fromAccount);
                 toAccount.setAmount(toAccount.getAmount() + amount*course);
+                logger.info("Транзакция.  Разные валюты. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
                 accountRepository.save(toAccount);
             } else {
-                fromAccount.setAmount(fromAccount.getAmount() - amount);
-                accountRepository.save(fromAccount);
+//                fromAccount.setAmount(fromAccount.getAmount() - amount);
+//                accountRepository.save(fromAccount);
+                logger.info("Транзакция. Разные валюты. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
                 toAccount.setAmount(toAccount.getAmount() + amount/course);
                 accountRepository.save(toAccount);
             }
+        }else{
+            logger.info("Транзакция. Одна валюта. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+            toAccount.setAmount(toAccount.getAmount() + amount);
+            accountRepository.save(toAccount);
         }
-        TypeOfTransaction transferType = typeOfTransactionRep.findById(1L)
+        TypeOfTransaction transferType = typeOfTransactionRep.findById(2L)
                 .orElseThrow(() -> new IllegalArgumentException("Тип транзакции не найден"));
         logger.info("Транзакция. Пройдены проверки, идет обработка запроса. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
         Transaction transaction = new Transaction();

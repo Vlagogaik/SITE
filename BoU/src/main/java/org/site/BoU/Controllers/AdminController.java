@@ -14,7 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindingResult;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +42,7 @@ public class AdminController {
     @PostMapping("closeDeposit/{id}")
     public String closeDeposit(@PathVariable("id") Long depositId,
                                @RequestParam("accountId") Long accountId,
+                               @RequestParam("targetAccountId") Long targetAccountId,
                                Model model) {
         ClientDeposit clientDeposit = clientDepositService.findById(depositId);
         List<Accounts> accounts = accountsService.findAll();
@@ -59,10 +63,13 @@ public class AdminController {
             return "admin/accountDel";
         }
         List<Accounts> clientAccounts = accountsService.findAllByClientId(client);
-        Accounts targetAccount = clientAccounts.stream()
-                .filter(acc -> !acc.getIdAccount().equals(depositAccount.getIdAccount()) && acc.getStatus().equals("o"))
-                .findFirst()
-                .orElse(null);
+
+        Accounts targetAccount = accountsService.findById(targetAccountId);
+//        logger.info("accountId={}, targetAccount={}", accountId, targetAccount.getIdAccount());
+//        Accounts targetAccount = clientAccounts.stream()
+//                .filter(acc -> acc.getIdAccount().equals(targetAccountId))
+//                .findFirst()
+//                .orElse(null);
 
         if (targetAccount == null) {
             model.addAttribute("errorMessage", "Ошибка: у клиента нет активных счетов для перевода денег.");
@@ -70,9 +77,13 @@ public class AdminController {
         }
 
         Deposits deposit = depositService.findByIdDeposit(clientDeposit.getIdDeposit().getIdDeposit());
-
-        Long amount = clientDeposit.getInitialAmount() +  Math.round(clientDeposit.getTimeInDays()/365.0 *deposit.getRate() / 100.0);
-        logger.info("Закрытие депозита. accountId={}, targetAccount={}, amount={}", accountId, targetAccount.getIdAccount(), amount);
+        LocalDate openDate = clientDeposit.getOpenDate().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate now = LocalDate.now();
+        long monthsPassed = ChronoUnit.MONTHS.between(openDate, now);
+        Long amount = clientDeposit.getInitialAmount() +  Math.round(monthsPassed *deposit.getRate() / 100.0);
+        logger.info("Закрытие депозита. accountId={}, targetAccount={}, amount={}, opendate={}, datenow={}, MONTHS={}", accountId, targetAccount.getIdAccount(), amount, openDate, now, monthsPassed);
         transactionService.closeDeposit(accountId, targetAccount.getIdAccount(), amount);
 
         clientDeposit.setDepositStatus("c");
