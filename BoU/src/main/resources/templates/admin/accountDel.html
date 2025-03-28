@@ -50,8 +50,8 @@
                     <span th:text="${account.currency}">Валюта</span>
                 </div>
                 <div class="info">
-                    <label>Тип:</label>
-                    <span th:text="${account.status}">Тип</span>
+                    <label>Статус:</label>
+                    <span th:text="${account.status}">Статус</span>
                 </div>
 
                 <!-- Вложенный контейнер депозита -->
@@ -114,7 +114,12 @@
             </div>
             <form th:action="@{'/admin/account/delete/' + ${account.idAccount}}" method="post">
                 <input type="hidden" th:value="${account.idAccount}" name="idAccount"/>
-                <button type="submit" class="btn delete-btn">Удалить счет</button>
+                <button type="submit" class="btn delete-btn"
+                        th:classappend="${account.status == 'c'} ? 'disabled-button' : ''"
+                        th:disabled="${account.status == 'c'}">
+                    Удалить счет
+                </button>
+<!--                <button type="submit" class="btn delete-btn">Удалить счет</button>-->
             </form>
         </div>
 

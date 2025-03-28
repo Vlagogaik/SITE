@@ -253,6 +253,10 @@ h1 {
     vertical-align: top;
 }
 
+.deposit-list{
+    align-items: center;
+    margin: 20px;
+}
 .deposit-card .btn {
     background-color: red;
     color: #fff;
@@ -267,10 +271,10 @@ h1 {
 .deposit-card .btn:hover {
     background-color: darkred;
 }
-.deposit-card .button-container {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 15px;
+
+.deposit-card h3 {
+    font-size: 1.5em;
+    text-align: center;
 }
 
 .deposit-card {
@@ -278,19 +282,35 @@ h1 {
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    text-align: center;
     padding: 20px;
     margin: 10px;
     display: inline-block;
     width: 300px;
 }
-.deposit-card h3 {
-    font-size: 1.5em;
-}
+
 .deposit-card .info {
     margin: 5px 0;
     justify-content: space-between;
     display: flex;
+}
+.deposit-card .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
+.deposit-card select, .deposit-card input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.deposit-card .error {
+    color: red;
+    font-size: 0.9em;
 }
 .deposit-card .info label {
     font-weight: bold;
@@ -298,34 +318,7 @@ h1 {
 .deposit-card .btn:hover {
     background-color: darkred;
 }
-.deposit-card .button-container {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 15px;
-}
 
-.deposit-card h3 {
-    font-size: 1.5em;
-}
-.deposit-card .info {
-    margin: 5px 0;
-}
-.deposit-card .info label {
-    font-weight: bold;
-}
-.deposit-container {
-    background: #7d5e5e;
-    border-left: 4px solid #ff0000;
-    padding: 15px;
-    margin-top: 15px;
-    border-radius: 6px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-}
-.deposit-container .info {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-}
 .client-list {
     display: flex;
     flex-wrap: wrap;
@@ -497,4 +490,55 @@ a:hover {
 
 .custom-select option {
   padding: 10px;
+}
+.transfer-container {
+    background-color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    margin-top: -150px;
+    margin-bottom: 50px;
+    width: 60%;
+}
+.transfer-container .info label {
+    font-weight: bold;
+}
+.transfer-container .info {
+    margin: 5px 0;
+    justify-content: space-between;
+    display: flex;
+}
+.form-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+.form-group label {
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: white;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid red;
+  border-radius: 4px;
+  background-color: #444;
+  color: white;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.button-container {
+  text-align: right;
+  margin-top: 20px;
+}
+#searchResults div {
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 5px;
+}
+#searchResults div:hover {
+    background-color: #555;
 }

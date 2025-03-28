@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,4 +79,18 @@ public class ClientService implements UserDetailsService {
     public void deleteById(Long id){
         clientsRep.deleteById(id);
     }
+    public List<Clients> findByIdOrPhone(String query) {
+        try {
+            Long id = Long.parseLong(query);
+            Optional<Clients> clientOpt = clientsRep.findById(id);
+            if (clientOpt.isPresent()) {
+                return Collections.singletonList(clientOpt.get());
+            }
+        } catch (NumberFormatException ex) {
+            return clientsRep.findByNumber(query);
+        }
+        return clientsRep.findByNumberContaining(query);
+
+    }
+
 }

@@ -23,13 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
 @Controller
 @RequestMapping("/")
 public class FrontController {
-    private static final Logger logger = LoggerFactory.getLogger(RegistrationContr.class);
+    private static final Logger logger = LoggerFactory.getLogger(FrontController.class);
 
     @Autowired
     private ClientService clientService;
@@ -52,6 +53,45 @@ public class FrontController {
     public String accAdd(Model model, HttpSession session) {
 
         return "admin/accountAdd";
+    }
+    @RequestMapping("user/transactions")
+    public String transactions(Model model, HttpSession session) {
+        List<Accounts> accounts = accountService.findAll();
+        String login = (String) session.getAttribute("login");
+        model.addAttribute("clients", clientService.findByLogin(login));
+
+        Clients client = clientService.findByLogin(login);
+        List<Accounts> clientAccounts = accountService.findAllByClientId(client);
+
+        List<Accounts> availableСAccounts = clientAccounts.stream()
+                .filter(acc -> "o".equals(acc.getStatus()))
+                .collect(Collectors.toList());
+        model.addAttribute("clientAccounts", availableСAccounts);
+
+
+        Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+        for (Accounts account : accounts) {
+            Clients owner = account.getIdClient();
+            if ((owner != null)) {
+                List<Accounts> ownerAccounts = accountService.findAllByClientId(owner);
+                List<Accounts> availableAccounts = ownerAccounts.stream()
+                        .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                        .filter(acc -> "o".equals(acc.getStatus()))
+                        .collect(Collectors.toList());
+                availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+            }
+        }
+        model.addAttribute("availableAccountsMap", availableAccountsMap);
+        if (login != null) {
+//            Clients client = clientService.findByLogin(login);
+            if(client.getRole().equals("ADMIN")){
+                return "redirect:/admin/transactions";
+            }else{
+                return "user/transactions";
+            }
+        } else {
+            return "redirect:/signIn";
+        }
     }
 
     @RequestMapping("admin/accountDel")
@@ -80,6 +120,7 @@ public class FrontController {
         }
         model.addAttribute("clientDeposits", clientDepositsMap);
         model.addAttribute("availableAccountsMap", availableAccountsMap);
+        logger.info("availableAccountsMap: {}", availableAccountsMap);
 //        logger.info("Доступные счета для закрытия вклада: {}", availableAccountsMap);
         return "admin/accountDel";
     }
@@ -142,7 +183,7 @@ public class FrontController {
         }
     }
 
-    @RequestMapping("/user/deposit/create")
+    @RequestMapping("user/deposit/create")
     public String userDepositCreate(Model model, HttpSession session, @RequestParam Long depositId, @RequestParam Long amount, @RequestParam String currency,
                                     @RequestParam Long accountId) {
         String login = (String) session.getAttribute("login");

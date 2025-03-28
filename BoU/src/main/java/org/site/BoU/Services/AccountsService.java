@@ -48,5 +48,8 @@ public class AccountsService {
     public Accounts findById(Long id){
         return accountsRep.findByidAccount(id);
     }
+    public Accounts save(Accounts accounts){
+        return accountsRep.save(accounts);
+    }
 
 }

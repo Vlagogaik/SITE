@@ -109,7 +109,9 @@ public class AdminController {
             model.addAttribute("accounts", accountsService.findAll());
             return "admin/accountDel";
         }
-        accountsService.deleteById(id);
+//        accountsService.deleteById(id);
+        acc.setStatus("c");
+        accountsService.save(acc);
         return "redirect:/admin/accountDel";
     }
 
