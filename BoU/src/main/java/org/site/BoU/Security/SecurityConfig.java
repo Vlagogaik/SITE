@@ -35,7 +35,8 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> {
-                    auth.requestMatchers("/home", "/register", "/signIn", "/clients/signIn", "/clients/register", "/", "/style/**", "/favicon.ico", "/error", "/allDeposits").permitAll();
+                    auth.requestMatchers("/home", "/register", "/signIn", "/clients/signIn", "/clients/register", "/", "/style/**", "/favicon.ico", "/error", "/allDeposits", "/cards"
+                            , "/aboutBank").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/user/** , /account/**").hasAnyRole("USER", "ADMIN");
 

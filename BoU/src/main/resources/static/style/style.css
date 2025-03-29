@@ -470,7 +470,7 @@ a:hover {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  appearance: none;
+
   background-color:#7d5e5e;
   font-size: 16px;
   color: white;
@@ -478,7 +478,7 @@ a:hover {
 
 
 .custom-select::after {
-  content: '▼';
+
   position: absolute;
   font-size: 12px;
   color: #333;
@@ -541,4 +541,155 @@ a:hover {
 }
 #searchResults div:hover {
     background-color: #555;
+}
+.card-container {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+    }
+
+.bank-card {
+  width: 550px;
+  height: 300px;
+  background: linear-gradient(135deg, #080808, #f500004a);
+  border-radius: 15px;
+  padding: 20px;
+  color: white;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  font-family: 'Arial', sans-serif;
+}
+.bank-card button {
+    width: 150px;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #c00;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-left: 350px;
+    margin-top: 30px;
+}
+.bank-card button:hover {
+    background-color: #a00;
+}
+.bank-card .card-number {
+  font-size: 2rem;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  margin-top:50px;
+  margin-left:30px;
+}
+.bank-card .card-currency {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+.bank-card .card-holder {
+  font-size: 1rem;
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+.order-card-form {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+.order-card-form .form-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+.order-card-form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: white;
+}
+.order-card-form .form-group input,
+.order-card-form .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid red;
+  border-radius: 10px;
+  background-color: #444;
+  color: white;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.order-card-form .button-container {
+  text-align: right;
+  margin-top: 20px;
+}
+.order-card-form button.btn {
+  padding: 10px 20px;
+  background-color: #c00;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.order-card-form button.btn:hover {
+  background-color: #a00;
+}
+.info-message {
+  text-align: center;
+  background-color: #444;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 500px;
+  color: white;
+}
+/*
+.redirect-button {
+  margin-top: 40px;
+  margin-left: 350px;
+  display: block;
+  width: 150px;
+  padding: 10px;
+  background-color: #c00;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+.redirect-button:hover {
+  background-color: #a00;
+}
+*/
+.card-order-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin: 30px;
+}
+ .card-description {
+  background-color: #444;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  font-family: 'Arial', sans-serif;
+}
+.card-description h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+.card-description p {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-bottom: 10px;
 }

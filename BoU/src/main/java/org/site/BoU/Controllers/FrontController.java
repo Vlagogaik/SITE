@@ -157,6 +157,15 @@ public class FrontController {
     public String start(HttpSession session) {
         return "home";
     }
+    @RequestMapping("cards")
+    public String cards(Model model, HttpSession session) {
+        String login = (String) session.getAttribute("login");
+        if (login != null) {
+            Clients client = clientService.findByLogin(login);
+            model.addAttribute("clients", client);
+        }
+        return "cards";
+    }
     @RequestMapping("home")
     public String home(HttpSession session) {
         return "home";

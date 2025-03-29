@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Of Universe/Оформление цифровой карты</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="navbar">
+            <div class="navbar-logo">
+                <a th:href="@{/home}">Bank Of Universe</a>
+            </div>
+            <ul class="navbar-links">
+                <li><a th:href="@{/user/transactions}">Переводы</a></li>
+                <li><a th:href="@{/allDeposits}">Вклады</a></li>
+                <li><a href="#">Карты</a></li>
+                <!--                    <li><a th:href="#">Переводы</a></li>-->
+                <!--                    <li><a th:href="#">Вклады</a></li>-->
+                <!--                    <li><a th:href="#">Карты</a></li>-->
+                <!--                    <li><a th:href="#">О банке</a></li>-->
+                <li><a href="#">О банке</a></li>
+            </ul>
+            <div class="navbar-register">
+                <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
+            </div>
+        </div>
+    </header>
+    <div class="card-order-container">
+        <div class="card-description">
+            <h2>Цифровая карта</h2>
+            <p>Наша цифровая карта — это условный банковский счёт, который создаётся мгновенно. Ее номер равен ID нового счета в базе данных.</p>
+            <p>Карта бесплатная, без комиссий и ежемесячного обслуживания.</p>
+            <p>Выберите валюту, оформите карту и начните пользоваться всеми преимуществами нашего банка.</p>
+        </div>
+        <div class="card-container">
+            <div class="bank-card">
+                <div class="card-number">0000 0000 0000 0000</div>
+                <div class="card-holder" th:text="${clients != null ? clients.firstName + ' ' + clients.lastName : 'Ваше имя'}">Ваше имя</div>
+                <div sec:authorize="isAuthenticated()" class="card-form">
+                    <form th:action="@{/account/create}" method="post">
+                        <label for="currencySelect">Валюта</label>
+                        <div class="custom-select">
+                            <select id="currencySelect" name="currency" required>
+                                <option value="">Выберите валюту</option>
+                                <option value="USD" th:selected="${currency=='USD'}">USD</option>
+                                <option value="EUR" th:selected="${currency=='EUR'}">EUR</option>
+                                <option value="RUB" th:selected="${currency=='RUB'}">RUB</option>
+                            </select>
+                        </div>
+                            <button type="submit">Оформить карту</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
+            <ul class="footer-links">
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
