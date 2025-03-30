@@ -43,7 +43,7 @@ public class TransactionService {
         return sortedTransactions;
     }
     @Transactional
-    public void createDeposit(Long fromAccountId, Long toAccountId, Long amount) {
+    public void createDeposit(Long fromAccountId, Long toAccountId, double amount) {
         Accounts fromAccount = accountRepository.findById(fromAccountId)
                 .orElseThrow(() -> new IllegalArgumentException("Счет отправителя не найден"));
 
@@ -73,7 +73,7 @@ public class TransactionService {
     }
 
     @Transactional
-    public void transferMoney(Long fromAccountId, Long toAccountId, Long amount) {
+    public void transferMoney(Long fromAccountId, Long toAccountId, double amount) {
         Accounts fromAccount = accountRepository.findById(fromAccountId)
                 .orElseThrow(() -> new IllegalArgumentException("Счет отправителя не найден"));
 
@@ -133,7 +133,7 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
     @Transactional
-    public void closeDeposit(Long fromAccountId, Long toAccountId, Long amount) {
+    public void closeDeposit(Long fromAccountId, Long toAccountId, double amount) {
         Accounts fromAccount = accountRepository.findById(fromAccountId)
                 .orElseThrow(() -> new IllegalArgumentException("Счет отправителя не найден"));
 

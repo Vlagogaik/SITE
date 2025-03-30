@@ -29,7 +29,7 @@ public class Transaction {
     private Accounts toAccount;
 
     @Column(name = "tr_amount", nullable = false)
-    private Long trAmount;
+    private double trAmount;
 
     @Column(name = "tr_date", nullable = false)
     private Date trDate;

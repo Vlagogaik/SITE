@@ -82,7 +82,8 @@ public class AdminController {
                 .toLocalDate();
         LocalDate now = LocalDate.now();
         long monthsPassed = ChronoUnit.MONTHS.between(openDate, now);
-        Long amount = clientDeposit.getInitialAmount() +  Math.round(monthsPassed *deposit.getRate() / 100.0);
+        Accounts acc = accountsService.findById(clientDeposit.getIdAccount().getIdAccount());
+        double amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed *deposit.getRate() / 100.0);
         logger.info("Закрытие депозита. accountId={}, targetAccount={}, amount={}, opendate={}, datenow={}, MONTHS={}", accountId, targetAccount.getIdAccount(), amount, openDate, now, monthsPassed);
         transactionService.closeDeposit(accountId, targetAccount.getIdAccount(), amount);
 

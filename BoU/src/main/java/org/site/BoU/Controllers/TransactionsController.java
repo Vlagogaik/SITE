@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import org.site.BoU.Entities.Accounts;
 import org.site.BoU.Entities.ClientDeposit;
 import org.site.BoU.Entities.Clients;
+import org.site.BoU.Entities.Deposits;
 import org.site.BoU.Services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,16 @@ public class TransactionsController {
     private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(TransactionsController.class);
-
+    private String getReplenishmentCapasityForAccount(Accounts account) {
+        ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+        if (clientDeposit != null) {
+            Deposits deposit = depositService.findByIdDeposit(clientDeposit.getIdDeposit().getIdDeposit());
+            if (deposit != null) {
+                return deposit.getReplenishmentCapasity();
+            }
+        }
+        return null;
+    }
     @GetMapping("/getAccounts")
     @ResponseBody
     public List<Accounts> getRecipientAccounts(@RequestParam Long clientId) {
@@ -44,7 +54,7 @@ public class TransactionsController {
                 new IllegalArgumentException("Клиент с id " + clientId + " не найден")));
         logger.info("Метод getRecipientAccounts нашел  allAccounts = {}", allAccounts);
         return allAccounts.stream()
-                .filter(acc -> "o".equals(acc.getStatus()))
+                .filter(acc -> "o".equals(acc.getStatus()) || ("od".equals(acc.getStatus()) && "y".equals(getReplenishmentCapasityForAccount(acc))))
                 .collect(Collectors.toList());
     }
 
@@ -66,7 +76,7 @@ public class TransactionsController {
             @RequestParam String query,
             Model model,
             HttpSession session) {
-
+        logger.info("Транзакция контр. Запрос. fromAccount={},toAccount={}, amount={}",fromAccountId, toAccountId, amount);
         String login = (String) session.getAttribute("login");
         Clients client = clientService.findByLogin(login);
         List<Accounts> clientAccounts = accountsService.findAllByClientId(client);
@@ -75,21 +85,19 @@ public class TransactionsController {
         Accounts fromAccount = accountsService.findById(fromAccountId);
         if (fromAccount == null) {
             model.addAttribute("error", "Счет отправителя не найден.");
-            return "user/transactions";
+            return "redirect:user/transactions";
         }
-
-//        Clients recipient = clientService.findByIdOrPhone(toClientIdOrPhone);
         List<Clients> recipientList = clientService.findByIdOrPhone(query);
         if (recipientList.isEmpty()) {
             model.addAttribute("error", "Получатель не найден.");
-            return "user/transactions";
+            return "redirect:user/transactions";
         }
         Accounts toAccount = accountsService.findById(toAccountId);
-        if (toAccount == null || !"o".equals(toAccount.getStatus())) {
+        if (toAccount == null) {
             model.addAttribute("error", "Выбранный счет получателя недоступен.");
-            return "user/transactions";
+            return "redirect:user/transactions";
         }
-        logger.info("fromAccount={},toAccount={}, recipientList={}",fromAccount, toAccount, recipientList);
+        logger.info("Транзакция контр. fromAccount={},toAccount={}, recipientList={}",fromAccount, toAccount, recipientList);
         try {
             transactionService.transferMoney(fromAccountId, toAccountId, amount);
             model.addAttribute("success", "Перевод выполнен успешно.");

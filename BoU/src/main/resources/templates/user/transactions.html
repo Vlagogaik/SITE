@@ -37,21 +37,31 @@
             });
         });
 
-                        function loadRecipientAccounts(clientId) {
-                            fetch('/user/getAccounts?clientId=' + clientId)
-                                .then(response => response.json())
-                                .then(accounts => {
-                                    let accountSelect = document.getElementById('toAccount');
-                                    accountSelect.innerHTML = '<option value="">Выберите счет</option>';
-                                    accounts.forEach(account => {
-                                        let option = document.createElement('option');
-                                        option.value = account.idAccount;
-                                        option.textContent = `Счет №${account.idAccount} (${account.amount} ${account.currency})`;
-                                        accountSelect.appendChild(option);
-                                    });
-                                })
-                                .catch(error => console.error('Ошибка при загрузке счетов:', error));
-                        }
+        function loadRecipientAccounts(clientId) {
+            fetch('/user/getAccounts?clientId=' + clientId)
+                .then(response => response.json())
+                .then(accounts => {
+                    let accountSelect = document.getElementById('toAccount');
+                    accountSelect.innerHTML = '<option value="">Выберите счет</option>';
+                    accounts.forEach(account => {
+                        let option = document.createElement('option');
+                        option.value = account.idAccount;
+                        option.textContent = `Счет №${account.idAccount} (${account.amount} ${account.currency})`;
+                        accountSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Ошибка при загрузке счетов:', error));
+        }
+        window.addEventListener('DOMContentLoaded', function () {
+            var errorPopup = document.querySelector('.error-popup');
+            if (errorPopup) {
+                errorPopup.classList.add('active');
+                setTimeout(function () {
+                    errorPopup.classList.remove('active');
+                }, 5000);
+            }
+        });
+
     </script>
 </head>
 <body>
@@ -118,6 +128,9 @@
                 </div>
 
             </form>
+            <div class="error-popup" th:if="${error != null}">
+                <div class="error-popup-message" th:text="${error}"></div>
+            </div>
         </div>
     </div>
     <footer>

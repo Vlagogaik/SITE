@@ -47,6 +47,18 @@ public class FrontController {
 
         return "admin/accountAdd";
     }
+
+//    private String getReplenishmentCapasityForAccount(Accounts account) {
+//        ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+//        if (clientDeposit != null) {
+//            Deposits deposit = depositService.findByIdDeposit(clientDeposit.getIdDeposit().getIdDeposit());
+//            if (deposit != null) {
+//                return deposit.getReplenishmentCapasity();
+//            }
+//        }
+//        return null;
+//    }
+
     @RequestMapping("user/transactions")
     public String transactions(Model model, HttpSession session) {
         List<Accounts> accounts = accountService.findAll();
@@ -62,19 +74,19 @@ public class FrontController {
         model.addAttribute("clientAccounts", availableСAccounts);
 
 
-        Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
-        for (Accounts account : accounts) {
-            Clients owner = account.getIdClient();
-            if ((owner != null)) {
-                List<Accounts> ownerAccounts = accountService.findAllByClientId(owner);
-                List<Accounts> availableAccounts = ownerAccounts.stream()
-                        .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
-                        .filter(acc -> "o".equals(acc.getStatus()))
-                        .collect(Collectors.toList());
-                availableAccountsMap.put(account.getIdAccount(), availableAccounts);
-            }
-        }
-        model.addAttribute("availableAccountsMap", availableAccountsMap);
+//        Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+//        for (Accounts account : accounts) {
+//            Clients owner = account.getIdClient();
+//            if ((owner != null)) {
+//                List<Accounts> ownerAccounts = accountService.findAllByClientId(owner);
+//                List<Accounts> availableAccounts = ownerAccounts.stream()
+//                        .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+//                        .filter(acc -> "o".equals(acc.getStatus()) || ("od".equals(acc.getStatus()) && "y".equals(getReplenishmentCapasityForAccount(acc))))
+//                        .collect(Collectors.toList());
+//                availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+//            }
+//        }
+//        model.addAttribute("availableAccountsMap", availableAccountsMap);
         if (login != null) {
 //            Clients client = clientService.findByLogin(login);
             if(client.getRole().equals("ADMIN")){

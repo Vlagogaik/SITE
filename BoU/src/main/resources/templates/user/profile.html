@@ -60,6 +60,7 @@
 <!--                                        <p th:text="'Номер счета: ' + ${dacc.value.idAccount.idAccount}"></p>-->
                                         <p th:text="'Ставка: ' + ${dacc.value.idDeposit.rate} + ' %' "></p>
                                         <p th:text="'Первоначальная сумма: ' + ${dacc.value.initialAmount} +' '+ ${dacc.value.idAccount.currency}"></p>
+                                        <p th:text="'Текущая сумма: ' + ${dacc.value.idAccount.amount} +' '+ ${dacc.value.idAccount.currency}"></p>
                                         <p th:text="'Дата открытия: ' + ${dacc.value.openDate}"></p>
                                     </div>
                                 </div>
@@ -72,8 +73,8 @@
                             <h3>История операций</h3>
                             <div th:if="${transactions != null and !transactions.isEmpty()}" class="operation-list">
                                 <div th:each="tx : ${transactions}" class="operation-item">
-                                    <div class="date" th:text="${#dates.format(tx.trDate, 'dd MMM yyyy')}">Дата</div>
-                                    <div class="description" th:text="'От ' + ${tx.fromAccount.idAccount} + ' к ' + ${tx.toAccount.idAccount}">Описание</div>
+                                    <div class="date" th:text="${#dates.format(tx.trDate, 'dd MMM yyyy HH:mm:ss')}">Дата</div>
+                                    <div class="description" th:text="'От ' + ${tx.fromAccount.idAccount} + ' к ' + ${tx.toAccount.idAccount} + ', ' + ${tx.idTransaction.name}">Описание</div>
                                     <div class="amount" th:text="${tx.trAmount} + ' ' + ${tx.fromAccount.currency}">Сумма</div>
                                 </div>
                             </div>

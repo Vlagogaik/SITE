@@ -22,7 +22,7 @@ public class Accounts {
     private Clients idClient;
 
     @Column(nullable = false)
-    private Long amount;
+    private double amount;
 
     @Column(nullable = false)
     private String currency;

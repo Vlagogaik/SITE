@@ -93,14 +93,15 @@
                             <button type="submit" class="btn">Оформить</button>
                         </form>
                     </div>
-                    <div class="error-popup" th:if="${error != null}">
-                        <div class="error-popup-message" th:text="${error}"></div>
-                    </div>
+
 <!--                    <div th:if="${error}" class="error-message">-->
 <!--                        <p th:text="${error}"></p>-->
 <!--                    </div>-->
                 </div>
             </div>
+        </div>
+        <div class="error-popup" th:if="${error != null}">
+            <div class="error-popup-message" th:text="${error}"></div>
         </div>
     </main>
 
