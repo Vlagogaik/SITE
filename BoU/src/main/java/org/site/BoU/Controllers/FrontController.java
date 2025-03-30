@@ -1,13 +1,8 @@
 package org.site.BoU.Controllers;
 
 import jakarta.servlet.http.HttpSession;
-import org.site.BoU.Entities.Accounts;
-import org.site.BoU.Entities.ClientDeposit;
-import org.site.BoU.Entities.Deposits;
-import org.site.BoU.Services.AccountsService;
-import org.site.BoU.Services.ClientDepositService;
-import org.site.BoU.Services.ClientService;
-import org.site.BoU.Services.DepositService;
+import org.site.BoU.Entities.*;
+import org.site.BoU.Services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
-import org.site.BoU.Entities.Clients;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -40,6 +31,8 @@ public class FrontController {
 
     @Autowired
     private AccountsService accountService;
+    @Autowired
+    private TransactionService transactionService;
 
     @Autowired
     private DepositService depositService;
@@ -211,13 +204,44 @@ public class FrontController {
         String login = (String) session.getAttribute("login");
         if (login != null) {
             Clients client = clientService.findByLogin(login);
-            if (client != null) {
-                model.addAttribute("clients", client);
-                model.addAttribute("accounts", accountService.getAccountsByClient(client));
-                model.addAttribute("depaccounts", accountService.getDepositAccountsByClient(client));
-            } else {
-                model.addAttribute("error", "Client not found.");
+            List<Accounts> accounts = accountService.findAllByClientId(client);
+
+            Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+            Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+//            Map<Long, List<Accounts>> depAccountsMap = new HashMap<>();
+            for (Accounts account : accounts) {
+                ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+                if (clientDeposit != null) {
+                    clientDepositsMap.put(account.getIdAccount(), clientDeposit);
+                    Clients owner = account.getIdClient();
+                    if ((owner != null)) {
+                        List<Accounts> ownerAccounts = accountService.findAllByClientId(owner);
+                        List<Accounts> availableAccounts = ownerAccounts.stream()
+                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                                .filter(acc -> "o".equals(acc.getStatus()))
+                                .collect(Collectors.toList());
+                        availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+//                        List<Accounts> depAccounts = ownerAccounts.stream()
+//                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+//                                .filter(acc -> "od".equals(acc.getStatus()))
+//                                .collect(Collectors.toList());
+//                        depAccountsMap.put(account.getIdAccount(), availableAccounts);
+                    }
+                }
             }
+            List<Accounts> uniqueAccounts = new ArrayList<>();
+            for (List<Accounts> list : availableAccountsMap.values()) {
+                uniqueAccounts.addAll(list);
+            }
+            uniqueAccounts = uniqueAccounts.stream().distinct().collect(Collectors.toList());
+            model.addAttribute("accounts", uniqueAccounts);
+//            model.addAttribute("accounts", availableAccountsMap);
+            model.addAttribute("depaccounts", clientDepositsMap);
+//            model.addAttribute("depaccounts", depAccountsMap);
+            model.addAttribute("client", client);
+
+            List<Transaction> transactions = transactionService.findAllByClient(client);
+            model.addAttribute("transactions", transactions);
             if(client.getRole().equals("ADMIN")){
                 return "redirect:/admin/home_admin";
             }else{

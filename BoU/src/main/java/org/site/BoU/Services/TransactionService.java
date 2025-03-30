@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.site.BoU.Controllers.AdminController;
 import org.site.BoU.Entities.Accounts;
+import org.site.BoU.Entities.Clients;
 import org.site.BoU.Entities.Transaction;
 import org.site.BoU.Entities.TypeOfTransaction;
 import org.site.BoU.Repositories.AccountsRep;
@@ -13,8 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +24,25 @@ public class TransactionService {
     private final AccountsRep accountRepository;
     private final TransactionRep transactionRepository;
     private final TypeOfTransactionRep typeOfTransactionRep;
+
     private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
+
+
+    public List<Transaction> findAllByClient(Clients clients){
+        List<Accounts> accounts = accountRepository.findByIdClient(clients);
+
+        List<Transaction> fromAccounts = transactionRepository.findAllByFromAccountIn(accounts);
+        List<Transaction> toAccounts = transactionRepository.findAllByToAccountIn(accounts);
+        Set<Transaction> allTransactions = new HashSet<>();
+        allTransactions.addAll(fromAccounts);
+        allTransactions.addAll(toAccounts);
+
+        List<Transaction> sortedTransactions = new ArrayList<>(allTransactions);
+        sortedTransactions.sort((t1, t2) -> t2.getTrDate().compareTo(t1.getTrDate()));
+
+        return sortedTransactions;
+    }
+
     @Transactional
     public void transferMoney(Long fromAccountId, Long toAccountId, Long amount) {
         Accounts fromAccount = accountRepository.findById(fromAccountId)

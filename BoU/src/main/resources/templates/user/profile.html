@@ -10,7 +10,7 @@
             <header>
                 <div class="navbar">
                     <div class="navbar-logo">
-                        <a th:href="@{/home}">Bank Of Universe</a>
+                        <a th:href="@{/home}">Bank Of Universe/Личный кабинет</a>
                     </div>
                     <ul class="navbar-links">
                         <li><a th:href="@{/user/transactions}">Переводы</a></li>
@@ -27,67 +27,62 @@
 
             <main>
                 <div class="content">
-                    <h2>Личный кабинет</h2>
-                    <div class="profile-card">
-                        <h3>Информация о клиенте:</h3>
-                        <p>Имя: <span th:text="${clients.firstName}"></span></p>
-
-                        <p th:if="${clients.surname != null}">
-                            Отчество: <span th:text="${clients.surname}"></span>
-                        </p>
-
-                        <p th:if="${clients.surname == null}">
-                            Отчество: -
-                        </p>
-                        <p>Имя: <span th:text="${clients.lastName}"></span></p>
-                        <p>Email: <span th:text="${clients.mail}"></span></p>
-                        <p>Номер телефона: <span th:text="${clients.number}"></span></p>
-
-                    </div>
-
-                    <div class="profile-card">
-                        <h3>Счета:</h3>
-                        <p th:if="${accounts != null}">
-                        <div th:each ="account : ${accounts}">
-                            <p th:text="'Account ID: ' + ${account.idAccount}"></p>
-                            <p th:text="'Balance: ' + ${account.amount}"></p>
-                            <p th:text="'Currency: ' + ${account.currency}"></p>
-                        </div>
-                        </p>
-                        <p th:if="${accounts == null}">
-                            У вас ещё нет открытого счета.
-                        </p>
-                        <div class="containerIn">
-                            <h3>Создать новый счет</h3>
-                            <form th:action="@{/account/create}" method="post">
-                                <label for="currency">Валюта:</label>
-                                <select name="currency" id="currency" required>
-                                    <option value="RUB">RUB</option>
-                                    <option value="USD">USD</option>
-                                    <option value="EUR">EUR</option>
-                                </select>
-                                <button type="submit">Создать счет</button>
-                            </form>
+                    <div class="profile-container">
+                        <div class="profile-card">
+                            <h3>Информация о клиенте:</h3>
+                            <p>Имя: <span th:text="${client.firstName}">Имя</span></p>
+                            <p>Отчество: <span th:text="${client.surname != null ? client.surname : '-'}">Отчество</span></p>
+                            <p>Фамилия: <span th:text="${client.lastName}">Фамилия</span></p>
+                            <p>Email: <span th:text="${client.mail}">Email</span></p>
+                            <p>Номер телефона: <span th:text="${client.number}">Номер</span></p>
                         </div>
 
-                    </div>
-
-                    <div class="profile-card">
-                        <h3>Вклады:</h3>
-                        <p th:if="${depaccounts != null}">
-                            <div th:each ="depaccounts : ${depaccounts}">
-                                <p th:text="'Account ID: ' + ${depaccounts.idAccount}"></p>
-                                <p th:text="'Balance: ' + ${depaccounts.amount}"></p>
-                                <p th:text="'Currency: ' + ${depaccounts.currency}"></p>
+                        <div class="accounts-card">
+                            <h3>Счета:</h3>
+                            <div th:if="${accounts != null and !accounts.isEmpty()}">
+                                <div th:each="acc : ${accounts}" class="account-item">
+                                    <p th:text="'Счет: ' + ${acc.idAccount}"></p>
+                                    <p th:text="'Баланс: ' + ${acc.amount} +' '+${acc.currency}"></p>
+<!--                                    <p th:text="'Валюта: ' + ${acc.currency}"></p>-->
+                                </div>
                             </div>
-                        </p>
-                        <p th:if="${depaccounts == null}">
-                            У вас ещё нет открытого вклада.
-                        </p>
+                            <div th:if="${accounts == null or accounts.isEmpty()}">
+                                <p>У вас ещё нет открытых счетов.</p>
+                            </div>
+                        </div>
+
+                        <div class="deposits-card">
+                            <h3>Вклады:</h3>
+                                <div th:if="${depaccounts != null and !depaccounts.isEmpty()}">
+                                    <div th:each="dacc : ${depaccounts}" class="deposit-item">
+                                        <p th:text="${dacc.value.idDeposit.name}"></p>
+                                        <p th:text="'Номер вклада: ' + ${dacc.value.idCD} + ' Номер счета: ' + ${dacc.value.idAccount.idAccount}"></p>
+<!--                                        <p th:text="'Номер счета: ' + ${dacc.value.idAccount.idAccount}"></p>-->
+                                        <p th:text="'Ставка: ' + ${dacc.value.idDeposit.rate} + ' %' "></p>
+                                        <p th:text="'Первоначальная сумма: ' + ${dacc.value.initialAmount} +' '+ ${dacc.value.idAccount.currency}"></p>
+                                        <p th:text="'Дата открытия: ' + ${dacc.value.openDate}"></p>
+                                    </div>
+                                </div>
+                            <div th:if="${depaccounts == null or depaccounts.isEmpty()}">
+                                <p>У вас ещё нет открытых вкладов.</p>
+                            </div>
+                        </div>
+
+                        <div class="operations-card">
+                            <h3>История операций</h3>
+                            <div th:if="${transactions != null and !transactions.isEmpty()}" class="operation-list">
+                                <div th:each="tx : ${transactions}" class="operation-item">
+                                    <div class="date" th:text="${#dates.format(tx.trDate, 'dd MMM yyyy')}">Дата</div>
+                                    <div class="description" th:text="'От ' + ${tx.fromAccount.idAccount} + ' к ' + ${tx.toAccount.idAccount}">Описание</div>
+                                    <div class="amount" th:text="${tx.trAmount} + ' ' + ${tx.fromAccount.currency}">Сумма</div>
+                                </div>
+                            </div>
+                            <div th:if="${transactions == null or transactions.isEmpty()}">
+                                <p>История операций отсутствует.</p>
+                            </div>
+                        </div>
+
                     </div>
-
-
-
                 </div>
             </main>
 

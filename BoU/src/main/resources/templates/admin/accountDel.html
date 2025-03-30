@@ -54,7 +54,6 @@
                     <span th:text="${account.status}">Статус</span>
                 </div>
 
-                <!-- Вложенный контейнер депозита -->
                 <div th:if="${account.status == 'od' and clientDeposits[account.idAccount] != null}" class="deposit-container">
                     <h4>Привязанный депозит</h4>
                     <div class="info">
@@ -85,7 +84,7 @@
                         <label>Ставка:</label>
                         <span th:text="${clientDeposits[account.idAccount].idDeposit.rate}"></span>
                     </div>
-                    <!-- Кнопка для закрытия депозита -->
+
                     <form th:action="@{'/admin/closeDeposit/' + ${clientDeposits[account.idAccount].idCD}}" method="post">
                         <input type="hidden" name="accountId" th:value="${account.idAccount}"/>
                         <div class="info">
