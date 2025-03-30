@@ -98,6 +98,36 @@ public class FrontController {
             return "redirect:/signIn";
         }
     }
+    @RequestMapping("user/closeDeposit")
+    public String accDelUsr(Model model, HttpSession session) {
+        List<Accounts> accounts = accountService.findAll();
+        String login = (String) session.getAttribute("login");
+        model.addAttribute("clients", clientService.findByLogin(login));
+        model.addAttribute("accounts", accounts);
+//        model.addAttribute("clientDeposits", clientDeposits);
+        Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+        Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+        for (Accounts account : accounts) {
+            ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+            if (clientDeposit != null) {
+                clientDepositsMap.put(account.getIdAccount(), clientDeposit);
+                Clients owner = account.getIdClient();
+                if ((owner != null)) {
+                    List<Accounts> ownerAccounts = accountService.findAllByClientId(owner);
+                    List<Accounts> availableAccounts = ownerAccounts.stream()
+                            .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                            .filter(acc -> "o".equals(acc.getStatus()))
+                            .collect(Collectors.toList());
+                    availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+                }
+            }
+        }
+        model.addAttribute("clientDeposits", clientDepositsMap);
+        model.addAttribute("availableAccountsMap", availableAccountsMap);
+        logger.info("availableAccountsMap: {}", availableAccountsMap);
+//        logger.info("Доступные счета для закрытия вклада: {}", availableAccountsMap);
+        return "user/closeDeposit";
+    }
 
     @RequestMapping("admin/accountDel")
     public String accDel(Model model, HttpSession session) {
@@ -234,7 +264,7 @@ public class FrontController {
 //            Map<Long, List<Accounts>> depAccountsMap = new HashMap<>();
             for (Accounts account : accounts) {
                 ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
-                if (clientDeposit != null) {
+                if (clientDeposit != null && (!Objects.equals(clientDeposit.getDepositStatus(), "c"))) {
                     clientDepositsMap.put(account.getIdAccount(), clientDeposit);
                     Clients owner = account.getIdClient();
                     if ((owner != null)) {

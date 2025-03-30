@@ -11,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -113,5 +114,63 @@ public class DepositController {
 
 
         return "redirect:/user/allDepositsUser";
+    }
+    @PostMapping("closeDeposit/{id}")
+    public String closeDeposit(@PathVariable("id") Long depositId,
+                               @RequestParam("accountId") Long accountId,
+                               @RequestParam("targetAccountId") Long targetAccountId,
+                               Model model) {
+        ClientDeposit clientDeposit = clientDepositService.findById(depositId);
+        List<Accounts> accounts = accountsService.findAll();
+
+        if (clientDeposit == null || clientDeposit.getDepositStatus().equals("c")) {
+            model.addAttribute("errorId", accountId);
+            model.addAttribute("errorMessage", "Невозможно закрыть депозит: он уже закрыт или не найден.");
+            return "user/profile";
+        }
+        Accounts depositAccount = clientDeposit.getIdAccount();
+        if (depositAccount == null) {
+            model.addAttribute("errorMessage", "Ошибка: у вклада нет привязанного счета.");
+            return "user/profile";
+        }
+        Clients client = depositAccount.getIdClient();
+        if (client == null) {
+            model.addAttribute("errorMessage", "Ошибка: не найден владелец вклада.");
+            return "user/profile";
+        }
+        List<Accounts> clientAccounts = accountsService.findAllByClientId(client);
+
+        Accounts targetAccount = accountsService.findById(targetAccountId);
+//        logger.info("accountId={}, targetAccount={}", accountId, targetAccount.getIdAccount());
+//        Accounts targetAccount = clientAccounts.stream()
+//                .filter(acc -> acc.getIdAccount().equals(targetAccountId))
+//                .findFirst()
+//                .orElse(null);
+
+        if (targetAccount == null) {
+            model.addAttribute("errorMessage", "Ошибка: у клиента нет активных счетов для перевода денег.");
+            return "user/profile";
+        }
+
+        Deposits deposit = depositService.findByIdDeposit(clientDeposit.getIdDeposit().getIdDeposit());
+        LocalDate openDate = clientDeposit.getOpenDate().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate now = LocalDate.now();
+        long monthsPassed = ChronoUnit.MONTHS.between(openDate, now);
+        Accounts acc = accountsService.findById(clientDeposit.getIdAccount().getIdAccount());
+        double amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed *deposit.getRate() / 100.0);
+        logger.info("Закрытие депозита. accountId={}, targetAccount={}, amount={}, opendate={}, datenow={}, MONTHS={}", accountId, targetAccount.getIdAccount(), amount, openDate, now, monthsPassed);
+        transactionService.closeDeposit(accountId, targetAccount.getIdAccount(), amount);
+
+        clientDeposit.setDepositStatus("c");
+        clientDepositService.save(clientDeposit);
+        Accounts accounts1 = accountsService.findById(accountId);
+        accounts1.setStatus("c");
+        accountsService.save(accounts1);
+//        model.addAttribute("accounts", accounts);
+//        model.addAttribute("clientDeposits", getClientDepositsMap(accounts));
+
+        return "redirect:/user/profile";
     }
 }

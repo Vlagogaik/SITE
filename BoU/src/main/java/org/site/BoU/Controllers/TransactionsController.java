@@ -45,6 +45,18 @@ public class TransactionsController {
         }
         return null;
     }
+    @GetMapping("/getFromAccounts")
+    @ResponseBody
+    public List<Accounts> getFromRecipientAccounts(@RequestParam Long clientId) {
+        Optional<Clients> clients = clientService.findById(clientId);
+        logger.info("Метод getRecipientAccounts вызван с clientId = {}", clientId);
+        List<Accounts> allAccounts = accountsService.findAllByClientId(clients.orElseThrow(() ->
+                new IllegalArgumentException("Клиент с id " + clientId + " не найден")));
+        logger.info("Метод getRecipientAccounts нашел  allAccounts = {}", allAccounts);
+        return allAccounts.stream()
+                .filter(acc -> "o".equals(acc.getStatus()))
+                .collect(Collectors.toList());
+    }
     @GetMapping("/getAccounts")
     @ResponseBody
     public List<Accounts> getRecipientAccounts(@RequestParam Long clientId) {
@@ -85,17 +97,17 @@ public class TransactionsController {
         Accounts fromAccount = accountsService.findById(fromAccountId);
         if (fromAccount == null) {
             model.addAttribute("error", "Счет отправителя не найден.");
-            return "redirect:user/transactions";
+            return "user/transactions";
         }
         List<Clients> recipientList = clientService.findByIdOrPhone(query);
         if (recipientList.isEmpty()) {
             model.addAttribute("error", "Получатель не найден.");
-            return "redirect:user/transactions";
+            return "user/transactions";
         }
         Accounts toAccount = accountsService.findById(toAccountId);
         if (toAccount == null) {
             model.addAttribute("error", "Выбранный счет получателя недоступен.");
-            return "redirect:user/transactions";
+            return "user/transactions";
         }
         logger.info("Транзакция контр. fromAccount={},toAccount={}, recipientList={}",fromAccount, toAccount, recipientList);
         try {
@@ -105,7 +117,7 @@ public class TransactionsController {
             model.addAttribute("error", "Ошибка: " + e.getMessage());
         }
 
-        return "redirect:/user/transactions";
+        return "user/transactions";
     }
 
 }

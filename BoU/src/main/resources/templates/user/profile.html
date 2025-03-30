@@ -53,17 +53,39 @@
 
                         <div class="deposits-card">
                             <h3>Вклады:</h3>
-                                <div th:if="${depaccounts != null and !depaccounts.isEmpty()}">
-                                    <div th:each="dacc : ${depaccounts}" class="deposit-item">
-                                        <p th:text="${dacc.value.idDeposit.name}"></p>
-                                        <p th:text="'Номер вклада: ' + ${dacc.value.idCD} + ' Номер счета: ' + ${dacc.value.idAccount.idAccount}"></p>
-<!--                                        <p th:text="'Номер счета: ' + ${dacc.value.idAccount.idAccount}"></p>-->
-                                        <p th:text="'Ставка: ' + ${dacc.value.idDeposit.rate} + ' %' "></p>
-                                        <p th:text="'Первоначальная сумма: ' + ${dacc.value.initialAmount} +' '+ ${dacc.value.idAccount.currency}"></p>
-                                        <p th:text="'Текущая сумма: ' + ${dacc.value.idAccount.amount} +' '+ ${dacc.value.idAccount.currency}"></p>
-                                        <p th:text="'Дата открытия: ' + ${dacc.value.openDate}"></p>
+                            <div th:if="${depaccounts != null and !depaccounts.isEmpty()}">
+                                <div th:each="dacc : ${depaccounts}" class="deposit-item">
+                                    <p th:text="${dacc.value.idDeposit.name}"></p>
+                                    <p th:text="'Номер вклада: ' + ${dacc.value.idCD} + ' Номер счета: ' + ${dacc.value.idAccount.idAccount}"></p>
+                                    <p th:text="'Ставка: ' + ${dacc.value.idDeposit.rate} + ' %'"></p>
+                                    <p th:text="'Первоначальная сумма: ' + ${dacc.value.initialAmount} + ' ' + ${dacc.value.idAccount.currency}"></p>
+                                    <p th:text="'Текущая сумма: ' + ${dacc.value.idAccount.amount} + ' ' + ${dacc.value.idAccount.currency}"></p>
+                                    <p th:text="'Дата открытия: ' + ${dacc.value.openDate}"></p>
+
+                                <form th:action="@{'/user/closeDeposit/' + ${dacc.value.idCD}}" method="post">
+                                    <input type="hidden" name="accountId" th:value="${dacc.value.idAccount.idAccount}"/>
+                                    <div class="info">
+                                        <label for="targetAccountId">Выберите счет для перевода средств:</label>
                                     </div>
+
+                                    <div class="custom-select">
+                                        <select name="targetAccountId" id="targetAccountId">
+                                            <option value="">Выберите счет</option>
+                                            <option th:each="acc : ${accounts}"
+                                                    th:value="${acc.idAccount}"
+                                                    th:text="'Счет №' + ${acc.idAccount} + ' (' + ${acc.amount} + ' ' + ${acc.currency} + ')'">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn close-btn"
+                                            th:classappend="${dacc.value.depositStatus == 'c'} ? 'disabled-button' : ''"
+                                            th:disabled="${dacc.value.depositStatus == 'c'}">
+                                        Закрыть депозит
+                                    </button>
+                                </form>
+
                                 </div>
+                            </div>
                             <div th:if="${depaccounts == null or depaccounts.isEmpty()}">
                                 <p>У вас ещё нет открытых вкладов.</p>
                             </div>

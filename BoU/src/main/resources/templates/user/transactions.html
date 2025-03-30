@@ -6,61 +6,76 @@
     <link rel="stylesheet" th:href="@{/style/style.css}">
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', function () {
-                let query = this.value;
-                console.log("Введено значение: " + query);
-                if (query.length > 0) {
-                    fetch('/user/searchClient?query=' + encodeURIComponent(query))
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("Получены данные: ", data);
-                            let resultsDiv = document.getElementById('searchResults');
-                            resultsDiv.innerHTML = '';
-                            if (data.length > 0) {
-                                data.forEach(client => {
-                                    let div = document.createElement('div');
-                                    div.textContent = `ID: ${client.idClient}, Телефон: ${client.number}`;
-                                    div.onclick = function () {
-                                        searchInput.value = client.number;
-                                        resultsDiv.innerHTML = '';
-                                        loadRecipientAccounts(client.idClient);
-                                    };
-                                    resultsDiv.appendChild(div);
-                                });
-                            } else {
-                                resultsDiv.innerHTML = '<p>Ничего не найдено</p>';
-                            }
-                        })
-                        .catch(error => console.error('Ошибка:', error));
-                }
-            });
-        });
+           const searchInput = document.getElementById('searchInput');
 
-        function loadRecipientAccounts(clientId) {
-            fetch('/user/getAccounts?clientId=' + clientId)
-                .then(response => response.json())
-                .then(accounts => {
-                    let accountSelect = document.getElementById('toAccount');
-                    accountSelect.innerHTML = '<option value="">Выберите счет</option>';
-                    accounts.forEach(account => {
-                        let option = document.createElement('option');
-                        option.value = account.idAccount;
-                        option.textContent = `Счет №${account.idAccount} (${account.amount} ${account.currency})`;
-                        accountSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Ошибка при загрузке счетов:', error));
-        }
-        window.addEventListener('DOMContentLoaded', function () {
-            var errorPopup = document.querySelector('.error-popup');
-            if (errorPopup) {
-                errorPopup.classList.add('active');
-                setTimeout(function () {
-                    errorPopup.classList.remove('active');
-                }, 5000);
-            }
-        });
+           searchInput.addEventListener('input', function () {
+               let query = this.value;
+               console.log("Введено значение: " + query);
+
+               if (query.length > 0) {
+                   fetch('/user/searchClient?query=' + encodeURIComponent(query))
+                       .then(response => response.json())
+                       .then(data => {
+                           console.log("Получены данные: ", data);
+                           let resultsDiv = document.getElementById('searchResults');
+                           resultsDiv.innerHTML = '';
+
+                           if (data.length > 0) {
+                               data.forEach(client => {
+                                   let div = document.createElement('div');
+                                   div.textContent = `ID: ${client.idClient}, Телефон: ${client.number}`;
+
+                                   div.onclick = function () {
+                                       searchInput.value = client.number;
+                                       resultsDiv.innerHTML = '';
+                                       loadRecipientAccounts(client.idClient);
+                                   };
+
+                                   resultsDiv.appendChild(div);
+                               });
+                           } else {
+                               resultsDiv.innerHTML = '<p>Ничего не найдено</p>';
+                           }
+                       })
+                       .catch(error => console.error('Ошибка:', error));
+               }
+           });
+       });
+
+       function loadRecipientAccounts(clientId) {
+           fetch('/user/getAccounts?clientId=' + clientId)
+               .then(response => response.json())
+               .then(accounts => {
+                   let accountSelect = document.getElementById('toAccount');
+                   accountSelect.innerHTML = '<option value="">Выберите счет</option>';
+
+                   accounts.forEach(account => {
+                       let option = document.createElement('option');
+                       option.value = account.idAccount;
+                       option.textContent = `Счет №${account.idAccount} (${account.amount} ${account.currency})`;
+                       accountSelect.appendChild(option);
+                   });
+               })
+               .catch(error => console.error('Ошибка при загрузке счетов:', error));
+       }
+       window.addEventListener('DOMContentLoaded', function () {
+           var errorPopup = document.querySelector('.error-popup');
+           if (errorPopup) {
+               errorPopup.classList.add('active');
+               setTimeout(function () {
+                   errorPopup.classList.remove('active');
+               }, 5000);
+           }
+       });
+       window.addEventListener('DOMContentLoaded', function () {
+           var successfulPopup = document.querySelector('.successful-popup');
+           if (successfulPopup) {
+               successfulPopup.classList.add('active');
+               setTimeout(function () {
+                   successfulPopup.classList.remove('active');
+               }, 5000);
+           }
+       });
 
     </script>
 </head>
@@ -130,6 +145,9 @@
             </form>
             <div class="error-popup" th:if="${error != null}">
                 <div class="error-popup-message" th:text="${error}"></div>
+            </div>
+            <div class="successful-popup" th:if="${success != null}">
+                <div class="successful-popup-message" th:text="${success}"></div>
             </div>
         </div>
     </div>
