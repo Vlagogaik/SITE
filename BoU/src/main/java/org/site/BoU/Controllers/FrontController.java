@@ -132,18 +132,29 @@ public class FrontController {
     public String getDeposits(Model model, HttpSession session) {
         String login = (String) session.getAttribute("login");
         if (login != null) {
+            return "redirect:/user/allDepositsUser";
+        } else {
+            List<Deposits> deposits = depositService.getAllDeposits();
+            model.addAttribute("deposits", deposits);
+            return "allDeposits";
+        }
+    }
+    @GetMapping("user/allDepositsUser")
+    public String getDepositsUser(Model model, HttpSession session) {
+        String login = (String) session.getAttribute("login");
+        if (login != null) {
             Clients client = clientService.findByLogin(login);
             List<Deposits> deposits = depositService.getAllDeposits();
             List<Accounts> accounts = accountService.getAccountsByClient(client);
 
             model.addAttribute("deposits", deposits);
             model.addAttribute("accounts", accounts);
+            return "user/allDepositsUser";
         } else {
             List<Deposits> deposits = depositService.getAllDeposits();
             model.addAttribute("deposits", deposits);
-            return "allDeposits";
+            return "redirect:/allDeposits";
         }
-        return "allDeposits";
     }
 
     @RequestMapping("")

@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <title>Bank Of Universe/Вклады</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
-
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            var errorPopup = document.querySelector('.error-popup');
+            if (errorPopup) {
+                errorPopup.classList.add('active');
+                setTimeout(function () {
+                    errorPopup.classList.remove('active');
+                }, 5000);
+            }
+        });
+    </script>
 </head>
 <body>
 <div class="wrapper">
@@ -24,7 +34,6 @@
             </div>
         </div>
     </header>
-
     <main>
         <div class="content">
             <div class="deposits-container">
@@ -38,32 +47,58 @@
 
                     <div class="deposit-info">
                         <div class="info-item">
-                            <div class="value" th:text="${deposit.rate + '%'}">5%</div>
+                            <div class="value" th:text="${deposit.rate + '%'}"></div>
                             <div class="label">Ставка годовых</div>
                         </div>
                         <div class="info-item">
-                            <div class="value" th:text="${deposit.minTermDays}">30</div>
+                            <div class="value" th:text="${deposit.minTermDays}"></div>
                             <div class="label">Мин. срок (дней)</div>
                         </div>
                         <div class="info-item">
-                            <div class="value" th:text="${deposit.maxTermDays}">365</div>
+                            <div class="value" th:text="${deposit.maxTermDays}"></div>
                             <div class="label">Макс. срок (дней)</div>
                         </div>
                         <div class="info-item">
-                            <div class="value" th:text="${deposit.minAmount}">1000</div>
+                            <div class="value" th:text="${deposit.minAmount}"></div>
                             <div class="label">Мин. сумма</div>
                         </div>
                         <div class="info-item">
-                            <div class="value" th:text="${deposit.maxAmount}">100000</div>
+                            <div class="value" th:text="${deposit.maxAmount}"></div>
                             <div class="label">Макс. сумма</div>
                         </div>
                     </div>
 
-                    <div class="deposit-action">
-                        <button sec:authorize="!isAuthenticated()" type="button"
-                                onclick="window.location.href='/signIn'">Оформить</button>
-                    </div>
+                    <div class="deposit-form">
+                        <form th:action="@{/user/deposit/create}" method="post">
+                            <input type="hidden" th:value="${deposit.idDeposit}" name="idDeposit" />
 
+                            <label for="amount">Сумма:</label>
+                            <input type="number" id="amount" name="amount" min="${deposit.minAmount}" max="${deposit.maxAmount}" required />
+
+                            <label for="currency">Валюта:</label>
+                            <select id="currency" name="currency">
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="RUB">RUB</option>
+                            </select>
+
+                            <label for="account">Выберите счёт:</label>
+                            <select id="account" name="idAccount" required>
+                                <option th:each="account : ${accounts}"
+                                        th:value="${account.idAccount}"
+                                        th:text="${account.amount} + ' ' + ${account.currency}">
+                                </option>
+                            </select>
+
+                            <button type="submit" class="btn">Оформить</button>
+                        </form>
+                    </div>
+                    <div class="error-popup" th:if="${error != null}">
+                        <div class="error-popup-message" th:text="${error}"></div>
+                    </div>
+<!--                    <div th:if="${error}" class="error-message">-->
+<!--                        <p th:text="${error}"></p>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>

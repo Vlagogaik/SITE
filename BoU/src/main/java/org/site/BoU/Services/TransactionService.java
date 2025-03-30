@@ -42,6 +42,35 @@ public class TransactionService {
 
         return sortedTransactions;
     }
+    @Transactional
+    public void createDeposit(Long fromAccountId, Long toAccountId, Long amount) {
+        Accounts fromAccount = accountRepository.findById(fromAccountId)
+                .orElseThrow(() -> new IllegalArgumentException("Счет отправителя не найден"));
+
+        Accounts toAccount = accountRepository.findById(toAccountId)
+                .orElseThrow(() -> new IllegalArgumentException("Счет получателя не найден"));
+
+        if (fromAccount.getAmount() < amount) {
+            throw new IllegalStateException("Недостаточно средств на счете");
+        }
+
+        logger.info("Транзакция. Открытие Вклада. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+        fromAccount.setAmount(fromAccount.getAmount() - amount);
+        accountRepository.save(fromAccount);
+        toAccount.setAmount(toAccount.getAmount() + amount);
+        accountRepository.save(toAccount);
+
+        TypeOfTransaction transferType = typeOfTransactionRep.findById(3L)
+                .orElseThrow(() -> new IllegalArgumentException("Тип транзакции не найден"));
+
+        Transaction transaction = new Transaction();
+        transaction.setFromAccount(fromAccount);
+        transaction.setToAccount(toAccount);
+        transaction.setTrAmount(amount);
+        transaction.setTrDate(new Date());
+        transaction.setIdTransaction(transferType);
+        transactionRepository.save(transaction);
+    }
 
     @Transactional
     public void transferMoney(Long fromAccountId, Long toAccountId, Long amount) {
