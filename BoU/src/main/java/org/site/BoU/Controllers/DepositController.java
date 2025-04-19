@@ -8,6 +8,7 @@ import org.site.BoU.Services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,7 +45,7 @@ public class DepositController {
 
     @PostMapping("deposit/create")
     public String createDeposit(@RequestParam Long idDeposit, @RequestParam Long amount, @RequestParam String currency, @RequestParam Long idAccount,
-                                Model model, HttpSession session) {
+                                Model model, HttpSession session, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date closeDate) {
         Clients client = clientService.findByLogin((String) session.getAttribute("login"));
         if (client == null) {
             return "redirect:/signIn";
@@ -87,7 +88,7 @@ public class DepositController {
 
         Accounts newAccount = new Accounts();
         newAccount.setIdClient(client);
-        newAccount.setAmount(0L);
+        newAccount.setAmount(amount);
         newAccount.setCurrency(currency);
         newAccount.setStatus("od");
         accountsRep.save(newAccount);
@@ -96,8 +97,10 @@ public class DepositController {
         ClientDeposit clientDeposit = new ClientDeposit();
         clientDeposit.setDepositStatus("o");
         clientDeposit.setInitialAmount(amount);
-        clientDeposit.setTimeInDays(deposit.getMaxTermDays());
+//        clientDeposit.setTimeInDays(deposit.getMaxTermDays());
+
         clientDeposit.setOpenDate(new Date());
+        clientDeposit.setCloseDate(closeDate);
         clientDeposit.setIdAccount(newAccount);
         clientDeposit.setIdDeposit(deposit);
         logger.info("Создался ClientDeposit: {} с idAcc: {}, idDep: {}.", clientDeposit, newAccount.getIdAccount(), deposit.getIdDeposit());
@@ -159,7 +162,7 @@ public class DepositController {
         LocalDate now = LocalDate.now();
         long monthsPassed = ChronoUnit.MONTHS.between(openDate, now);
         Accounts acc = accountsService.findById(clientDeposit.getIdAccount().getIdAccount());
-        double amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed *deposit.getRate() / 100.0);
+        double amount = acc.getAmount() +  Math.round(monthsPassed *deposit.getRate() / 100.0);
         logger.info("Закрытие депозита. accountId={}, targetAccount={}, amount={}, opendate={}, datenow={}, MONTHS={}", accountId, targetAccount.getIdAccount(), amount, openDate, now, monthsPassed);
         transactionService.closeDeposit(accountId, targetAccount.getIdAccount(), amount);
 

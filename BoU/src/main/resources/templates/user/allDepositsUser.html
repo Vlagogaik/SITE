@@ -52,19 +52,19 @@
                         </div>
                         <div class="info-item">
                             <div class="value" th:text="${deposit.minTermDays}"></div>
-                            <div class="label">Мин. срок (дней)</div>
+                            <div class="label">Мин. срок (месяцев)</div>
                         </div>
                         <div class="info-item">
                             <div class="value" th:text="${deposit.maxTermDays}"></div>
-                            <div class="label">Макс. срок (дней)</div>
+                            <div class="label">Макс. срок (месяцев)</div>
                         </div>
                         <div class="info-item">
                             <div class="value" th:text="${deposit.minAmount}"></div>
-                            <div class="label">Мин. сумма</div>
+                            <div class="label">Мин. сумма ₽</div>
                         </div>
                         <div class="info-item">
                             <div class="value" th:text="${deposit.maxAmount}"></div>
-                            <div class="label">Макс. сумма</div>
+                            <div class="label">Макс. сумма ₽</div>
                         </div>
                     </div>
 
@@ -89,6 +89,8 @@
                                         th:text="${account.amount} + ' ' + ${account.currency}">
                                 </option>
                             </select>
+                            <label for="closeDate">Дата закрытия вклада:</label>
+                            <input type="date" id="closeDate" name="closeDate" required />
 
                             <button type="submit" class="btn">Оформить</button>
                         </form>

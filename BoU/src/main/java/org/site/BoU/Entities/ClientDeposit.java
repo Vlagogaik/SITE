@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -39,10 +41,12 @@ public class ClientDeposit {
     @Column(name = "initial_amount", nullable = false)
     private Long initialAmount;
 
-    @Column(name = "time_in_days", nullable = false)
-    private Long timeInDays;
+//    @Column(name = "time_in_days", nullable = false)
+//    private Long timeInDays;
 
     @Column(name = "open_date", nullable = false)
     private Date openDate;
+    @Column(name = "close_date", nullable = false)
+    private Date closeDate;
 
 }

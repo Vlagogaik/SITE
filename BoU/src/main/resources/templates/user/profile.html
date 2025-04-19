@@ -60,9 +60,18 @@
                                     <p th:text="'Ставка: ' + ${dacc.value.idDeposit.rate} + ' %'"></p>
                                     <p th:text="'Первоначальная сумма: ' + ${dacc.value.initialAmount} + ' ' + ${dacc.value.idAccount.currency}"></p>
                                     <p th:text="'Текущая сумма: ' + ${dacc.value.idAccount.amount} + ' ' + ${dacc.value.idAccount.currency}"></p>
-                                    <p th:text="'Дата открытия: ' + ${dacc.value.openDate}"></p>
+                                    <p th:text="'Дата открытия: ' + (${dacc.value.openDate != null} ? ${#dates.format(dacc.value.openDate, 'dd.MM.yyyy')} : 'не указана')"></p>
+                                    <p th:text="'Действителен до: ' + (${dacc.value.closeDate != null} ? ${#dates.format(dacc.value.closeDate, 'dd.MM.yyyy')} : 'не указана')"></p>
+                                    <br><br>
+<!--                                    <p th:if="${dacc.value.openDate != null}"-->
+<!--                                       th:text="'Дата открытия: ' + ${#dates.format(dacc.value.openDate, 'dd.MM.yyyy')}"></p>-->
+<!--                                    <p th:if="${dacc.value.openDate == null}">Дата открытия: не указана</p>-->
 
-                                <form th:action="@{'/user/closeDeposit/' + ${dacc.value.idCD}}" method="post">
+<!--                                    <p th:if="${dacc.value.closeDate != null}"-->
+<!--                                       th:text="'Действителен до: ' + ${#dates.format(dacc.value.closeDate, 'dd.MM.yyyy')}"></p>-->
+<!--                                    <p th:if="${dacc.value.closeDate == null}">Действителен до: не указана</p>-->
+
+                                    <form th:action="@{'/user/closeDeposit/' + ${dacc.value.idCD}}" method="post">
                                     <input type="hidden" name="accountId" th:value="${dacc.value.idAccount.idAccount}"/>
                                     <div class="info">
                                         <label for="targetAccountId">Выберите счет для перевода средств:</label>
@@ -96,6 +105,7 @@
                             <div th:if="${transactions != null and !transactions.isEmpty()}" class="operation-list">
                                 <div th:each="tx : ${transactions}" class="operation-item">
                                     <div class="date" th:text="${#dates.format(tx.trDate, 'dd MMM yyyy HH:mm:ss')}">Дата</div>
+<!--                                    <div class="date" th:text="${tx.trDate}">Дата</div>-->
                                     <div class="description" th:text="'От ' + ${tx.fromAccount.idAccount} + ' к ' + ${tx.toAccount.idAccount} + ', ' + ${tx.idTransaction.name}">Описание</div>
                                     <div class="amount" th:text="${tx.trAmount} + ' ' + ${tx.fromAccount.currency}">Сумма</div>
                                 </div>

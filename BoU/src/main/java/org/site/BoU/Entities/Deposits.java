@@ -34,10 +34,10 @@ public class Deposits {
     @Column(name = "deposit_status", nullable = false)
     private String depositStatus;
 
-    @Column(name = "min_term_days", nullable = false)
+    @Column(name = "min_term_m", nullable = false)
     private Long minTermDays;
 
-    @Column(name = "max_term_days", nullable = false)
+    @Column(name = "max_term_m", nullable = false)
     private Long maxTermDays;
 
     @Column(name = "min_amount", nullable = false)

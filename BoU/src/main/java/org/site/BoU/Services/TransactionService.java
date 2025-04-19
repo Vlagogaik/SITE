@@ -3,13 +3,8 @@ package org.site.BoU.Services;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.site.BoU.Controllers.AdminController;
-import org.site.BoU.Entities.Accounts;
-import org.site.BoU.Entities.Clients;
-import org.site.BoU.Entities.Transaction;
-import org.site.BoU.Entities.TypeOfTransaction;
-import org.site.BoU.Repositories.AccountsRep;
-import org.site.BoU.Repositories.TransactionRep;
-import org.site.BoU.Repositories.TypeOfTransactionRep;
+import org.site.BoU.Entities.*;
+import org.site.BoU.Repositories.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,10 +15,11 @@ import java.util.*;
 @RequiredArgsConstructor
 public class TransactionService {
 
-    private final Long course = 100L;
+//    private final Long course = 100L;
     private final AccountsRep accountRepository;
     private final TransactionRep transactionRepository;
     private final TypeOfTransactionRep typeOfTransactionRep;
+    private final CourseRep courseRep;
 
     private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
@@ -84,29 +80,55 @@ public class TransactionService {
             throw new IllegalStateException("Недостаточно средств на счете");
         }
 
-        if ((!Objects.equals(fromAccount.getCurrency(), toAccount.getCurrency()))) {
-            if((Objects.equals(fromAccount.getCurrency(), "USD") && Objects.equals(toAccount.getCurrency(), "EUR") || (Objects.equals(toAccount.getCurrency(), "USD") && Objects.equals(fromAccount.getCurrency(), "EUR")))){
-                logger.info("Транзакция. USD and EUR. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+//        if ((!Objects.equals(fromAccount.getCurrency(), toAccount.getCurrency()))) {
+//            if((Objects.equals(fromAccount.getCurrency(), "USD") && Objects.equals(toAccount.getCurrency(), "EUR") || (Objects.equals(toAccount.getCurrency(), "USD") && Objects.equals(fromAccount.getCurrency(), "EUR")))){
+//                logger.info("Транзакция. USD and EUR. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+//                fromAccount.setAmount(fromAccount.getAmount() - amount);
+//                accountRepository.save(fromAccount);
+//                toAccount.setAmount(toAccount.getAmount() + amount);
+//                accountRepository.save(toAccount);
+//            }else {
+//                if ((Objects.equals(fromAccount.getCurrency(), "USD") || Objects.equals(fromAccount.getCurrency(), "EUR")) && (!Objects.equals(fromAccount.getCurrency(), "RUB"))) {
+//                    fromAccount.setAmount(fromAccount.getAmount() - amount);
+//                    accountRepository.save(fromAccount);
+//                    toAccount.setAmount(toAccount.getAmount() + amount * course);
+//                    accountRepository.save(toAccount);
+//                    logger.info("Транзакция.  Разные валюты *. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
+//
+//                } else {
+//                    fromAccount.setAmount(fromAccount.getAmount() - amount);
+//                    accountRepository.save(fromAccount);
+//                    toAccount.setAmount(toAccount.getAmount() + amount / course);
+//                    accountRepository.save(toAccount);
+//                    logger.info("Транзакция.  Разные валюты /. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
+//
+//                }
+//            }
+        if (!Objects.equals(fromAccount.getCurrency(), toAccount.getCurrency())) {
+            logger.info("Транзакция. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+            String fromCurrency = fromAccount.getCurrency();
+            String toCurrency = toAccount.getCurrency();
+
+            Optional<Course> optionalRate =
+                    courseRep.findByFromCurrencyAndToCurrency(fromCurrency, toCurrency);
+
+            if (optionalRate.isEmpty()) {
+                logger.info("Транзакция. Не найден курс из fromCurrency={}, toCurrency={}", fromCurrency, toCurrency);
+                optionalRate =
+                        courseRep.findByFromCurrencyAndToCurrency(toCurrency, fromCurrency);
+                if (optionalRate.isEmpty()) {throw new RuntimeException("Не найден курс из " + fromCurrency + " в " + toCurrency);}
+
+                double rate = optionalRate.get().getRate();
                 fromAccount.setAmount(fromAccount.getAmount() - amount);
                 accountRepository.save(fromAccount);
-                toAccount.setAmount(toAccount.getAmount() + amount);
+                toAccount.setAmount(toAccount.getAmount() + amount/rate);
                 accountRepository.save(toAccount);
             }else {
-                if ((Objects.equals(fromAccount.getCurrency(), "USD") || Objects.equals(fromAccount.getCurrency(), "EUR")) && (!Objects.equals(fromAccount.getCurrency(), "RUB"))) {
-                    fromAccount.setAmount(fromAccount.getAmount() - amount);
-                    accountRepository.save(fromAccount);
-                    toAccount.setAmount(toAccount.getAmount() + amount * course);
-                    accountRepository.save(toAccount);
-                    logger.info("Транзакция.  Разные валюты *. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
-
-                } else {
-                    fromAccount.setAmount(fromAccount.getAmount() - amount);
-                    accountRepository.save(fromAccount);
-                    toAccount.setAmount(toAccount.getAmount() + amount / course);
-                    accountRepository.save(toAccount);
-                    logger.info("Транзакция.  Разные валюты /. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
-
-                }
+                double rate = optionalRate.get().getRate();
+                fromAccount.setAmount(fromAccount.getAmount() - amount);
+                accountRepository.save(fromAccount);
+                toAccount.setAmount(toAccount.getAmount() + amount*rate);
+                accountRepository.save(toAccount);
             }
         }else{
             logger.info("Транзакция. Одна валюта. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
@@ -143,24 +165,50 @@ public class TransactionService {
 //        if (fromAccount.getAmount() < amount) {
 //            throw new IllegalStateException("Недостаточно средств на счете");
 //        }
-        if ((!Objects.equals(fromAccount.getCurrency(), toAccount.getCurrency())) && ((!Objects.equals(toAccount.getCurrency(),"USD") && !Objects.equals(fromAccount.getCurrency(),"EUR")) || ((!Objects.equals(toAccount.getCurrency(),"EUR") && !Objects.equals(fromAccount.getCurrency(),"USD"))))) {
-            if((Objects.equals(fromAccount.getCurrency(), "USD") && Objects.equals(toAccount.getCurrency(), "EUR") || (Objects.equals(toAccount.getCurrency(), "USD") && Objects.equals(fromAccount.getCurrency(), "EUR")))){
-                logger.info("Транзакция. USD and EUR. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
-                toAccount.setAmount(toAccount.getAmount() + amount);
+//        if ((!Objects.equals(fromAccount.getCurrency(), toAccount.getCurrency())) && ((!Objects.equals(toAccount.getCurrency(),"USD") && !Objects.equals(fromAccount.getCurrency(),"EUR")) || ((!Objects.equals(toAccount.getCurrency(),"EUR") && !Objects.equals(fromAccount.getCurrency(),"USD"))))) {
+//            if((Objects.equals(fromAccount.getCurrency(), "USD") && Objects.equals(toAccount.getCurrency(), "EUR") || (Objects.equals(toAccount.getCurrency(), "USD") && Objects.equals(fromAccount.getCurrency(), "EUR")))){
+//                logger.info("Транзакция. USD and EUR. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+//                toAccount.setAmount(toAccount.getAmount() + amount);
+//                accountRepository.save(toAccount);
+//            }else {
+//                if ((Objects.equals(fromAccount.getCurrency(), "USD") || Objects.equals(fromAccount.getCurrency(), "EUR")) && (!Objects.equals(fromAccount.getCurrency(), "RUB"))) {
+//                    toAccount.setAmount(toAccount.getAmount() + amount * course);
+//                    accountRepository.save(toAccount);
+//                    logger.info("Транзакция.  Разные валюты *. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
+//
+//                } else {
+//
+//                    toAccount.setAmount(toAccount.getAmount() + amount / course);
+//                    accountRepository.save(toAccount);
+//                    logger.info("Транзакция.  Разные валюты /. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
+//
+//                }
+//            }
+        if ((!Objects.equals(fromAccount.getCurrency(), toAccount.getCurrency()))) {
+            logger.info("Транзакция. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
+            String fromCurrency = fromAccount.getCurrency();
+            String toCurrency = toAccount.getCurrency();
+
+            Optional<Course> optionalRate =
+                    courseRep.findByFromCurrencyAndToCurrency(fromCurrency, toCurrency);
+
+            if (optionalRate.isEmpty()) {
+                logger.info("Транзакция. Не найден курс из fromCurrency={}, toCurrency={}", fromCurrency, toCurrency);
+                optionalRate =
+                        courseRep.findByFromCurrencyAndToCurrency(toCurrency, fromCurrency);
+                if (optionalRate.isEmpty()) {throw new RuntimeException("Не найден курс из " + fromCurrency + " в " + toCurrency);}
+
+                double rate = optionalRate.get().getRate();
+                fromAccount.setAmount(fromAccount.getAmount() - amount);
+                accountRepository.save(fromAccount);
+                toAccount.setAmount(toAccount.getAmount() + amount/rate);
                 accountRepository.save(toAccount);
             }else {
-                if ((Objects.equals(fromAccount.getCurrency(), "USD") || Objects.equals(fromAccount.getCurrency(), "EUR")) && (!Objects.equals(fromAccount.getCurrency(), "RUB"))) {
-                    toAccount.setAmount(toAccount.getAmount() + amount * course);
-                    accountRepository.save(toAccount);
-                    logger.info("Транзакция.  Разные валюты *. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
-
-                } else {
-
-                    toAccount.setAmount(toAccount.getAmount() + amount / course);
-                    accountRepository.save(toAccount);
-                    logger.info("Транзакция.  Разные валюты /. fromAccount={}, toAccount={}, amount={}, fromAccamount={}, toAccamount={}", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount, fromAccount.getAmount(), toAccount.getAmount());
-
-                }
+                double rate = optionalRate.get().getRate();
+                fromAccount.setAmount(fromAccount.getAmount() - amount);
+                accountRepository.save(fromAccount);
+                toAccount.setAmount(toAccount.getAmount() + amount*rate);
+                accountRepository.save(toAccount);
             }
         }else{
             logger.info("Транзакция. Одна валюта. fromAccount={}, toAccount={}, amount={}, ", fromAccount.getIdAccount(), toAccount.getIdAccount(), amount);
