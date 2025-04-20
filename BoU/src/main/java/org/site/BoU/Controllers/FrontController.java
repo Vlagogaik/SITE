@@ -93,7 +93,7 @@ public class FrontController {
         if (login != null) {
 //            Clients client = clientService.findByLogin(login);
             if(client.getRole().equals("ADMIN")){
-                return "redirect:/admin/transactions";
+                return "redirect:/admin/home_admin";
             }else{
                 return "user/transactions";
             }

@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Bank Of Universe / Личный кабинет</title>
+    <title>Bank Of Universe</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
 </head>
 <body>
@@ -25,17 +25,9 @@
         </div>
     </header>
 
-    <main class="profile-wrapper">
-        <aside class="sidebar">
-            <ul>
-                <li><a href="#" th:classappend="${activeSection=='personal'}?'active':''" onclick="showSection('personal')">Личные данные</a></li>
-                <li><a href="#" th:classappend="${activeSection=='accounts'}?'active':''" onclick="showSection('accounts')">Счета</a></li>
-                <li><a href="#" th:classappend="${activeSection=='deposits'}?'active':''" onclick="showSection('deposits')">Вклады</a></li>
-                <li><a href="#" th:classappend="${activeSection=='transactions'}?'active':''" onclick="showSection('transactions')">История операций</a></li>
-            </ul>
-        </aside>
-        <section class="profile-content">
-            <div id="section-personal" class="profile-section" th:classappend="${activeSection=='personal'}?'active':''">
+    <main>
+        <div class="content">
+            <div class="profile-container">
                 <div class="profile-card">
                     <h3>Информация о клиенте:</h3>
                     <p>Имя: <span th:text="${client.firstName}">Имя</span></p>
@@ -44,9 +36,7 @@
                     <p>Email: <span th:text="${client.mail}">Email</span></p>
                     <p>Номер телефона: <span th:text="${client.number}">Номер</span></p>
                 </div>
-            </div>
 
-            <div id="section-accounts" class="profile-section" th:classappend="${activeSection=='accounts'}?'active':''">
                 <div class="accounts-card">
                     <h3>Счета:</h3>
                     <div th:if="${accounts != null and !accounts.isEmpty()}">
@@ -60,9 +50,7 @@
                         <p>У вас ещё нет открытых счетов.</p>
                     </div>
                 </div>
-            </div>
 
-            <div id="section-deposits" class="profile-section" th:classappend="${activeSection=='deposits'}?'active':''">
                 <div class="deposits-card">
                     <h3>Вклады:</h3>
                     <div th:if="${depaccounts != null and !depaccounts.isEmpty()}">
@@ -109,10 +97,11 @@
 
                         </div>
                     </div>
+                    <div th:if="${depaccounts == null or depaccounts.isEmpty()}">
+                        <p>У вас ещё нет открытых вкладов.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div id="section-transactions" class="profile-section" th:classappend="${activeSection=='transactions'}?'active':''">
                 <div class="operations-card">
                     <h3>История операций</h3>
                     <div th:if="${transactions != null and !transactions.isEmpty()}" class="operation-list">
@@ -127,8 +116,9 @@
                         <p>История операций отсутствует.</p>
                     </div>
                 </div>
+
             </div>
-        </section>
+        </div>
     </main>
 
     <footer>
@@ -140,14 +130,5 @@
         </div>
     </footer>
 </div>
-
-<script>
-    function showSection(section) {
-        document.querySelectorAll('.profile-section').forEach(s => s.style.display = 'none');
-        document.getElementById('section-' + section).style.display = 'block';
-    }
-    document.addEventListener('DOMContentLoaded', () => showSection('${activeSection}' || 'personal'));
-</script>
 </body>
 </html>
-

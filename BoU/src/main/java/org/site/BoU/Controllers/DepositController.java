@@ -162,7 +162,12 @@ public class DepositController {
         LocalDate now = LocalDate.now();
         long monthsPassed = ChronoUnit.MONTHS.between(openDate, now);
         Accounts acc = accountsService.findById(clientDeposit.getIdAccount().getIdAccount());
-        double amount = acc.getAmount() +  Math.round(monthsPassed *deposit.getRate() / 100.0);
+        double amount;
+        if(clientDeposit.getDepositStatus().equals("ac")){
+            amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed * deposit.getRate() / 100.0);
+        }else{
+            amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed * 0.01);
+        }
         logger.info("Закрытие депозита. accountId={}, targetAccount={}, amount={}, opendate={}, datenow={}, MONTHS={}", accountId, targetAccount.getIdAccount(), amount, openDate, now, monthsPassed);
         transactionService.closeDeposit(accountId, targetAccount.getIdAccount(), amount);
 

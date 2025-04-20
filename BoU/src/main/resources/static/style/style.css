@@ -3,6 +3,9 @@
     display: flex;
     flex-direction: column;
 }
+main {
+    flex: 1;
+}
 header {
     background-color: #282828;
     padding: 10px 20px;
@@ -14,7 +17,58 @@ header {
     justify-content: space-between;
     align-items: center;
 }
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 70px;
+}
+.navbar-logo a {
+     font-size: 24px;
+     font-weight: bold;
+     color: #fff;
+     position: relative;
+     padding-bottom: 5px;
+     text-decoration: none;
+ }
+.navbar-links a{
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 5px;
+    color: #fff;
+}
 
+.navbar-links a::after,
+.navbar-logo a::after {
+    text-decoration: none;
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background-color: red;
+    transform-origin: left center;
+    transform: scaleY(0.4);
+    transition:
+    transform 0.3s ease,
+    height 0.3s ease;
+}
+
+.navbar-links a:hover::after,
+.navbar-logo a:hover::after {
+    text-decoration: none;
+    transform: scaleY(1);
+    height: 4px;
+}
+.navbar-links a:hover,
+.navbar-links a:focus,
+.navbar-links a:active,
+.navbar-logo a:hover,
+.navbar-logo a:focus,
+.navbar-logo a:active {
+    text-decoration: none;
+}
+/*
 .navbar-logo a {
     font-size: 24px;
     font-weight: bold;
@@ -60,9 +114,6 @@ header {
     transform-origin: right; 
     text-decoration: none;
 }
-.navbar-links li {
-    display: inline;
-}
 
 .navbar-links a {
     color: #fff;
@@ -74,7 +125,10 @@ header {
     text-decoration: none;
     transition: all 0.3s ease;
 }
-
+*/
+.navbar-links li {
+    display: inline;
+}
 .navbar-register .register-btn {
     background-color: red;
     color: #fff;
@@ -99,6 +153,7 @@ header {
     background-color: darkred;
 }
 footer {
+    min-height: 10vh;
     background-color: #282828;
     color: #fff;
     text-align: center;
@@ -137,8 +192,15 @@ footer {
     padding: 0;
     box-sizing: border-box;
 }
-
+html{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background-color: #282828;
     font-family: Arial, sans-serif;
     color: white;
@@ -704,11 +766,12 @@ a:hover {
   margin: 10px 0;
 }
 .accounts-card, .deposits-card {
-  background-color: #333;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  color: white;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: white;
+    min-width: 700px;
 }
 .accounts-card h3, .deposits-card h3 {
   border-bottom: 3px solid red;
@@ -732,6 +795,7 @@ a:hover {
   margin-top: 20px;
   color: white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  min-width: 700px;
 }
 .operations-card h3 {
   border-bottom: 3px solid red;
@@ -933,4 +997,52 @@ a:hover {
   color: white;
   font-size: 0.9rem;
   box-sizing: border-box;
+}
+.profile-wrapper {
+    display: flex;
+}
+.sidebar {
+    width: 200px;
+    background-color: #282828;
+    padding: 15px;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar li {
+    margin-bottom: 10px;
+}
+.sidebar a {
+    display: block;
+    position: relative;
+    padding: 10px 15px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.sidebar a::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 3px;
+  height: 100%;
+  background-color: red;
+  transition: width 0.3s ease;
+}
+
+.sidebar a:hover::before {
+  width: 6px;
+}
+.profile-content {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 20px;
+}
+.profile-section {
+    display: none;
+}
+.profile-section.active {
+    display: block;
 }
