@@ -2,7 +2,6 @@ package org.site.BoU.Services;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.site.BoU.Controllers.AdminController;
 import org.site.BoU.Entities.*;
 import org.site.BoU.Repositories.*;
 import org.slf4j.Logger;
@@ -23,6 +22,9 @@ public class TransactionService {
 
     private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
 
+    public Optional<Transaction> findById(Long id){
+        return transactionRepository.findById(id);
+    }
 
     public List<Transaction> findAllByClient(Clients clients){
         List<Accounts> accounts = accountRepository.findByIdClient(clients);
@@ -69,7 +71,7 @@ public class TransactionService {
     }
 
     @Transactional
-    public void transferMoney(Long fromAccountId, Long toAccountId, double amount) {
+    public Transaction transferMoney(Long fromAccountId, Long toAccountId, double amount) {
         Accounts fromAccount = accountRepository.findById(fromAccountId)
                 .orElseThrow(() -> new IllegalArgumentException("Счет отправителя не найден"));
 
@@ -153,6 +155,7 @@ public class TransactionService {
         transaction.setTrDate(new Date());
         transaction.setIdTransaction(transferType);
         transactionRepository.save(transaction);
+        return transaction;
     }
     @Transactional
     public void closeDeposit(Long fromAccountId, Long toAccountId, double amount) {

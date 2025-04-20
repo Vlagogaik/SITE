@@ -1088,3 +1088,41 @@ a:hover {
     visibility: visible;
     opacity: 1;
 }
+.success-page, .fail-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+}
+
+.success-icon, .fail-icon {
+    font-size: 72px;
+    margin-bottom: 20px;
+}
+
+.transaction-details, .fail-message {
+    background: #333;
+    margin-left: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    color: white;
+    width: 500px;
+    text-align: left;
+}
+.return-button {
+    margin-top: 20px;
+    text-align: center;
+}
+.btn-profile{
+    background-color: red;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+
+}
+
+.btn-profile:hover{
+    background-color: darkred;
+}

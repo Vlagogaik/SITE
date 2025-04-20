@@ -1,10 +1,7 @@
 package org.site.BoU.Controllers;
 
 import jakarta.servlet.http.HttpSession;
-import org.site.BoU.Entities.Accounts;
-import org.site.BoU.Entities.ClientDeposit;
-import org.site.BoU.Entities.Clients;
-import org.site.BoU.Entities.Deposits;
+import org.site.BoU.Entities.*;
 import org.site.BoU.Services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,7 +81,7 @@ public class TransactionsController {
     public String transferMoney(
             @RequestParam Long fromAccountId,
             @RequestParam Long toAccountId,
-            @RequestParam Long amount,
+            @RequestParam double amount,
             @RequestParam String query,
             Model model,
             HttpSession session) {
@@ -97,27 +94,30 @@ public class TransactionsController {
         Accounts fromAccount = accountsService.findById(fromAccountId);
         if (fromAccount == null) {
             model.addAttribute("error", "Счет отправителя не найден.");
-            return "user/transactions";
+            return "user/transfer-fail";
         }
         List<Clients> recipientList = clientService.findByIdOrPhone(query);
         if (recipientList.isEmpty()) {
             model.addAttribute("error", "Получатель не найден.");
-            return "user/transactions";
+            return "user/transfer-fail";
         }
         Accounts toAccount = accountsService.findById(toAccountId);
         if (toAccount == null) {
             model.addAttribute("error", "Выбранный счет получателя недоступен.");
-            return "user/transactions";
+            return "user/transfer-fail";
         }
         logger.info("Транзакция контр. fromAccount={},toAccount={}, recipientList={}",fromAccount, toAccount, recipientList);
         try {
-            transactionService.transferMoney(fromAccountId, toAccountId, amount);
+            Transaction transaction = transactionService.transferMoney(fromAccountId, toAccountId, amount);
+            model.addAttribute("transaction", transaction);
             model.addAttribute("success", "Перевод выполнен успешно.");
+            return "user/transfer-success";
         } catch (IllegalStateException e) {
             model.addAttribute("error", "Ошибка: " + e.getMessage());
+            return "user/transfer-fail";
         }
 
-        return "user/transactions";
+//        return "redirect:/user/transfer-success";
     }
 
 }

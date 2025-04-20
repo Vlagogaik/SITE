@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка перевода</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+<div class="fail-page">
+    <div class="fail-icon">❌</div>
+    <div class="fail-message">
+        <h2>Ошибка!</h2>
+        <p th:text="${error}">Что-то пошло не так.</p>
+        <div class="return-button">
+            <a th:href="@{/user/profile}" class="btn-profile">Вернуться в личный кабинет</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

@@ -101,6 +101,22 @@ public class FrontController {
             return "redirect:/signIn";
         }
     }
+    @RequestMapping("user/transfer-success")
+    public String transferSuccess(@RequestParam Long id, Model model, HttpSession session){
+        Optional<Transaction> optionalTransaction = transactionService.findById(id);
+        if (optionalTransaction.isEmpty()) {
+            model.addAttribute("error", "Транзакция не найдена.");
+            return "redirect:/user/transfer-fail";
+        }
+        Transaction transaction = optionalTransaction.get();
+        logger.info("transaction: {}", transaction);
+        model.addAttribute("transaction", transaction);
+        return "transfer-success";
+    }
+    @RequestMapping("user/transfer-fail")
+    public String transferFail(Model model, HttpSession session){
+        return "user/transfer-fail";
+    }
     @RequestMapping("user/closeDeposit")
     public String accDelUsr(Model model, HttpSession session) {
         List<Accounts> accounts = accountService.findAll();

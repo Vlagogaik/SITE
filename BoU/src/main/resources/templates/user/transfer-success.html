@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Успешный перевод</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+</head>
+<body>
+<div class="success-page">
+    <div class="success-icon">✅</div>
+    <div class="transaction-details">
+        <h2>Перевод выполнен успешно!</h2>
+        <p><strong>ID транзакции:</strong> <span th:text="${transaction.idTr}"></span></p>
+        <p><strong>Отправитель:</strong> <span th:text="${transaction.fromAccount.idClient.firstName} + ' ' +${transaction.fromAccount.idClient.lastName}"></span></p>
+        <p><strong>Счет отправителя:</strong> <span th:text="${transaction.fromAccount.idAccount}"></span></p>
+        <p><strong>Счет получателя:</strong> <span th:text="${transaction.toAccount.idAccount}"></span></p>
+        <p><strong>Получатель:</strong> <span th:text="${transaction.toAccount.idClient.firstName} + ' ' + ${transaction.toAccount.idClient.lastName}"></span></p>
+        <p><strong>Сумма:</strong> <span th:text="${transaction.trAmount}+ ' ' + ${transaction.fromAccount.currency}"></span></p>
+        <p><strong>Тип:</strong> Перевод</p>
+        <p><strong>Дата:</strong> <span th:text="${#dates.format(transaction.trDate, 'dd MMM yyyy HH:mm:ss')}"></span></p>
+        <div class="return-button">
+            <a th:href="@{/user/profile}" class="btn-profile">Вернуться в личный кабинет</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
