@@ -189,6 +189,11 @@ public class FrontController {
         model.addAttribute("clients", new Clients());
         return "admin/clientAdd";
     }
+    @RequestMapping("admin/topUp")
+    public String topUp(Model model, HttpSession session) {
+        logger.info("ЗАШЕЛ ВО ФРОНТ");
+        return "admin/topUp";
+    }
     @GetMapping("allDeposits")
     public String getDeposits(Model model, HttpSession session) {
         String login = (String) session.getAttribute("login");

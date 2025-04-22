@@ -20,6 +20,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -208,4 +209,73 @@ public class AdminController {
         return "redirect:/admin/delete";
     }
 
+    private String getReplenishmentCapasityForAccount(Accounts account) {
+        ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+        if (clientDeposit != null) {
+            Deposits deposit = depositService.findByIdDeposit(clientDeposit.getIdDeposit().getIdDeposit());
+            if (deposit != null) {
+                return deposit.getReplenishmentCapasity();
+            }
+        }
+        return null;
+    }
+    @GetMapping("/getAccounts")
+    @ResponseBody
+    public List<Accounts> getRecipientAccounts(@RequestParam Long clientId) {
+        Optional<Clients> clients = clientService.findById(clientId);
+        logger.info("Метод getRecipientAccounts вызван с clientId = {}", clientId);
+        List<Accounts> allAccounts = accountsService.findAllByClientId(clients.orElseThrow(() ->
+                new IllegalArgumentException("Клиент с id " + clientId + " не найден")));
+        logger.info("Метод getRecipientAccounts нашел  allAccounts = {}", allAccounts);
+        return allAccounts.stream()
+                .filter(acc -> "o".equals(acc.getStatus()) || ("od".equals(acc.getStatus()) && "y".equals(getReplenishmentCapasityForAccount(acc))))
+                .collect(Collectors.toList());
+    }
+
+//    @GetMapping("/getAccounts")
+//    @ResponseBody
+//    public String showTopUpForm(@RequestParam Long clientId, Model model, HttpSession httpSession) {
+//        List<Accounts> allAccounts = accountsService.findAll();
+//        logger.info("Метод getRecipientAccounts нашел  allAccounts = {}", allAccounts);
+//        allAccounts = allAccounts.stream()
+//                .filter(acc -> "o".equals(acc.getStatus()) || ("od".equals(acc.getStatus()) && "y".equals(getReplenishmentCapasityForAccount(acc))))
+//                .collect(Collectors.toList());
+//        model.addAttribute("accounts", allAccounts);
+//        return "admin/topUp";
+//    }
+
+    @PostMapping("/topUpAdmin")
+    public String processTopUp(
+            @RequestParam("toAccountId") Long toAccountId,
+            @RequestParam("amount") Double amount,
+            Model model, HttpSession httpSession) {
+
+        // Снова кладём в модель список аккаунтов
+        model.addAttribute("accounts", accountsService.findAll());
+
+        // Валидация
+        if (toAccountId == null) {
+            model.addAttribute("error", "Нужно выбрать счет.");
+            return "admin/topUp";
+        }
+        Accounts toAccount = accountsService.findById(toAccountId);
+        if (toAccount == null) {
+            model.addAttribute("error", "Счет не найден.");
+            return "admin/topUp";
+        }
+        if (amount == null || amount <= 0) {
+            model.addAttribute("error", "Сумма должна быть больше 0.");
+            return "admin/topUp";
+        }
+
+        // Выполняем пополнение
+        toAccount.setAmount(toAccount.getAmount() + amount);
+        accountsService.save(toAccount);
+
+        // Сохраняем транзакцию типа «Пополнение банкоматом»
+        Transaction topUpType = transactionService.transferMoneyAdmin(toAccountId, amount);
+
+        model.addAttribute("success", "Счет №" + toAccountId + " успешно пополнен на " + amount);
+        return "admin/topUp";
+    }
 }

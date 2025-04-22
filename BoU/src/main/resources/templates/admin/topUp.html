@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Of Universe</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+           const searchInput = document.getElementById('searchInput');
+
+           searchInput.addEventListener('input', function () {
+               let query = this.value;
+               console.log("Введено значение: " + query);
+
+               if (query.length > 0) {
+                   fetch('/user/searchClient?query=' + encodeURIComponent(query))
+                       .then(response => response.json())
+                       .then(data => {
+                           console.log("Получены данные: ", data);
+                           let resultsDiv = document.getElementById('searchResults');
+                           resultsDiv.innerHTML = '';
+
+                           if (data.length > 0) {
+                               data.forEach(client => {
+                                   let div = document.createElement('div');
+                                   div.textContent = `ID: ${client.idClient}, Телефон: ${client.number}`;
+
+                                   div.onclick = function () {
+                                       searchInput.value = client.number;
+                                       resultsDiv.innerHTML = '';
+                                       loadRecipientAccounts(client.idClient);
+                                   };
+
+                                   resultsDiv.appendChild(div);
+                               });
+                           } else {
+                               resultsDiv.innerHTML = '<p>Ничего не найдено</p>';
+                           }
+                       })
+                       .catch(error => console.error('Ошибка:', error));
+               }
+           });
+       });
+
+       function loadRecipientAccounts(clientId) {
+           fetch('/admin/getAccounts?clientId=' + clientId)
+               .then(response => response.json())
+               .then(accounts => {
+                   let accountSelect = document.getElementById('toAccount');
+                   accountSelect.innerHTML = '<option value="">Выберите счет</option>';
+
+                   accounts.forEach(account => {
+                       let option = document.createElement('option');
+                       option.value = account.idAccount;
+                       option.textContent = `Счет №${account.idAccount} (${account.amount} ${account.currency})`;
+                       accountSelect.appendChild(option);
+                   });
+               })
+               .catch(error => console.error('Ошибка при загрузке счетов:', error));
+       }
+       window.addEventListener('DOMContentLoaded', function () {
+           var errorPopup = document.querySelector('.error-popup');
+           if (errorPopup) {
+               errorPopup.classList.add('active');
+               setTimeout(function () {
+                   errorPopup.classList.remove('active');
+               }, 5000);
+           }
+       });
+       window.addEventListener('DOMContentLoaded', function () {
+           var successfulPopup = document.querySelector('.successful-popup');
+           if (successfulPopup) {
+               successfulPopup.classList.add('active');
+               setTimeout(function () {
+                   successfulPopup.classList.remove('active');
+               }, 5000);
+           }
+       });
+
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="navbar">
+            <div class="navbar-logo">
+                <a th:href="@{/home}">Bank Of Universe</a>
+            </div>
+            <div class="navbar-register">
+                <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
+            </div>
+        </div>
+    </header>
+    <div class ="containerIn">
+        <div class="registration-banner">
+            <h1>Перевод</h1>
+        </div>
+        <div class="transfer-container">
+            <h2>Совершить перевод</h2>
+            <form th:action="@{/admin/topUpAdmin}" method="post">
+
+                <div class="form-group">
+                    <label for="searchInput">Поиск получателя:</label>
+                    <input type="text" id="searchInput" name="query" placeholder="Введите ID клиента или телефон">
+                    <div id="searchResults"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="toAccount">Счет получателя:</label>
+                    <div class="custom-select">
+                        <select id="toAccount" name="toAccountId" required>
+                            <option value="">Выберите счет</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Сумма перевода:</label>
+                    <input type="number" id="amount" name="amount" min="1" step="0.01" required>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="btn transfer-btn">Перевести</button>
+                </div>
+
+            </form>
+            <div class="error-popup" th:if="${error != null}">
+                <div class="error-popup-message" th:text="${error}"></div>
+            </div>
+            <div class="successful-popup" th:if="${success != null}">
+                <div class="successful-popup-message" th:text="${success}"></div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
+            <ul class="footer-links">
+                <li><a href="#">Контакты</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
