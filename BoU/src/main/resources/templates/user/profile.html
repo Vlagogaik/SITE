@@ -107,11 +107,39 @@
                                 </button>
                                 <span class="tooltip">?
                                   <span class="tooltiptext">
-                                    Если закрыть вклад до истечения срока, вам выплатят вклад с доходностью 1%
+                                    Если закрыть вклад до истечения срока, вам выплатят столько, если бы вклад был бы с доходностью в 1%.
                                   </span>
                                 </span>
+                                <br></br>
                             </form>
+                            <div class="prolongation">
+                                <form th:action="@{'/user/prolongDeposit/' + ${dacc.value.idCD}}" method="post" class="prolongation-form">
+                                    <input type="hidden" name="depositId" th:value="${dacc.value.idCD}" />
 
+                                    <label for="newCloseDate">Продлить:</label>
+                                    <input type="date"
+                                           id="newCloseDate"
+                                           name="closeDate"
+                                           required
+                                           th:min="${#dates.format(dacc.value.closeDate, 'yyyy-MM-dd')}" />
+                                    <div>
+                                        <button type="submit"
+                                                class="btn prolongation-btn"
+                                                th:disabled="${dacc.value.idDeposit.prolongation == 'n'}"
+                                                th:classappend="${dacc.value.idDeposit.prolongation == 'n'} ? 'disabled-button' : ''">
+                                            Продлить вклад
+                                        </button>
+
+                                        <span th:if="${dacc.value.idDeposit.prolongation == 'n'}" class="tooltip-inline">
+                                                <span class="tooltip">?
+                                                    <span class="tooltiptext">
+                                                        Ваш вклад не поддерживает пролонгацию — пролонгация возможна только для вкладов с опцией «Пролонгация».
+                                                    </span>
+                                                </span>
+                                            </span>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

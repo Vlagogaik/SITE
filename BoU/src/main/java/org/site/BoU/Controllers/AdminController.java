@@ -250,10 +250,8 @@ public class AdminController {
             @RequestParam("amount") Double amount,
             Model model, HttpSession httpSession) {
 
-        // Снова кладём в модель список аккаунтов
         model.addAttribute("accounts", accountsService.findAll());
 
-        // Валидация
         if (toAccountId == null) {
             model.addAttribute("error", "Нужно выбрать счет.");
             return "admin/topUp";
@@ -268,13 +266,9 @@ public class AdminController {
             return "admin/topUp";
         }
 
-        // Выполняем пополнение
         toAccount.setAmount(toAccount.getAmount() + amount);
         accountsService.save(toAccount);
-
-        // Сохраняем транзакцию типа «Пополнение банкоматом»
         Transaction topUpType = transactionService.transferMoneyAdmin(toAccountId, amount);
-
         model.addAttribute("success", "Счет №" + toAccountId + " успешно пополнен на " + amount);
         return "admin/topUp";
     }

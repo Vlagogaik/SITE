@@ -43,6 +43,21 @@ public class DepositController {
     @Autowired
     private TransactionService transactionService;
 
+    @PostMapping("prolongDeposit/{id}")
+    public String prolongDeposit(
+            @PathVariable Long id,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date closeDate,
+            Model model, HttpSession session
+    ) {
+        ClientDeposit clientDeposit = clientDepositService.findById(id);
+        if(clientDeposit.getDepositStatus().equals("ac") || clientDeposit.getDepositStatus().equals("c")){
+            clientDeposit.setDepositStatus("o");
+        }
+        clientDeposit.setCloseDate(closeDate);
+        clientDepositService.save(clientDeposit);
+        return "redirect:/user/profile";
+    }
+
     @PostMapping("deposit/create")
     public String createDeposit(@RequestParam Long idDeposit, @RequestParam Long amount, @RequestParam String currency, @RequestParam Long idAccount,
                                 Model model, HttpSession session, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date closeDate) {

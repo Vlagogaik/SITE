@@ -765,6 +765,16 @@ a:hover {
 .profile-card p {
   margin: 10px 0;
 }
+.prolongation input{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #555;
+    color: white;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
 .accounts-card, .deposits-card {
     background-color: #333;
     padding: 20px;
@@ -1053,6 +1063,7 @@ a:hover {
   cursor: help;
   font-weight: bold;
   color: #ccc;
+  font-weight: normal;
 }
 
 .tooltip .tooltiptext {
@@ -1070,6 +1081,7 @@ a:hover {
   z-index: 10;
   opacity: 0;
   transition: opacity 0.3s;
+  font-weight: normal;
 }
 
 .tooltip .tooltiptext::after {
