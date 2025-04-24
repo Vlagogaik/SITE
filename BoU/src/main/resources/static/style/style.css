@@ -755,7 +755,7 @@ a:hover {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   color: white;
   width: 500px;
-
+  margin-top: 20px;
 }
 .profile-card h3 {
   border-bottom: 3px solid red;
@@ -782,6 +782,7 @@ a:hover {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     color: white;
     min-width: 700px;
+    margin-top: 20px;
 }
 .accounts-card h3, .deposits-card h3 {
   border-bottom: 3px solid red;
@@ -921,10 +922,20 @@ a:hover {
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   width: 100%;
   max-width: 450px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
+  margin: 20px;
+  display: inline-block;
+}
+.client-card {
+    background-color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    padding: 20px;
+    margin: 10px;
+    display: inline-block;
+    width: 300px;
+
 }
 .deposit-card label {
     margin-top: 20px;

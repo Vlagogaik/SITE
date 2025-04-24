@@ -28,7 +28,7 @@
             </div>
         </div>
     </header>
-
+    <main>
     <div class="deposit-list">
         <div th:each="deposit : ${deposits}" class="deposit-card">
             <h3 th:text="${deposit.name}">Название депозита</h3>
@@ -72,7 +72,7 @@
     </div>
 </div>
 
-
+</main>
 <footer>
     <div class="footer-content">
         <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>

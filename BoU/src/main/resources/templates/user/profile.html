@@ -54,8 +54,28 @@
                             <p th:text="'Счет: ' + ${acc.idAccount}"></p>
                             <p th:text="'Баланс: ' + ${acc.amount} +' '+${acc.currency}"></p>
                             <!--                                    <p th:text="'Валюта: ' + ${acc.currency}"></p>-->
+                            <form th:action="@{/account/delete/{id}(id=${acc.idAccount})}" method="post">
+                                <div class="custom-select">
+                                    <select name="targetAccountId" required>
+                                        <option value="">Выберите счет для перевода</option>
+                                        <option th:each="otherAcc : ${accounts}"
+                                                th:if="${otherAcc.idAccount} != ${acc.idAccount}"
+                                                th:value="${otherAcc.idAccount}"
+                                                th:text="'Счет №' + ${otherAcc.idAccount} + ' (' + ${otherAcc.amount} + ' ' + ${otherAcc.currency} + ')'">
+                                        </option>
+                                    </select>
+
+                                    <button type="submit"
+                                            class="btn delete-btn"
+                                            th:disabled="${acc.status == 'c'}"
+                                            th:classappend="${acc.status == 'c'} ? 'disabled-button' : ''">
+                                        Удалить счет
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
+
                     <div th:if="${accounts == null or accounts.isEmpty()}">
                         <p>У вас ещё нет открытых счетов.</p>
                     </div>

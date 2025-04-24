@@ -12,42 +12,66 @@
             <div class="navbar-logo">
                 <a th:href="@{/admin/home_admin}">Bank Of Universe</a>
             </div>
-            <ul class="navbar-links">
-                <li><a th:href="@{/allDeposits}">Вклады</a></li>
-            </ul>
+
             <div class="navbar-register">
                 <a href="/logout" class="logout-btn">Выйти</a>
                 <a sec:authorize="isAuthenticated()" th:href="@{/admin/home_admin}" class="register-btn">Личный кабинет</a>
             </div>
         </div>
     </header>
-    <div class="containerIn">
-        <div class="admin-form">
+    <main>
+            <aside class="sidebar">
+                <ul>
+                    <li><a th:href="@{/admin/deposit}" th:classappend="${activeSection=='deposit'}?'active':''" onclick="showSection('deposit')">Создать вклад</a></li>
+                    <li><a th:href="@{/admin/delete}" th:classappend="${activeSection=='accDep'}?'active':''" onclick="showSection('accDep')">Удалить вклад</a></li>
+                    <li><a th:href="@{/admin/clientDel}" th:classappend="${activeSection=='clientDel'}?'active':''" onclick="showSection('clientDel')">Удалить клиента</a></li>
+                    <li><a th:href="@{/admin/clientAdd}" th:classappend="${activeSection=='clientADD'}?'active':''" onclick="showSection('clientADD')">Добавить клиента</a></li>
+                    <li><a th:href="@{/admin/accountDel}" th:classappend="${activeSection=='accDel'}?'active':''" onclick="showSection('accDel')">Удалить счет</a></li>
+                    <li><a th:href="@{/admin/topUp}" th:classappend="${activeSection=='accADD'}?'active':''" onclick="showSection('accADD')">Пополнить счет</a></li>
+                </ul>
+            </aside>
             <div th:if="${errorMessage}" class="error-message">
                 <p th:text="${errorMessage}"></p>
             </div>
-            <div class="redirect-button">
-                <a th:href="@{/admin/deposit}" class="redirect-btn">Создать вклад</a>
-            </div>
-            <div class="redirect-button">
-                <a th:href="@{/admin/delete}" class="redirect-btn">Удалить вклад</a>
-            </div>
-            <div class="redirect-button">
-                <a th:href="@{/admin/clientDel}" class="redirect-btn">Удалить клиента</a>
-            </div>
-            <div class="redirect-button">
-                <a th:href="@{/admin/clientAdd}" class="redirect-btn">Добавить клиента</a>
-            </div>
-            <div class="redirect-button">
-                <a th:href="@{/admin/accountDel}" class="redirect-btn">Удалить счет</a>
-            </div>
-            <div class="redirect-button">
-                <a th:href="@{/admin/topUp}" class="redirect-btn">Пополнить счет</a>
-            </div>
 
-        </div>
-    </div>
+<!--            <section class="profile-content">-->
+<!--            <div id="section-deposit" class="profile-section" th:classappend="${activeSection=='deposit'}?'active':''">-->
+<!--                <div class="redirect-button">-->
+<!--                    <a th:href="@{/admin/deposit}" class="redirect-btn">Создать вклад</a>-->
+<!--                </div>-->
+<!--            </div>-->
 
+<!--            <div id="section-accDep" class="profile-section" th:classappend="${activeSection=='accDep'}?'active':''">-->
+<!--                <div class="redirect-button">-->
+<!--                    <a th:href="@{/admin/delete}" class="redirect-btn">Удалить вклад</a>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div id="section-clientDel" class="profile-section" th:classappend="${activeSection=='clientDel'}?'active':''">-->
+<!--                <div class="redirect-button">-->
+<!--                    <a th:href="@{/admin/clientDel}" class="redirect-btn">Удалить клиента</a>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div id="section-clientADD" class="profile-section" th:classappend="${activeSection=='clientADD'}?'active':''">-->
+<!--                <div class="redirect-button">-->
+<!--                    <a th:href="@{/admin/clientAdd}" class="redirect-btn">Добавить клиента</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div id="section-accDel" class="profile-section" th:classappend="${activeSection=='accDel'}?'active':''">-->
+<!--                <div class="redirect-button">-->
+<!--                    <a th:href="@{/admin/accountDel}" class="redirect-btn">Удалить счет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div id="section-accADD" class="profile-section" th:classappend="${activeSection=='accADD'}?'active':''">-->
+<!--                <div class="redirect-button">-->
+<!--                    <a th:href="@{/admin/topUp}" class="redirect-btn">Пополнить счет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            </section>-->
+
+    </main>
     <footer>
         <div class="footer-content">
             <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
