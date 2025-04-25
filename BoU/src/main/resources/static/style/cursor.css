@@ -1,0 +1,53 @@
+/* Cursor design */
+#cursor {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 50%;
+  left: 50%;
+  border-radius: 100%;
+  background: var(--purple);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transition: transform .5s;
+  z-index: 99;
+}
+#cursor.hovered {
+  transform: scale(1.75);
+}
+#cursor.hovered #circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  animation: rotateDot 2s infinite linear;
+}
+#cursor #circle:after {
+  position: absolute;
+  content: "";
+  width: 4px;
+  height: 4px;
+  background-color: var(--dark);
+  top: 5px;
+  left: 5px;
+  opacity: 0;
+  border-radius: 100%;
+}
+#cursor.hovered #circle:after {
+  opacity: 1;
+}
+@keyframes rotateDot {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

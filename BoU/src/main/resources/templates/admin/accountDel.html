@@ -4,24 +4,17 @@
     <meta charset="UTF-8">
     <title>Bank Of Universe/Удалить клиента</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/style/cursor.css}">
 </head>
 <body>
+<div id="cursor"><div id="circle"></div></div>
 <div class="wrapper">
     <header>
         <div class="navbar">
             <div class="navbar-logo">
                 <a th:href="@{/home}">Bank Of Universe</a>
             </div>
-            <ul class="navbar-links">
-                <li><a href="#">Переводы</a></li>
-                <li><a th:href="@{/allDeposits}">Вклады</a></li>
-                <li><a href="#">Карты</a></li>
-                <!--                    <li><a th:href="#">Переводы</a></li>-->
-                <!--                    <li><a th:href="#">Вклады</a></li>-->
-                <!--                    <li><a th:href="#">Карты</a></li>-->
-                <!--                    <li><a th:href="#">О банке</a></li>-->
-                <li><a href="#">О банке</a></li>
-            </ul>
+
             <div class="navbar-register">
                 <a href="/logout" class="logout-btn">Выйти</a>
                 <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
@@ -29,85 +22,100 @@
         </div>
     </header>
     <main>
-    <div class="client-list">
-        <div th:each="account : ${accounts}" class="client-card">
-            <h3 th:text="'Счет № ' + ${account.idAccount}">Номер счета</h3>
-            <div class="info-list">
-                <div class="info">
-                    <label>Владелец:</label>
-                    <span th:text="${account.idClient.firstName} + ' ' + ${account.idClient.lastName}"></span>
-                </div>
-                <div class="info">
-                    <label>Паспорт:</label>
-                    <span th:text="${account.idClient.numberPasport}"></span>
-                </div>
-                <div class="info">
-                    <label>Баланс:</label>
-                    <span th:text="${account.amount}">Баланс</span>
-                </div>
-                <div class="info">
-                    <label>Валюта:</label>
-                    <span th:text="${account.currency}">Валюта</span>
-                </div>
-                <div class="info">
-                    <label>Статус:</label>
-                    <span th:text="${account.status}">Статус</span>
-                </div>
 
-                <div th:if="${account.status == 'od' and clientDeposits[account.idAccount] != null}" class="deposit-container">
-                    <h4>Привязанный депозит</h4>
+    <div class ="two-columns" style="justify-content: flex-start; align-items: flex-start; flex-wrap: nowrap;">
+        <aside class="sidebar">
+            <ul>
+                <li><a th:href="@{/admin/deposit}" th:classappend="${activeSection=='deposit'}?'active':''" onclick="showSection('deposit')">Создать вклад</a></li>
+                <li><a th:href="@{/admin/delete}" th:classappend="${activeSection=='accDep'}?'active':''" onclick="showSection('accDep')">Удалить вклад</a></li>
+                <li><a th:href="@{/admin/clientDel}" th:classappend="${activeSection=='clientDel'}?'active':''" onclick="showSection('clientDel')">Удалить клиента</a></li>
+                <li><a th:href="@{/admin/clientAdd}" th:classappend="${activeSection=='clientADD'}?'active':''" onclick="showSection('clientADD')">Добавить клиента</a></li>
+                <li><a th:href="@{/admin/accountDel}" th:classappend="${activeSection=='accDel'}?'active':''" onclick="showSection('accDel')">Удалить счет</a></li>
+                <li><a th:href="@{/admin/topUp}" th:classappend="${activeSection=='accADD'}?'active':''" onclick="showSection('accADD')">Пополнить счет</a></li>
+            </ul>
+        </aside>
+        <div class="client-list">
+            <div th:if="${errorMessage}" class="error-message">
+                <p th:text="${errorMessage}"></p>
+            </div>
+            <div th:each="account : ${accounts}" class="client-card">
+                <h3 th:text="'Счет № ' + ${account.idAccount}">Номер счета</h3>
+                <div class="info-list">
                     <div class="info">
-                        <label>ID депозита:</label>
-                        <span th:text="${clientDeposits[account.idAccount].idCD}"></span>
+                        <label>Владелец:</label>
+                        <span th:text="${account.idClient.firstName} + ' ' + ${account.idClient.lastName}"></span>
                     </div>
                     <div class="info">
-                        <label>Статус депозита:</label>
-                        <span th:text="${clientDeposits[account.idAccount].depositStatus}"></span>
+                        <label>Паспорт:</label>
+                        <span th:text="${account.idClient.numberPasport}"></span>
                     </div>
                     <div class="info">
-                        <label>Первоначальная сумма:</label>
-                        <span th:text="${clientDeposits[account.idAccount].initialAmount}"></span>
-                    </div>
-<!--                    <div class="info">-->
-<!--                        <label>Срок в днях:</label>-->
-<!--                        <span th:text="${clientDeposits[account.idAccount].timeInDays}"></span>-->
-<!--                    </div>-->
-                    <div class="info">
-                        <label>Дата открытия:</label>
-                        <span th:text="${#dates.format(clientDeposits[account.idAccount].openDate, 'dd.MM.yyyy')}"></span>
+                        <label>Баланс:</label>
+                        <span th:text="${account.amount}">Баланс</span>
                     </div>
                     <div class="info">
-                        <label>Тип вклада:</label>
-                        <span th:text="${clientDeposits[account.idAccount].idDeposit.idDeposit}"></span>
+                        <label>Валюта:</label>
+                        <span th:text="${account.currency}">Валюта</span>
                     </div>
                     <div class="info">
-                        <label>Ставка:</label>
-                        <span th:text="${clientDeposits[account.idAccount].idDeposit.rate}"></span>
+                        <label>Статус:</label>
+                        <span th:text="${account.status}">Статус</span>
                     </div>
 
-                    <form th:action="@{'/admin/closeDeposit/' + ${clientDeposits[account.idAccount].idCD}}" method="post">
-                        <input type="hidden" name="accountId" th:value="${account.idAccount}"/>
+                    <div th:if="${account.status == 'od' and clientDeposits[account.idAccount] != null}" class="deposit-container">
+                        <h4>Привязанный депозит</h4>
                         <div class="info">
-                        <label for="targetAccountId">Выберите счет для перевода средств:</label>
+                            <label>ID депозита:</label>
+                            <span th:text="${clientDeposits[account.idAccount].idCD}"></span>
                         </div>
-                        <div class="custom-select">
-                            <select name="targetAccountId" id="targetAccountId">
-                                <option value="">Выберите счет</option>
-                                <option th:each="acc : ${availableAccountsMap[account.idAccount]}"
-                                        th:value="${acc.idAccount}"
-                                        th:text="'Счет №' + ${acc.idAccount} + ' (' + ${acc.amount} + ' ' + ${acc.currency} + ')'">
-                                </option>
-                            </select>
+                        <div class="info">
+                            <label>Статус депозита:</label>
+                            <span th:text="${clientDeposits[account.idAccount].depositStatus}"></span>
                         </div>
-                        <button type="submit" class="btn close-btn"
-                                th:classappend="${clientDeposits[account.idAccount].depositStatus == 'c'} ? 'disabled-button' : ''"
-                                th:disabled="${clientDeposits[account.idAccount].depositStatus == 'c'}">
-                            Закрыть депозит
-                        </button>
-                    </form>
+                        <div class="info">
+                            <label>Первоначальная сумма:</label>
+                            <span th:text="${clientDeposits[account.idAccount].initialAmount}"></span>
+                        </div>
+    <!--                    <div class="info">-->
+    <!--                        <label>Срок в днях:</label>-->
+    <!--                        <span th:text="${clientDeposits[account.idAccount].timeInDays}"></span>-->
+    <!--                    </div>-->
+                        <div class="info">
+                            <label>Дата открытия:</label>
+                            <span th:text="${#dates.format(clientDeposits[account.idAccount].openDate, 'dd.MM.yyyy')}"></span>
+                        </div>
+                        <div class="info">
+                            <label>Тип вклада:</label>
+                            <span th:text="${clientDeposits[account.idAccount].idDeposit.idDeposit}"></span>
+                        </div>
+                        <div class="info">
+                            <label>Ставка:</label>
+                            <span th:text="${clientDeposits[account.idAccount].idDeposit.rate}"></span>
+                        </div>
+
+                        <form th:action="@{'/admin/closeDeposit/' + ${clientDeposits[account.idAccount].idCD}}" method="post">
+                            <input type="hidden" name="accountId" th:value="${account.idAccount}"/>
+                            <div class="info">
+                            <label for="targetAccountId">Выберите счет для перевода средств:</label>
+                            </div>
+                            <div class="custom-select">
+                                <select name="targetAccountId" id="targetAccountId">
+                                    <option value="">Выберите счет</option>
+                                    <option th:each="acc : ${availableAccountsMap[account.idAccount]}"
+                                            th:value="${acc.idAccount}"
+                                            th:text="'Счет №' + ${acc.idAccount} + ' (' + ${acc.amount} + ' ' + ${acc.currency} + ')'">
+                                    </option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn close-btn"
+                                    th:classappend="${clientDeposits[account.idAccount].depositStatus == 'c'} ? 'disabled-button' : ''"
+                                    th:disabled="${clientDeposits[account.idAccount].depositStatus == 'c'}">
+                                Закрыть депозит
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-
             <div th:if="${errorId == account.idAccount}" class="error-message">
                 <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
             </div>
@@ -123,14 +131,34 @@
 
     </div>
     </main>
-    <footer>
+    <footer class="site-footer">
         <div class="footer-content">
-            <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
-            <ul class="footer-links">
-                <li><a href="#">Контакты</a></li>
-            </ul>
+            <p>&copy; 2025 Bank Of Universe. Все права не защищены.</p>
+            <div class="footer-column">
+                <div class="footer-column">
+                    <h4>Создатель</h4>
+                    <p>ФИО: Лычешков Владислав Александрович</p>
+                    <p>Группа: ПМ-41 4Б01</p>
+                    <p>Email: 100479b@mail.ru </p>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>ВоГу</h4>
+                <ul class="footer-links">
+                    <li>
+                        <img src="/icons/vogu.png" alt="" class="footer-icon">
+                        <a href="https://vogu35.ru/institut/imekn">ВоГу</a>
+                    </li>
+                    <li>
+                        <img src="/icons/vk.png" alt="" class="footer-icon">
+                        <a href="https://vk.com/vogu35">VK</a>
+                    </li>
+                </ul>
+                <p>Адрес: г. Вологда, ул. Галкинская, 3</p>
+            </div>
         </div>
     </footer>
 </div>
+<script th:src="@{/js/script.js}" defer></script>
 </body>
 </html>

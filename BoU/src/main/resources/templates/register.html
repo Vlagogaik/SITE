@@ -4,8 +4,33 @@
     <meta charset="UTF-8">
     <title>Bank Of Universe/Регистрация</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/style/cursor.css}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const drop = document.querySelector('.navbar-links .dropdown');
+          const btn  = drop.querySelector('.dropbtn');
+
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (drop.classList.contains('open')) {
+              drop.classList.remove('open');
+            } else {
+              document.querySelectorAll('.navbar-links .dropdown')
+                      .forEach(d => d.classList.remove('open'));
+              drop.classList.add('open');
+            }
+          });
+
+          document.addEventListener('click', function(e) {
+            if (!drop.contains(e.target)) {
+              drop.classList.remove('open');
+            }
+          });
+        });
+    </script>
 </head>
 <body>
+<div id="cursor"><div id="circle"></div></div>
     <div class="wrapper">
         <header>
             <div class="navbar">
@@ -14,13 +39,13 @@
                 </div>
                 <ul class="navbar-links">
                     <li><a th:href="@{/user/transactions}">Переводы</a></li>
-                    <li><a th:href="@{/allDeposits}">Вклады</a></li>
-                    <li><a href="#">Карты</a></li>
-                    <!--                    <li><a th:href="#">Переводы</a></li>-->
-                    <!--                    <li><a th:href="#">Вклады</a></li>-->
-                    <!--                    <li><a th:href="#">Карты</a></li>-->
-                    <!--                    <li><a th:href="#">О банке</a></li>-->
-                    <li><a href="#">О банке</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">Услуги ▾</a>
+                        <ul class="dropdown-content">
+                            <li><a th:href="@{/allDeposits}">Вклады</a></li>
+                            <li><a th:href="@{/cards}">Карты</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <div class="navbar-register">
                     <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
@@ -84,14 +109,34 @@
             </div>
         </div>
 
-        <footer>
+        <footer class="site-footer">
             <div class="footer-content">
-                <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
-                <ul class="footer-links">
-                    <li><a href="#">Контакты</a></li>
-                </ul>
+                <p>&copy; 2025 Bank Of Universe. Все права не защищены.</p>
+                <div class="footer-column">
+                    <div class="footer-column">
+                        <h4>Создатель</h4>
+                        <p>ФИО: Лычешков Владислав Александрович</p>
+                        <p>Группа: ПМ-41 4Б01</p>
+                        <p>Email: 100479b@mail.ru </p>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>ВоГу</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <img src="/icons/vogu.png" alt="" class="footer-icon">
+                            <a href="https://vogu35.ru/institut/imekn">ВоГу</a>
+                        </li>
+                        <li>
+                            <img src="/icons/vk.png" alt="" class="footer-icon">
+                            <a href="https://vk.com/vogu35">VK</a>
+                        </li>
+                    </ul>
+                    <p>Адрес: г. Вологда, ул. Галкинская, 3</p>
+                </div>
             </div>
         </footer>
 </div>
+<script th:src="@{/js/script.js}" defer></script>
 </body>
 </html>

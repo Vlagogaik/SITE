@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> {
                     auth.requestMatchers("/home", "/register", "/signIn", "/clients/signIn", "/clients/register", "/", "/style/**", "/favicon.ico", "/error", "/allDeposits", "/cards"
-                            , "/aboutBank").permitAll();
+                            , "/aboutBank", "/icons/**", "/js/**").permitAll();
                     auth.requestMatchers("/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/user/** , /account/**").hasAnyRole("USER", "ADMIN");
 

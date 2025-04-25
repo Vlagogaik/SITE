@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Успешный перевод</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/style/cursor.css}">
 </head>
 <body>
+<div id="cursor"><div id="circle"></div></div>
 <div class="success-page">
     <div class="success-icon">✅</div>
     <div class="transaction-details">
@@ -24,5 +26,6 @@
     </div>
 
 </div>
+<script th:src="@{/js/script.js}" defer></script>
 </body>
 </html>

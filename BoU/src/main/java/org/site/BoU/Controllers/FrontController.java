@@ -278,6 +278,9 @@ public class FrontController {
     }
     @RequestMapping("user/profile")
     public String profile(Model model, HttpSession session) {
+        if (!model.containsAttribute("activeSection")) {
+            model.addAttribute("activeSection", "personal");
+        }
         String login = (String) session.getAttribute("login");
         if (login != null) {
             Clients client = clientService.findByLogin(login);

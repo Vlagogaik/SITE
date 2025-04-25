@@ -4,20 +4,50 @@
     <meta charset="UTF-8">
     <title>Bank Of Universe</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/style/cursor.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&amp;family=Mukta:wght@400;500;600;700;800&amp;family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&amp;family=Red+Rose:wght@300;400;700&amp;family=Sora:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const drop = document.querySelector('.navbar-links .dropdown');
+          const btn  = drop.querySelector('.dropbtn');
+
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (drop.classList.contains('open')) {
+              drop.classList.remove('open');
+            } else {
+              document.querySelectorAll('.navbar-links .dropdown')
+                      .forEach(d => d.classList.remove('open'));
+              drop.classList.add('open');
+            }
+          });
+
+          document.addEventListener('click', function(e) {
+            if (!drop.contains(e.target)) {
+              drop.classList.remove('open');
+            }
+          });
+        });
+    </script>
 </head>
 <body>
+<div id="cursor"><div id="circle"></div></div>
 <div class="wrapper">
     <header>
         <div class="navbar">
             <div class="navbar-logo">
-                <a th:href="@{/home}">Bank Of Universe</a>
+                <a th:href="@{/home}" class="a-link" >Bank Of Universe</a>
             </div>
             <ul class="navbar-links">
-                <li><a th:href="@{/user/transactions}">Переводы</a></li>
-                <li><a th:href="@{/allDeposits}">Вклады</a></li>
-                <li><a th:href="@{/cards}">Карты</a></li>
-                <!--                    <li><a th:href="#">О банке</a></li>-->
-                <li><a href="#">О банке</a></li>
+                <li><a th:href="@{/user/transactions}"  class="a-link">Переводы</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn a-link">Услуги ▾</a>
+                    <ul class="dropdown-content">
+                        <li><a th:href="@{/allDeposits}"  class="a-link">Вклады</a></li>
+                        <li><a th:href="@{/cards}"  class="a-link">Карты</a></li>
+                    </ul>
+                </li>
             </ul>
             <div class="navbar-register">
                 <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
@@ -25,17 +55,118 @@
         </div>
     </header>
     <main>
+        <div class="hero-banner">
+            <h1>Добро пожаловать в <span class="highlight">Bank Of Universe</span></h1>
+        </div>
 
+        <div class="two-columns">
+            <div class="home-card">
+                <h2>О нас</h2>
+                <p><strong>Bank of Universe</strong> – ваш надежный финансовый партнер!</p>
+                <p>Основан в 2024 году в Вологде, банк предлагает инновационные решения, высокий уровень безопасности и цифровые сервисы нового поколения.</p>
+                <p>Наши услуги: персональные счета, выгодные вклады, карты и инвестиции. Управление финансами стало проще, быстрее и надёжнее.</p>
+            </div>
+            <div class="home-card warning-card">
+                <h2>Предупреждение</h2>
+                <p>
+                    Настоящий веб-сайт создан в рамках выпускной квалификационной работы. Он не является официальным банковским продуктом и используется исключительно в учебных целях. Представленные материалы и сервисы не обладают юридической силой. Администрация не несёт ответственности за последствия использования данного ресурса.
+                </p>
+            </div>
+        </div>
+
+        <div class="two-columns">
+            <div class="map-card">
+                <h2>Где мы находимся</h2>
+                <div class="map-container">
+                    <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/21/vologda/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Вологда</a><a href="https://yandex.ru/maps/21/vologda/house/galkinskaya_ulitsa_3/Z0AYfg5oSEYDQFtjfX5weH1qbA==/?from=mapframe&ll=39.898153%2C59.219188&source=mapframe&um=constructor%3A6b8e1f10e63cb1cbb9ef19106b38d0dc7f45e84c0bb43881a9d64dff11f60c93&utm_medium=mapframe&utm_source=maps&z=17" style="color:#eee;font-size:12px;position:absolute;top:14px;">Галкинская улица, 3 на карте Вологды — Яндекс Карты</a><iframe src="https://yandex.ru/map-widget/v1/?from=mapframe&ll=39.898153%2C59.219188&mode=whatshere&source=mapframe&um=constructor%3A6b8e1f10e63cb1cbb9ef19106b38d0dc7f45e84c0bb43881a9d64dff11f60c93&utm_source=mapframe&whatshere%5Bpoint%5D=39.898134%2C59.219198&whatshere%5Bzoom%5D=17&z=17" width="300" height="300" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
+                </div>
+            </div>
+            <div class="home-card">
+                <h2>Создатель</h2>
+                <p><strong>ФИО:</strong> Лычешков Владислав Александрович</p>
+                <p><strong>Группа:</strong> ПМ-41 4Б01</p>
+                <p><strong>Email:</strong> <a href="mailto:100479b@mail.ru"  class="a-link" >100479b@mail.ru</a></p>
+
+                <h2 style="margin-top: 20px;margin-bottom: 20px;">Где нас найти</h2>
+
+                <ul class="footer-links">
+                    <li>
+                        <img src="/icons/vogu.png" alt="ВоГУ" class="footer-icon">
+                        <a href="https://vogu35.ru/institut/imekn" class="a-link" target="_blank">ВоГУ</a>
+                    </li>
+                    <li>
+                        <img src="/icons/vk.png" alt="VK" class="footer-icon">
+                        <a href="https://vk.com/vogu35" class="a-link" target="_blank">VK</a>
+                    </li>
+                </ul>
+                <p><strong>Адрес:</strong> г. Вологда, ул. Галкинская, 3</p>
+            </div>
+        </div>
+        <div class="two-columns">
+            <section class="faq-section">
+                <h2>Часто задаваемые вопросы</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <h4>Как войти/зарегистрироваться?</h4>
+                        <p>Для этого необходимо в правом верхнем углу нажать на кнопку "Личный кабинет" и если вы не авторизовались в системе то вас автоматически переадресует на страницу входа.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Как выйти из аккаунта?</h4>
+                        <p>Переходите в личный кабинет и рядом с кнопкой "Личный кабинет" появляется кнопка "выйти"</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Как оформить вклад?</h4>
+                        <p>Для этого необходимо зарегистрироваться или войти в личный кабинет, в разделе "Услуги" -> "Вклады", выбрать интересующий вклад и заполнив поля, нажать кнопку «Оформить». Обратите внимание, что надписи в красном обромлении указывают на опции вклада. Посмотреть ваш вклад и его статус вы можете в "Личном кабинете" во вкладке "Вклады"</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Как переводить деньги?</h4>
+                        <p>Пополнение счёта возможно через раздел "Переводы", указав нужный счёт и сумму. Так же важно, что операция перевод позволяет не только переводить средства на другие счета других клиентов, но и позволяет переводить средства на ваши счета, а так же вклады, если тип вашего вклада имеет опцию "Пополнение"..</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Как закрыть вклад?</h4>
+                        <p>После окончания срока вклада вы можете выбрать счёт для зачисления средств и нажать кнопку «Закрыть вклад» в разделе профиля. Или вы можете закрыть вклад досрочно, но тогда вы получите всего 1% доходности вашего вклада.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Безопасно ли использовать сайт?</h4>
+                        <p>Сайт предназначен исключительно для учебных целей. Все действия имитируют поведение настоящего банка, но не имеют юридической силы.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Как пополнить счет?</h4>
+                        <p>В связи с тем, что сайт не использует реальную валюту, то пополнение происходит только через панель управления администратора, или задать сумму напрямую в базе данных. Но не переживайте, каждый новый зарегистрированный счет получает по умолчанию 1000 единиц какой либо доступной валюты.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
     </main>
-
-    <footer>
+    <footer class="site-footer">
         <div class="footer-content">
-            <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
-            <ul class="footer-links">
-                <li><a href="#">Контакты</a></li>
-            </ul>
+            <p>&copy; 2025 Bank Of Universe. Все права не защищены.</p>
+            <div class="footer-column">
+                <div class="footer-column">
+                    <h4>Создатель</h4>
+                    <p>ФИО: Лычешков Владислав Александрович</p>
+                    <p>Группа: ПМ-41 4Б01</p>
+                    <p>Email: 100479b@mail.ru </p>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>ВоГу</h4>
+                <ul class="footer-links">
+                    <li>
+                        <img src="/icons/vogu.png" alt="" class="footer-icon">
+                        <a href="https://vogu35.ru/institut/imekn" class="a-link">ВоГу</a>
+                    </li>
+                    <li>
+                        <img src="/icons/vk.png" alt="" class="footer-icon">
+                        <a href="https://vk.com/vogu35" class="a-link">VK</a>
+                    </li>
+                </ul>
+                <p>Адрес: г. Вологда, ул. Галкинская, 3</p>
+            </div>
         </div>
     </footer>
 </div>
+<script th:src="@{/js/script.js}" defer></script>
 </body>
 </html>

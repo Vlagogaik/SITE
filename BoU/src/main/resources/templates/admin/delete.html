@@ -4,24 +4,17 @@
     <meta charset="UTF-8">
     <title>Bank Of Universe/Вклады</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" th:href="@{/style/cursor.css}">
 </head>
 <body>
+<div id="cursor"><div id="circle"></div></div>
 <div class="wrapper">
     <header>
         <div class="navbar">
             <div class="navbar-logo">
                 <a th:href="@{/home}">Bank Of Universe</a>
             </div>
-            <ul class="navbar-links">
-                <li><a th:href="@{/user/transactions}">Переводы</a></li>
-                <li><a th:href="@{/allDeposits}">Вклады</a></li>
-                <li><a href="#">Карты</a></li>
-                <!--                    <li><a th:href="#">Переводы</a></li>-->
-                <!--                    <li><a th:href="#">Вклады</a></li>-->
-                <!--                    <li><a th:href="#">Карты</a></li>-->
-                <!--                    <li><a th:href="#">О банке</a></li>-->
-                <li><a href="#">О банке</a></li>
-            </ul>
+
             <div class="navbar-register">
                 <a href="/logout" class="logout-btn">Выйти</a>
                 <a sec:authorize="isAuthenticated()" th:href="@{/user/profile}" class="register-btn">Личный кабинет</a>
@@ -29,7 +22,21 @@
         </div>
     </header>
     <main>
-    <div class="deposit-list">
+
+        <div class ="two-columns" style="justify-content: flex-start; align-items: flex-start;">
+        <aside class="sidebar">
+            <ul>
+                <li><a th:href="@{/admin/deposit}" th:classappend="${activeSection=='deposit'}?'active':''" onclick="showSection('deposit')">Создать вклад</a></li>
+                <li><a th:href="@{/admin/delete}" th:classappend="${activeSection=='accDep'}?'active':''" onclick="showSection('accDep')">Удалить вклад</a></li>
+                <li><a th:href="@{/admin/clientDel}" th:classappend="${activeSection=='clientDel'}?'active':''" onclick="showSection('clientDel')">Удалить клиента</a></li>
+                <li><a th:href="@{/admin/clientAdd}" th:classappend="${activeSection=='clientADD'}?'active':''" onclick="showSection('clientADD')">Добавить клиента</a></li>
+                <li><a th:href="@{/admin/accountDel}" th:classappend="${activeSection=='accDel'}?'active':''" onclick="showSection('accDel')">Удалить счет</a></li>
+                <li><a th:href="@{/admin/topUp}" th:classappend="${activeSection=='accADD'}?'active':''" onclick="showSection('accADD')">Пополнить счет</a></li>
+            </ul>
+        </aside>
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
         <div th:each="deposit : ${deposits}" class="deposit-card">
             <h3 th:text="${deposit.name}">Название депозита</h3>
             <div class="info">
@@ -70,17 +77,35 @@
             </form>
         </div>
     </div>
-</div>
-
 </main>
-<footer>
+<footer class="site-footer">
     <div class="footer-content">
-        <p>&copy; 2024 Bank Of Universe. Все права не защищены.</p>
-        <ul class="footer-links">
-            <li><a href="#">Контакты</a></li>
-        </ul>
+        <p>&copy; 2025 Bank Of Universe. Все права не защищены.</p>
+        <div class="footer-column">
+            <div class="footer-column">
+                <h4>Создатель</h4>
+                <p>ФИО: Лычешков Владислав Александрович</p>
+                <p>Группа: ПМ-41 4Б01</p>
+                <p>Email: 100479b@mail.ru </p>
+            </div>
+        </div>
+        <div class="footer-column">
+            <h4>ВоГу</h4>
+            <ul class="footer-links">
+                <li>
+                    <img src="/icons/vogu.png" alt="" class="footer-icon">
+                    <a href="https://vogu35.ru/institut/imekn">ВоГу</a>
+                </li>
+                <li>
+                    <img src="/icons/vk.png" alt="" class="footer-icon">
+                    <a href="https://vk.com/vogu35">VK</a>
+                </li>
+            </ul>
+            <p>Адрес: г. Вологда, ул. Галкинская, 3</p>
+        </div>
     </div>
 </footer>
 </div>
+<script th:src="@{/js/script.js}" defer></script>
 </body>
 </html>
