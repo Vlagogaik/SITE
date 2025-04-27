@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.site.BoU.Entities.*;
 import org.site.BoU.Repositories.AccountsRep;
+import org.site.BoU.Repositories.CourseRep;
 import org.site.BoU.Services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -42,6 +44,8 @@ public class DepositController {
     private ClientDepositService clientDepositService;
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private CourseRep courseRep;
 
     @PostMapping("prolongDeposit/{id}")
     public String prolongDeposit(
@@ -101,9 +105,69 @@ public class DepositController {
             return "user/allDepositsUser";
         }
 
+        if (!account.getCurrency().equals("RUB")) {
+            String rub = "RUB";
+            Optional<Course> optionalRate =
+                    courseRep.findByFromCurrencyAndToCurrency(account.getCurrency(), rub);
+
+            if (optionalRate.isEmpty()) {
+                logger.info("Транзакция. Не найден курс из fromCurrency={}, toCurrency={}", account.getCurrency(), rub);
+                optionalRate =
+                        courseRep.findByFromCurrencyAndToCurrency(rub, account.getCurrency());
+                if (optionalRate.isEmpty()) {throw new RuntimeException("Не найден курс из " + account.getCurrency() + " в " + rub);}
+            }
+            double rate = optionalRate.get().getRate();
+            double usdAmount = amount*rate;
+            logger.info("rate {}. amount {}" , rate, usdAmount);
+            if(usdAmount < deposit.getMinAmount()){
+                model.addAttribute("error", "Не удовлетворяет минимальным условиям");
+                List<Deposits> deposits = depositService.getAllDeposits();
+                model.addAttribute("deposits", deposits);
+                model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+                return "user/allDepositsUser";
+            }
+            if(usdAmount > deposit.getMinAmount()){
+                model.addAttribute("error", "Не удовлетворяет максимальным условиям");
+                List<Deposits> deposits = depositService.getAllDeposits();
+                model.addAttribute("deposits", deposits);
+                model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+                return "user/allDepositsUser";
+            }
+        }else{
+            if(amount < deposit.getMinAmount()){
+                model.addAttribute("error", "Не удовлетворяет минимальным условиям");
+                List<Deposits> deposits = depositService.getAllDeposits();
+                model.addAttribute("deposits", deposits);
+                model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+                return "user/allDepositsUser";
+            }
+            if(amount > deposit.getMinAmount()){
+                model.addAttribute("error", "Не удовлетворяет максимальным условиям");
+                List<Deposits> deposits = depositService.getAllDeposits();
+                model.addAttribute("deposits", deposits);
+                model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+                return "user/allDepositsUser";
+            }
+        }
+
+        LocalDate today = LocalDate.now();
+        LocalDate close = closeDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        long monthsBetween = ChronoUnit.MONTHS.between(today.withDayOfMonth(1), close.withDayOfMonth(1));
+        if (monthsBetween < deposit.getMinTermDays() || monthsBetween > deposit.getMaxTermDays()) {
+            model.addAttribute("error", String.format(
+                    "Срок вклада должен быть от %d до %d месяцев. Вы выбрали: %d",
+                    deposit.getMinTermDays(), deposit.getMaxTermDays(), monthsBetween));
+            model.addAttribute("deposits", depositService.getAllDeposits());
+            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            return "user/allDepositsUser";
+        }
+
         Accounts newAccount = new Accounts();
         newAccount.setIdClient(client);
-        newAccount.setAmount(amount);
+        newAccount.setAmount(0);
         newAccount.setCurrency(currency);
         newAccount.setStatus("od");
         accountsRep.save(newAccount);
