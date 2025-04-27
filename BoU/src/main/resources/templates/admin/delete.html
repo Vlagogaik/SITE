@@ -71,10 +71,29 @@
                 <label>Максимальная сумма:</label>
                 <span th:text="${deposit.maxAmount}">Макс. сумма</span>
             </div>
-            <form th:action="@{'/admin/deposit/delete/' + ${deposit.idDeposit}}" method="post">
-                <input type="hidden" th:value="${deposit.idDeposit}" name="idDeposit" />
-                <button type="submit" class="btn delete-btn">Удалить</button>
-            </form>
+            <div>
+                <form th:action="@{'/admin/deposit/delete/' + ${deposit.idDeposit}}" method="post">
+                    <input type="hidden" th:value="${deposit.idDeposit}" name="idDeposit" />
+                    <button
+                            type="submit"
+                            class="btn delete-btn"
+                            th:disabled="${deposit.depositStatus == 'c'}"
+                            th:classappend="${deposit.depositStatus == 'c'} ? ' disabled-button' : ''">
+                        Удалить
+                    </button>
+                </form>
+                <form th:action="@{'/admin/deposit/activate/' + ${deposit.idDeposit}}" method="post"
+                      th:if="${deposit.depositStatus != 'o'}">
+                    <input type="hidden" th:value="${deposit.idDeposit}" name="idDeposit" />
+                    <button
+                            type="submit"
+                            class="btn activate-btn"
+                            th:disabled="${deposit.depositStatus == 'o'}"
+                            th:classappend="${deposit.depositStatus == 'o'} ? ' disabled-button' : ''">
+                        Активировать
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </main>

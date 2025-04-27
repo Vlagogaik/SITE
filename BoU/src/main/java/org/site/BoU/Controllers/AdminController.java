@@ -198,13 +198,31 @@ public class AdminController {
             return "admin/deposit";
         }
     }
+
     @PostMapping("deposit/delete/{id}")
     public String deleteDeposit(@PathVariable Long id, Model model, HttpSession session) {
         try {
-            depositService.deleteById(id);
+            Deposits deposits = depositService.findByIdDeposit(id);
+            deposits.setDepositStatus("c");
+            depositService.save(deposits);
             model.addAttribute("successMessage", "Вклад успешно удален.");
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Ошибка при удалении вклада.");
+        }
+        return "redirect:/admin/delete";
+    }
+
+    @PostMapping("deposit/activate/{id}")
+    public String activateDeposit(@PathVariable("id") Long depositId, Model model) {
+        Deposits deposit = depositService.findByIdDeposit(depositId);
+        if (deposit == null) {
+            model.addAttribute("errorMessage", "Депозит не найден");
+        } else if ("o".equals(deposit.getDepositStatus())) {
+            model.addAttribute("errorMessage", "Депозит уже активен");
+        } else {
+            deposit.setDepositStatus("o");
+            depositService.save(deposit);
+            model.addAttribute("successMessage", "Депозит успешно активирован");
         }
         return "redirect:/admin/delete";
     }
