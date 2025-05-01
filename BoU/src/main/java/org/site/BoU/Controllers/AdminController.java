@@ -18,7 +18,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,7 +45,7 @@ public class AdminController {
     @PostMapping("closeDeposit/{id}")
     public String closeDeposit(@PathVariable("id") Long depositId,
                                @RequestParam("accountId") Long accountId,
-                               @RequestParam("targetAccountId") Long targetAccountId,
+                               @RequestParam(value = "targetAccountId", required = false) Long targetAccountId,
                                Model model) {
         ClientDeposit clientDeposit = clientDepositService.findById(depositId);
         List<Accounts> accounts = accountsService.findAll();
@@ -51,16 +53,82 @@ public class AdminController {
         if (clientDeposit == null || clientDeposit.getDepositStatus().equals("c")) {
             model.addAttribute("errorId", accountId);
             model.addAttribute("errorMessage", "Невозможно закрыть депозит: он уже закрыт или не найден.");
+            model.addAttribute("accounts", accountsService.findAll());
+            model.addAttribute("clients", clientService.findByLogin(clientDeposit.getIdAccount().getIdClient().getLogin()));
+            model.addAttribute("accounts", accounts);
+            Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+            Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+            for (Accounts account : accounts) {
+                ClientDeposit AvaibleclientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+                if (AvaibleclientDeposit != null) {
+                    clientDepositsMap.put(account.getIdAccount(), AvaibleclientDeposit);
+                    Clients owner = account.getIdClient();
+                    if ((owner != null)) {
+                        List<Accounts> ownerAccounts = accountsService.findAllByClientId(owner);
+                        List<Accounts> availableAccounts = ownerAccounts.stream()
+                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                                .filter(acc -> "o".equals(acc.getStatus()))
+                                .collect(Collectors.toList());
+                        availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+                    }
+                }
+            }
+            model.addAttribute("clientDeposits", clientDepositsMap);
+            model.addAttribute("availableAccountsMap", availableAccountsMap);
             return "admin/accountDel";
         }
         Accounts depositAccount = clientDeposit.getIdAccount();
         if (depositAccount == null) {
             model.addAttribute("errorMessage", "Ошибка: у вклада нет привязанного счета.");
+            model.addAttribute("accounts", accountsService.findAll());
+            model.addAttribute("clients", clientService.findByLogin(clientDeposit.getIdAccount().getIdClient().getLogin()));
+            model.addAttribute("accounts", accounts);
+            Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+            Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+            for (Accounts account : accounts) {
+                ClientDeposit AvaibleclientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+                if (AvaibleclientDeposit != null) {
+                    clientDepositsMap.put(account.getIdAccount(), AvaibleclientDeposit);
+                    Clients owner = account.getIdClient();
+                    if ((owner != null)) {
+                        List<Accounts> ownerAccounts = accountsService.findAllByClientId(owner);
+                        List<Accounts> availableAccounts = ownerAccounts.stream()
+                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                                .filter(acc -> "o".equals(acc.getStatus()))
+                                .collect(Collectors.toList());
+                        availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+                    }
+                }
+            }
+            model.addAttribute("clientDeposits", clientDepositsMap);
+            model.addAttribute("availableAccountsMap", availableAccountsMap);
             return "admin/accountDel";
         }
         Clients client = depositAccount.getIdClient();
         if (client == null) {
             model.addAttribute("errorMessage", "Ошибка: не найден владелец вклада.");
+            model.addAttribute("accounts", accountsService.findAll());
+            model.addAttribute("clients", clientService.findByLogin(clientDeposit.getIdAccount().getIdClient().getLogin()));
+            model.addAttribute("accounts", accounts);
+            Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+            Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+            for (Accounts account : accounts) {
+                ClientDeposit AvaibleclientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+                if (AvaibleclientDeposit != null) {
+                    clientDepositsMap.put(account.getIdAccount(), AvaibleclientDeposit);
+                    Clients owner = account.getIdClient();
+                    if ((owner != null)) {
+                        List<Accounts> ownerAccounts = accountsService.findAllByClientId(owner);
+                        List<Accounts> availableAccounts = ownerAccounts.stream()
+                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                                .filter(acc -> "o".equals(acc.getStatus()))
+                                .collect(Collectors.toList());
+                        availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+                    }
+                }
+            }
+            model.addAttribute("clientDeposits", clientDepositsMap);
+            model.addAttribute("availableAccountsMap", availableAccountsMap);
             return "admin/accountDel";
         }
         List<Accounts> clientAccounts = accountsService.findAllByClientId(client);
@@ -74,6 +142,28 @@ public class AdminController {
 
         if (targetAccount == null) {
             model.addAttribute("errorMessage", "Ошибка: у клиента нет активных счетов для перевода денег.");
+            model.addAttribute("accounts", accountsService.findAll());
+            model.addAttribute("clients", clientService.findByLogin(clientDeposit.getIdAccount().getIdClient().getLogin()));
+            model.addAttribute("accounts", accounts);
+            Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+            Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+            for (Accounts account : accounts) {
+                ClientDeposit AvaibleclientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+                if (AvaibleclientDeposit != null) {
+                    clientDepositsMap.put(account.getIdAccount(), AvaibleclientDeposit);
+                    Clients owner = account.getIdClient();
+                    if ((owner != null)) {
+                        List<Accounts> ownerAccounts = accountsService.findAllByClientId(owner);
+                        List<Accounts> availableAccounts = ownerAccounts.stream()
+                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                                .filter(acc -> "o".equals(acc.getStatus()))
+                                .collect(Collectors.toList());
+                        availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+                    }
+                }
+            }
+            model.addAttribute("clientDeposits", clientDepositsMap);
+            model.addAttribute("availableAccountsMap", availableAccountsMap);
             return "admin/accountDel";
         }
 
@@ -99,21 +189,44 @@ public class AdminController {
 
     @PostMapping("account/delete/{id}")
     public String deleteAccount(@PathVariable Long id, Model model, HttpSession session) {
-        Accounts acc = accountsService.findById(id);
-        ClientDeposit clientDepositOpt = clientDepositService.findByAccountId(acc.getIdAccount());
+        Accounts accountDel = accountsService.findById(id);
+        ClientDeposit clientDepositOpt = clientDepositService.findByAccountId(accountDel.getIdAccount());
+        model.addAttribute("accounts", accountsService.findAll());
+        model.addAttribute("clients", clientService.findByLogin(clientDepositOpt.getIdAccount().getIdClient().getLogin()));
+        Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+        Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+        for (Accounts account : accountsService.findAll()) {
+            ClientDeposit AvaibleclientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+            if (AvaibleclientDeposit != null) {
+                clientDepositsMap.put(account.getIdAccount(), AvaibleclientDeposit);
+                Clients owner = account.getIdClient();
+                if ((owner != null)) {
+                    List<Accounts> ownerAccounts = accountsService.findAllByClientId(owner);
+                    List<Accounts> availableAccounts = ownerAccounts.stream()
+                            .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                            .filter(acc -> "o".equals(acc.getStatus()))
+                            .collect(Collectors.toList());
+                    availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+                }
+            }
+        }
+        model.addAttribute("clientDeposits", clientDepositsMap);
+        model.addAttribute("availableAccountsMap", availableAccountsMap);
+
         if (clientDepositOpt != null) {
-            model.addAttribute("account", acc);
+            model.addAttribute("account", accountDel);
             model.addAttribute("clientDeposit", clientDepositOpt);
         }
-        if (!accountsService.isAccount(acc)){
+        if (!accountsService.isAccount(accountDel)){
             model.addAttribute("errorId", id);
             model.addAttribute("errorMessage", "Невозможно удалить счет: на него ссылается открытый вклад.");
             model.addAttribute("accounts", accountsService.findAll());
             return "admin/accountDel";
         }
+
 //        accountsService.deleteById(id);
-        acc.setStatus("c");
-        accountsService.save(acc);
+        accountDel.setStatus("c");
+        accountsService.save(accountDel);
         return "redirect:/admin/accountDel";
     }
 

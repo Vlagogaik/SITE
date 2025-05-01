@@ -34,10 +34,7 @@
                 <li><a th:href="@{/admin/topUp}" th:classappend="${activeSection=='accADD'}?'active':''" onclick="showSection('accADD')">Пополнить счет</a></li>
             </ul>
         </aside>
-        <div class="client-list">
-            <div th:if="${errorMessage}" class="error-message">
-                <p th:text="${errorMessage}"></p>
-            </div>
+        <div class="client-listADM">
             <div th:each="account : ${accounts}" class="client-card">
                 <h3 th:text="'Счет № ' + ${account.idAccount}">Номер счета</h3>
                 <div class="info-list">
@@ -113,9 +110,6 @@
                                 Закрыть депозит
                             </button>
                         </form>
-                        <div th:if="${errorId == account.idAccount}" class="error-message">
-                            <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
-                        </div>
                     </div>
                 </div>
 
@@ -160,6 +154,21 @@
         </div>
     </footer>
 </div>
+<div th:if="${errorMessage}" class="error-popup" id="error-toast">
+    <div class="error-popup-message" th:text="${errorMessage}"></div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toast = document.getElementById('error-toast');
+      if (!toast) return;
+
+      toast.classList.add('active');
+
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, 5000);
+    });
+</script>
 <script th:src="@{/js/script.js}" defer></script>
 </body>
 </html>

@@ -428,7 +428,12 @@ h1 {
     align-items: flex-start;
     gap: 20px;
 }
-
+.client-listADM {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 20px;
+}
 .client-card .btn:hover {
     background-color: darkred;
 }
@@ -447,7 +452,7 @@ h1 {
     margin: 10px;
     display: inline-block;
     width: 300px;
-
+    min-height: 600px;
 }
 .client-card h3 {
     font-size: 1.5em;
