@@ -117,13 +117,13 @@
                     <h3>Вклады:</h3>
                     <div th:if="${depaccounts != null and !depaccounts.isEmpty()}">
                         <div th:each="dacc : ${depaccounts}" class="deposit-item">
-                            <p th:text="${dacc.value.idDeposit.name}"></p>
-                            <p th:text="'Номер вклада: ' + ${dacc.value.idCD} + ', Номер счета: ' + ${dacc.value.idAccount.idAccount}"></p>
-                            <p th:text="'Ставка: ' + ${dacc.value.idDeposit.rate} + ' %'"></p>
-                            <p th:text="'Первоначальная сумма: ' + ${dacc.value.initialAmount} + ' ' + ${dacc.value.idAccount.currency}"></p>
-                            <p th:text="'Текущая сумма: ' + ${dacc.value.idAccount.amount} + ' ' + ${dacc.value.idAccount.currency}"></p>
-                            <p th:text="'Дата открытия: ' + (${dacc.value.openDate != null} ? ${#dates.format(dacc.value.openDate, 'dd.MM.yyyy')} : 'не указана')"></p>
-                            <p th:text="'Действителен до: ' + (${dacc.value.closeDate != null} ? ${#dates.format(dacc.value.closeDate, 'dd.MM.yyyy')} : 'не указана')"></p>
+                            <p th:text="${dacc.idDeposit.name}"></p>
+                            <p th:text="'Номер вклада: ' + ${dacc.idCD} + ', Номер счета: ' + ${dacc.idAccount.idAccount}"></p>
+                            <p th:text="'Ставка: ' + ${dacc.idDeposit.rate} + ' %'"></p>
+                            <p th:text="'Первоначальная сумма: ' + ${dacc.initialAmount} + ' ' + ${dacc.idAccount.currency}"></p>
+                            <p th:text="'Текущая сумма: ' + ${dacc.idAccount.amount} + ' ' + ${dacc.idAccount.currency}"></p>
+                            <p th:text="'Дата открытия: ' + (${dacc.openDate != null} ? ${#dates.format(dacc.openDate, 'dd.MM.yyyy')} : 'не указана')"></p>
+                            <p th:text="'Действителен до: ' + (${dacc.closeDate != null} ? ${#dates.format(dacc.closeDate, 'dd.MM.yyyy')} : 'не указана')"></p>
                             <br><br>
                             <!--                                    <p th:if="${dacc.value.openDate != null}"-->
                             <!--                                       th:text="'Дата открытия: ' + ${#dates.format(dacc.value.openDate, 'dd.MM.yyyy')}"></p>-->
@@ -132,11 +132,11 @@
                             <!--                                    <p th:if="${dacc.value.closeDate != null}"-->
                             <!--                                       th:text="'Действителен до: ' + ${#dates.format(dacc.value.closeDate, 'dd.MM.yyyy')}"></p>-->
                             <!--                                    <p th:if="${dacc.value.closeDate == null}">Действителен до: не указана</p>-->
-                            <div th:if="${dacc.value.depositStatus == 'ac'}" class="expired-message" style="color: red; font-weight: bold; margin-bottom: 10px;">
+                            <div th:if="${dacc.depositStatus == 'ac'}" class="expired-message" style="color: red; font-weight: bold; margin-bottom: 10px;">
                                 Вклад истёк. Вы можете выбрать счёт для перевода и закрыть его.
                             </div>
-                            <form th:action="@{'/user/closeDeposit/' + ${dacc.value.idCD}}" method="post">
-                                <input type="hidden" name="accountId" th:value="${dacc.value.idAccount.idAccount}"/>
+                            <form th:action="@{'/user/closeDeposit/' + ${dacc.idCD}}" method="post">
+                                <input type="hidden" name="accountId" th:value="${dacc.idAccount.idAccount}"/>
                                 <div class="info">
                                     <label for="targetAccountId">Выберите счет для перевода средств:</label>
                                 </div>
@@ -151,8 +151,8 @@
                                     </select>
                                 </div>
                                 <button type="submit" class="btn close-btn"
-                                        th:classappend="${dacc.value.depositStatus == 'c'} ? 'disabled-button' : ''"
-                                        th:disabled="${dacc.value.depositStatus == 'c'}">
+                                        th:classappend="${dacc.depositStatus == 'c'} ? 'disabled-button' : ''"
+                                        th:disabled="${dacc.depositStatus == 'c'}">
                                     Закрыть депозит
                                 </button>
                                 <span class="tooltip">?
@@ -163,24 +163,24 @@
                                 <br></br>
                             </form>
                             <div class="prolongation">
-                                <form th:action="@{'/user/prolongDeposit/' + ${dacc.value.idCD}}" method="post" class="prolongation-form">
-                                    <input type="hidden" name="depositId" th:value="${dacc.value.idCD}" />
+                                <form th:action="@{'/user/prolongDeposit/' + ${dacc.idCD}}" method="post" class="prolongation-form">
+                                    <input type="hidden" name="depositId" th:value="${dacc.idCD}" />
 
                                     <label for="newCloseDate">Продлить:</label>
                                     <input type="date"
                                            id="newCloseDate"
                                            name="closeDate"
                                            required
-                                           th:min="${#dates.format(dacc.value.closeDate, 'yyyy-MM-dd')}" />
+                                           th:min="${#dates.format(dacc.closeDate, 'yyyy-MM-dd')}" />
                                     <div>
                                         <button type="submit"
                                                 class="btn prolongation-btn"
-                                                th:disabled="${dacc.value.idDeposit.prolongation == 'n'}"
-                                                th:classappend="${dacc.value.idDeposit.prolongation == 'n'} ? 'disabled-button' : ''">
+                                                th:disabled="${dacc.idDeposit.prolongation == 'n'}"
+                                                th:classappend="${dacc.idDeposit.prolongation == 'n'} ? 'disabled-button' : ''">
                                             Продлить вклад
                                         </button>
 
-                                        <span th:if="${dacc.value.idDeposit.prolongation == 'n'}" class="tooltip-inline">
+                                        <span th:if="${dacc.idDeposit.prolongation == 'n'}" class="tooltip-inline">
                                                 <span class="tooltip">?
                                                     <span class="tooltiptext">
                                                         Ваш вклад не поддерживает пролонгацию — пролонгация возможна только для вкладов с опцией «Пролонгация».

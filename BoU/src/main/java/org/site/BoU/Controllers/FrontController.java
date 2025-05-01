@@ -285,8 +285,11 @@ public class FrontController {
             Clients client = clientService.findByLogin(login);
             List<Accounts> accounts = accountService.getOpenAccountsByClient(client);
 
-            Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
-            Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+//            Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+            List<ClientDeposit> clientDepositsMap = clientDepositService.findAllByClientLogin(login);
+
+            
+//            Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
 //            Map<Long, List<Accounts>> depAccountsMap = new HashMap<>();
             /*
             for (Accounts account : accounts) {
@@ -317,15 +320,13 @@ public class FrontController {
 //            }
 //            uniqueAccounts = uniqueAccounts.stream().distinct().collect(Collectors.toList());
 //            model.addAttribute("accounts", uniqueAccounts);
-            for (Accounts account : accounts) {
-                ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
-                if (clientDeposit != null && (!Objects.equals(clientDeposit.getDepositStatus(), "c"))) {
-                    clientDepositsMap.put(account.getIdAccount(), clientDeposit);
-                }
-            }
-            for (Accounts account0 : accounts) {
-                availableAccountsMap.put(account0.getIdAccount(), accounts);
-            }
+//            for (Accounts account : accounts) {
+//                ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+//                if (clientDeposit != null && (!Objects.equals(clientDeposit.getDepositStatus(), "c"))) {
+//                    clientDepositsMap.set(account.getIdAccount(), clientDeposit);
+//                }
+//            }
+
             model.addAttribute("accounts", accounts);
             model.addAttribute("depaccounts", clientDepositsMap);
 //            model.addAttribute("depaccounts", depAccountsMap);
