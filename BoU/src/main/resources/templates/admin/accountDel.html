@@ -113,22 +113,23 @@
                                 Закрыть депозит
                             </button>
                         </form>
+                        <div th:if="${errorId == account.idAccount}" class="error-message">
+                            <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div th:if="${errorId == account.idAccount}" class="error-message">
-                <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
-            </div>
-            <form th:action="@{'/admin/account/delete/' + ${account.idAccount}}" method="post">
-                <input type="hidden" th:value="${account.idAccount}" name="idAccount"/>
-                <button type="submit" class="btn delete-btn"
-                        th:classappend="${account.status == 'c'} ? 'disabled-button' : ''"
-                        th:disabled="${account.status == 'c'}">
-                    Удалить счет
-                </button>
-            </form>
-        </div>
 
+
+                <form th:action="@{'/admin/account/delete/' + ${account.idAccount}}" method="post">
+                    <input type="hidden" th:value="${account.idAccount}" name="idAccount"/>
+                    <button type="submit" class="btn delete-btn"
+                            th:classappend="${account.status == 'c'} ? 'disabled-button' : ''"
+                            th:disabled="${account.status == 'c'}">
+                        Удалить счет
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
     </main>
     <footer class="site-footer">
