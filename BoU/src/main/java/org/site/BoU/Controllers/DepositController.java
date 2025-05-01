@@ -142,7 +142,7 @@ public class DepositController {
             model.addAttribute("error", "Указанный депозит не найден.");
             List<Deposits> deposits = depositService.getAllDeposits();
             model.addAttribute("deposits", deposits);
-            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
             return "user/allDepositsUser";
         }
         if (account == null) {
@@ -150,7 +150,7 @@ public class DepositController {
             model.addAttribute("error", "Указанный счёт не найден.");
             List<Deposits> deposits = depositService.getAllDeposits();
             model.addAttribute("deposits", deposits);
-            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
             return "user/allDepositsUser";
         }
         if (!account.getCurrency().equals(currency)) {
@@ -159,14 +159,14 @@ public class DepositController {
             model.addAttribute("error", "Валюта счёта не совпадает с валютой вклада.");
             List<Deposits> deposits = depositService.getAllDeposits();
             model.addAttribute("deposits", deposits);
-            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
             return "user/allDepositsUser";
         }
         if (account.getAmount() < amount) {
             model.addAttribute("error", "Недостаточно средств на счете.");
             List<Deposits> deposits = depositService.getAllDeposits();
             model.addAttribute("deposits", deposits);
-            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
             return "user/allDepositsUser";
         }
 
@@ -188,29 +188,30 @@ public class DepositController {
                 model.addAttribute("error", "Не удовлетворяет минимальным условиям");
                 List<Deposits> deposits = depositService.getAllDeposits();
                 model.addAttribute("deposits", deposits);
-                model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+                model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
                 return "user/allDepositsUser";
             }
-            if(usdAmount > deposit.getMinAmount()){
+            if(usdAmount > deposit.getMaxAmount()){
                 model.addAttribute("error", "Не удовлетворяет максимальным условиям");
                 List<Deposits> deposits = depositService.getAllDeposits();
                 model.addAttribute("deposits", deposits);
-                model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+                model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
                 return "user/allDepositsUser";
             }
         }else{
+            logger.info("!!!!!!!amount {}, minamount {}, maxamount {}" , amount, deposit.getMinAmount(), deposit.getMinAmount());
             if(amount < deposit.getMinAmount()){
                 model.addAttribute("error", "Не удовлетворяет минимальным условиям");
                 List<Deposits> deposits = depositService.getAllDeposits();
                 model.addAttribute("deposits", deposits);
-                model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+                model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
                 return "user/allDepositsUser";
             }
-            if(amount > deposit.getMinAmount()){
+            if(amount > deposit.getMaxAmount()){
                 model.addAttribute("error", "Не удовлетворяет максимальным условиям");
                 List<Deposits> deposits = depositService.getAllDeposits();
                 model.addAttribute("deposits", deposits);
-                model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+                model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
                 return "user/allDepositsUser";
             }
         }
@@ -226,7 +227,7 @@ public class DepositController {
                     "Срок вклада должен быть от %d до %d месяцев. Вы выбрали: %d",
                     deposit.getMinTermDays(), deposit.getMaxTermDays(), monthsBetween));
             model.addAttribute("deposits", depositService.getAllDeposits());
-            model.addAttribute("accounts", accountsService.getAccountsByClient(client));
+            model.addAttribute("accounts", accountsService.getOpenAccountsByClient(client));
             return "user/allDepositsUser";
         }
 
