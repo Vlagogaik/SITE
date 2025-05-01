@@ -26,6 +26,12 @@ public class AccountsService {
                 .filter(account -> !"od".equals(account.getStatus()))
                 .collect(Collectors.toList());
     }
+    public List<Accounts> getOpenAccountsByClient(Clients client){
+        List<Accounts> accounts = accountsRep.findByIdClient(client);
+        return accounts.stream()
+                .filter(account -> "o".equals(account.getStatus()))
+                .collect(Collectors.toList());
+    }
     public List<Accounts> getDepositAccountsByClient(Clients client) {
         List<Accounts> accounts = accountsRep.findByIdClient(client);
         return accounts.stream()

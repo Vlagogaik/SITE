@@ -192,6 +192,9 @@
                             </div>
                         </div>
                     </div>
+                    <div th:if="${depaccounts == null or depaccounts.isEmpty()}">
+                        <p>У вас ещё нет открытых вкладов.</p>
+                    </div>
                 </div>
             </div>
 

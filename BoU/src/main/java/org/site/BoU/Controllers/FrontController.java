@@ -211,8 +211,7 @@ public class FrontController {
         if (login != null) {
             Clients client = clientService.findByLogin(login);
             List<Deposits> deposits = depositService.getAllDeposits();
-            List<Accounts> accounts = accountService.getAccountsByClient(client);
-
+            List<Accounts> accounts = accountService.getOpenAccountsByClient(client);
             model.addAttribute("deposits", deposits);
             model.addAttribute("accounts", accounts);
             return "user/allDepositsUser";
@@ -284,23 +283,25 @@ public class FrontController {
         String login = (String) session.getAttribute("login");
         if (login != null) {
             Clients client = clientService.findByLogin(login);
-            List<Accounts> accounts = accountService.findAllByClientId(client);
+            List<Accounts> accounts = accountService.getOpenAccountsByClient(client);
 
             Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
             Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
 //            Map<Long, List<Accounts>> depAccountsMap = new HashMap<>();
+            /*
             for (Accounts account : accounts) {
                 ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
                 if (clientDeposit != null && (!Objects.equals(clientDeposit.getDepositStatus(), "c"))) {
                     clientDepositsMap.put(account.getIdAccount(), clientDeposit);
                     Clients owner = account.getIdClient();
                     if ((owner != null)) {
-                        List<Accounts> ownerAccounts = accountService.findAllByClientId(owner);
-                        List<Accounts> availableAccounts = ownerAccounts.stream()
-                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
-                                .filter(acc -> "o".equals(acc.getStatus()))
-                                .collect(Collectors.toList());
-                        availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+
+//                        List<Accounts> ownerAccounts = accountService.findAllByClientId(owner);
+//                        List<Accounts> availableAccounts = ownerAccounts.stream()
+//                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+//                                .filter(acc -> "o".equals(acc.getStatus()))
+//                                .collect(Collectors.toList());
+                        availableAccountsMap.put(account.getIdAccount(), accounts);
 //                        List<Accounts> depAccounts = ownerAccounts.stream()
 //                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
 //                                .filter(acc -> "od".equals(acc.getStatus()))
@@ -309,13 +310,23 @@ public class FrontController {
                     }
                 }
             }
-            List<Accounts> uniqueAccounts = new ArrayList<>();
-            for (List<Accounts> list : availableAccountsMap.values()) {
-                uniqueAccounts.addAll(list);
+            */
+//            List<Accounts> uniqueAccounts = new ArrayList<>();
+//            for (List<Accounts> list : availableAccountsMap.values()) {
+//                uniqueAccounts.addAll(list);
+//            }
+//            uniqueAccounts = uniqueAccounts.stream().distinct().collect(Collectors.toList());
+//            model.addAttribute("accounts", uniqueAccounts);
+            for (Accounts account : accounts) {
+                ClientDeposit clientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+                if (clientDeposit != null && (!Objects.equals(clientDeposit.getDepositStatus(), "c"))) {
+                    clientDepositsMap.put(account.getIdAccount(), clientDeposit);
+                }
             }
-            uniqueAccounts = uniqueAccounts.stream().distinct().collect(Collectors.toList());
-            model.addAttribute("accounts", uniqueAccounts);
-//            model.addAttribute("accounts", availableAccountsMap);
+            for (Accounts account0 : accounts) {
+                availableAccountsMap.put(account0.getIdAccount(), accounts);
+            }
+            model.addAttribute("accounts", accounts);
             model.addAttribute("depaccounts", clientDepositsMap);
 //            model.addAttribute("depaccounts", depAccountsMap);
             model.addAttribute("client", client);
