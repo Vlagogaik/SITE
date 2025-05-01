@@ -51,7 +51,7 @@ public class RegistrationContr {
                 return "redirect:/user/profile";
             } else {
                 logger.warn("Ошибка регистрации: пользователь с логином {} или паспортными данными {} или номером телефона {} уже существует", client.getLogin(), client.getNumberPasport(), client.getNumber());
-                model.addAttribute("error", "Пользователь с таким логином уже существует или не найден.");
+                model.addAttribute("error", "Пользователь с таким логином уже существует.");
                 return "register";
             }
         } else {
