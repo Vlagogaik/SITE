@@ -81,11 +81,11 @@
                     <div class="error" th:if="${#fields.hasErrors('depositStatus')}" th:errors="*{depositStatus}"></div>
                 </div>
 
-                <label for="minTermDays">Минимальный срок (дней):</label>
+                <label for="minTermDays">Минимальный срок (месяцев):</label>
                 <input type="number" id="minTermDays" th:field="*{minTermDays}" required />
                 <div class="error" th:if="${#fields.hasErrors('minTermDays')}" th:errors="*{minTermDays}"></div>
 
-                <label for="maxTermDays">Максимальный срок (дней):</label>
+                <label for="maxTermDays">Максимальный срок (месяцев):</label>
                 <input type="number" id="maxTermDays" th:field="*{maxTermDays}" required />
                 <div class="error" th:if="${#fields.hasErrors('maxTermDays')}" th:errors="*{maxTermDays}"></div>
 

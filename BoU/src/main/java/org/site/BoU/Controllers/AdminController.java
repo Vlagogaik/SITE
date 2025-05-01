@@ -237,7 +237,7 @@ public class AdminController {
         if (optionalClient.isPresent()) {
             Clients client = optionalClient.get();
 
-            if (clientService.existById(client)) {
+            if (accountsService.getAccountsByClient(client) != null) {
                 model.addAttribute("errorId", id);
                 model.addAttribute("errorMessage", "Невозможно удалить клиента: у него есть счета.");
                 model.addAttribute("clients", clientService.findAll());
@@ -264,11 +264,11 @@ public class AdminController {
                 clientService.save(client);
                 logger.info("Пользователь {} успешно зарегистрирован", client.getLogin());
 
-                httpSession.setAttribute("login", client.getLogin());
-                httpSession.setAttribute("lastAccessed", LocalDateTime.now());
-                logger.info("Cессия при регистрации: id: {}; login: {}", httpSession.getId(), httpSession.getAttribute("login"));
+//                httpSession.setAttribute("login", client.getLogin());
+//                httpSession.setAttribute("lastAccessed", LocalDateTime.now());
+//                logger.info("Cессия при регистрации: id: {}; login: {}", httpSession.getId(), httpSession.getAttribute("login"));
 
-                return "redirect:/user/profile";
+                return "redirect:/admin/clientAdd";
             } else {
                 logger.warn("Ошибка регистрации: пользователь с логином {} или паспортными данными {} или номером телефона {} уже существует", client.getLogin(), client.getNumberPasport(), client.getNumber());
                 model.addAttribute("error", "Пользователь с таким логином уже существует или не найден.");

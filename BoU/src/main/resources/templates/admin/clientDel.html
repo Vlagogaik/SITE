@@ -34,9 +34,7 @@
                 </ul>
             </aside>
         <div class="client-list">
-            <div th:if="${errorMessage}" class="error-message">
-                <p th:text="${errorMessage}"></p>
-            </div>
+
             <div th:each="client : ${clients}" class="client-card">
                 <h3>Информация о клиенте:</h3>
                 <p>Id: <span th:text="${client.idClient}"></span></p>
@@ -51,9 +49,7 @@
 
                 <p>Email: <span th:text="${client.mail}"></span></p>
                 <p>Номер телефона: <span th:text="${client.number}"></span></p>
-                <div th:if="${errorId == client.idClient}" class="error-message">
-                    <p th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
-                </div>
+
                 <form th:action="@{'/admin/client/delete/' + ${client.idClient}}" method="post">
                     <input type="hidden" th:value="${client.idClient}" name="id"/>
                     <button type="submit" class="btn delete-btn">Удалить клиента</button>
@@ -91,6 +87,21 @@
         </div>
     </footer>
 </div>
+<div th:if="${errorMessage}" class="error-popup" id="error-toast">
+    <div class="error-popup-message" th:text="${errorMessage}"></div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toast = document.getElementById('error-toast');
+      if (!toast) return;
+
+      toast.classList.add('active');
+
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, 5000);
+    });
+</script>
 <script th:src="@{/js/script.js}" defer></script>
 </body>
 </html>
