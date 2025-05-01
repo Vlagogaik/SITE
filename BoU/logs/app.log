@@ -9366,3 +9366,406 @@ org.postgresql.util.PSQLException: ERROR: update or delete on table "clients" vi
 2025-05-01T17:03:22.260+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
 2025-05-01T17:03:22.260+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
 2025-05-01T17:03:22.260+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:08:57.748+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /user/profile
+2025-05-01T17:08:57.748+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:57.748+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /user/profile] with attributes [authenticated]
+2025-05-01T17:08:57.748+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /user/profile
+2025-05-01T17:08:57.759+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /admin/home_admin
+2025-05-01T17:08:57.759+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:57.759+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /admin/home_admin] with attributes [hasRole('ROLE_ADMIN')]
+2025-05-01T17:08:57.759+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /admin/home_admin
+2025-05-01T17:08:57.792+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:08:57.792+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:08:57.793+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:08:57.794+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:08:59.329+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /logout
+2025-05-01T17:08:59.329+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:59.329+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.logout.LogoutFilter            : Logging out [UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=SYS, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_ADMIN]], Credentials=[PROTECTED], Authenticated=true, Details=null, Granted Authorities=[ROLE_ADMIN]]]
+2025-05-01T17:08:59.329+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.h.w.ClearSiteDataHeaderWriter    : Not injecting Clear-Site-Data header since it did not match the requestMatcher Is Secure
+2025-05-01T17:08:59.330+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.s.HttpSessionEventPublisher      : Publishing event: org.springframework.security.web.session.HttpSessionDestroyedEvent[source=org.apache.catalina.session.StandardSessionFacade@64c6d50f]
+2025-05-01T17:08:59.330+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.l.SecurityContextLogoutHandler : Invalidated session 52B7F4F30302146A2AAEDC8C219A5419
+2025-05-01T17:08:59.330+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.web.DefaultRedirectStrategy        : Redirecting to /home
+2025-05-01T17:08:59.333+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /home
+2025-05-01T17:08:59.334+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.334+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.session.SessionManagementFilter  : Request requested invalid session id 52B7F4F30302146A2AAEDC8C219A5419
+2025-05-01T17:08:59.334+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /home] with attributes [permitAll]
+2025-05-01T17:08:59.334+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /home
+2025-05-01T17:08:59.334+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.s.HttpSessionEventPublisher      : Publishing event: org.springframework.security.web.session.HttpSessionCreatedEvent[source=org.apache.catalina.session.StandardSessionFacade@475d8365]
+2025-05-01T17:08:59.354+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:08:59.354+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:08:59.354+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:08:59.354+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:08:59.354+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.354+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.354+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:08:59.355+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:08:59.370+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:08:59.370+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:08:59.371+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:08:59.379+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /icons/main-vologda.jpg
+2025-05-01T17:08:59.379+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:08:59.379+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/main-vologda.jpg] with attributes [permitAll]
+2025-05-01T17:08:59.379+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /icons/main-vologda.jpg
+2025-05-01T17:09:00.482+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /user/profile
+2025-05-01T17:09:00.483+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:00.483+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.i.FilterSecurityInterceptor    : Failed to authorize filter invocation [GET /user/profile] with attributes [authenticated]
+2025-05-01T17:09:00.486+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/user/profile?continue to session
+2025-05-01T17:09:00.486+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/signIn
+2025-05-01T17:09:00.489+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /signIn
+2025-05-01T17:09:00.489+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:00.489+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /signIn] with attributes [permitAll]
+2025-05-01T17:09:00.489+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /signIn
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:09:00.528+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:09:00.529+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:00.529+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:09:00.529+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:09:00.538+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:09:00.538+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:00.538+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:09:00.538+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:09:01.717+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /register
+2025-05-01T17:09:01.717+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:01.717+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /register] with attributes [permitAll]
+2025-05-01T17:09:01.717+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /register
+2025-05-01T17:09:01.740+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:09:01.740+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:01.740+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:09:01.740+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:09:01.741+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:09:01.741+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:01.741+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:09:01.742+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:09:01.754+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:09:01.754+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:01.755+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:09:01.755+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:09:30.640+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /clients/register
+2025-05-01T17:09:30.640+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:30.640+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [POST /clients/register] with attributes [permitAll]
+2025-05-01T17:09:30.640+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured POST /clients/register
+2025-05-01T17:09:30.650+03:00  WARN 23408 --- [BoU] [http-nio-8080-exec-4] o.s.BoU.Controllers.RegistrationContr    : Ошибка регистрации: пользователь с логином 111111 или паспортными данными 6677123456 или номером телефона +79666999123 уже существует
+2025-05-01T17:09:30.670+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:09:30.671+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:30.672+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:09:30.672+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:09:30.672+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:09:30.672+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:09:30.684+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:09:30.684+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:30.684+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:09:30.684+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:09:45.079+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /clients/register
+2025-05-01T17:09:45.079+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:45.079+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [POST /clients/register] with attributes [permitAll]
+2025-05-01T17:09:45.079+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /clients/register
+2025-05-01T17:09:45.145+03:00  INFO 23408 --- [BoU] [http-nio-8080-exec-3] o.s.BoU.Controllers.RegistrationContr    : Пользователь 111111123 успешно зарегистрирован
+2025-05-01T17:09:45.145+03:00  INFO 23408 --- [BoU] [http-nio-8080-exec-3] o.s.BoU.Controllers.RegistrationContr    : Cессия при регистрации: id: 0FD2B6F8E8B578AC642E6EC7FE176326; login: 111111123
+2025-05-01T17:09:45.148+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /user/profile
+2025-05-01T17:09:45.149+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:45.149+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.i.FilterSecurityInterceptor    : Failed to authorize filter invocation [GET /user/profile] with attributes [authenticated]
+2025-05-01T17:09:45.149+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/user/profile?continue to session
+2025-05-01T17:09:45.149+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/signIn
+2025-05-01T17:09:45.151+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /signIn
+2025-05-01T17:09:45.151+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:45.151+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /signIn] with attributes [permitAll]
+2025-05-01T17:09:45.151+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /signIn
+2025-05-01T17:09:45.170+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:09:45.170+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:45.170+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:09:45.170+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:09:45.171+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:09:45.184+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:09:45.184+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:09:45.184+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:09:45.184+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:10:46.947+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /register
+2025-05-01T17:10:46.947+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:46.947+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /register] with attributes [permitAll]
+2025-05-01T17:10:46.947+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /register
+2025-05-01T17:10:46.971+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:10:46.971+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:10:46.972+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:46.972+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:46.972+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:10:46.972+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:10:46.972+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:10:46.972+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:10:46.972+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:10:46.972+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:46.973+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:10:46.973+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:10:46.973+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:10:46.973+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:46.973+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:10:46.973+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:10:46.986+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:10:46.986+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:46.986+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:10:46.986+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:10:47.816+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /signIn
+2025-05-01T17:10:47.816+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:47.816+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /signIn] with attributes [permitAll]
+2025-05-01T17:10:47.816+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /signIn
+2025-05-01T17:10:47.833+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:10:47.833+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:10:47.833+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:10:47.833+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:10:47.834+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:10:47.846+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:10:47.846+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:10:47.846+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:10:47.846+03:00 DEBUG 23408 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:22:13.233+03:00  INFO 23408 --- [BoU] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-01T17:22:13.234+03:00  INFO 23408 --- [BoU] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-01T17:22:13.236+03:00  INFO 23408 --- [BoU] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-01T17:22:13.239+03:00 DEBUG 23408 --- [BoU] [SpringApplicationShutdownHook] o.s.s.w.s.HttpSessionEventPublisher      : Publishing event: org.springframework.security.web.session.HttpSessionDestroyedEvent[source=org.apache.catalina.session.StandardSessionFacade@475d8365]
+2025-05-01T17:22:16.464+03:00  INFO 18232 --- [BoU] [main] org.site.BoU.BoUApplication              : Starting BoUApplication using Java 22.0.1 with PID 18232 (E:\!Site-VKR\SITE\BoU\target\classes started by 10047 in E:\!Site-VKR\SITE\BoU)
+2025-05-01T17:22:16.466+03:00  INFO 18232 --- [BoU] [main] org.site.BoU.BoUApplication              : No active profile set, falling back to 1 default profile: "default"
+2025-05-01T17:22:17.414+03:00  INFO 18232 --- [BoU] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-01T17:22:17.476+03:00  INFO 18232 --- [BoU] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 54 ms. Found 7 JPA repository interfaces.
+2025-05-01T17:22:18.161+03:00  INFO 18232 --- [BoU] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-01T17:22:18.175+03:00  INFO 18232 --- [BoU] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-01T17:22:18.175+03:00  INFO 18232 --- [BoU] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2025-05-01T17:22:18.229+03:00  INFO 18232 --- [BoU] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-01T17:22:18.229+03:00  INFO 18232 --- [BoU] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1715 ms
+2025-05-01T17:22:18.404+03:00  INFO 18232 --- [BoU] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-01T17:22:18.502+03:00  INFO 18232 --- [BoU] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-05-01T17:22:18.536+03:00  INFO 18232 --- [BoU] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-01T17:22:18.896+03:00  INFO 18232 --- [BoU] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-01T17:22:18.926+03:00  INFO 18232 --- [BoU] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-01T17:22:19.082+03:00  INFO 18232 --- [BoU] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5834198f
+2025-05-01T17:22:19.083+03:00  INFO 18232 --- [BoU] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-01T17:22:19.107+03:00  WARN 18232 --- [BoU] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-01T17:22:19.981+03:00  INFO 18232 --- [BoU] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-01T17:22:20.024+03:00  INFO 18232 --- [BoU] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-01T17:22:20.375+03:00  INFO 18232 --- [BoU] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-01T17:22:20.950+03:00  WARN 18232 --- [BoU] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-01T17:22:21.008+03:00  INFO 18232 --- [BoU] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-05-01T17:22:21.009+03:00  WARN 18232 --- [BoU] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-05-01T17:22:21.396+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for ExactUrl [processUrl='/signIn?error']
+2025-05-01T17:22:21.409+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for ExactUrl [processUrl='/signIn']
+2025-05-01T17:22:21.409+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for ExactUrl [processUrl='/signIn']
+2025-05-01T17:22:21.409+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Or [Ant [pattern='/logout', GET], Ant [pattern='/logout', POST], Ant [pattern='/logout', PUT], Ant [pattern='/logout', DELETE]]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for ExactUrl [processUrl='/home']
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/home'], Ant [pattern='/home']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/register'], Ant [pattern='/register']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/signIn'], Ant [pattern='/signIn']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/clients/signIn'], Ant [pattern='/clients/signIn']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/clients/register'], Ant [pattern='/clients/register']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/'], Ant [pattern='/']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/style/**'], Ant [pattern='/style/**']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/favicon.ico'], Ant [pattern='/favicon.ico']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/error'], Ant [pattern='/error']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/allDeposits'], Ant [pattern='/allDeposits']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/cards'], Ant [pattern='/cards']]
+2025-05-01T17:22:21.410+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/aboutBank'], Ant [pattern='/aboutBank']]
+2025-05-01T17:22:21.411+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/icons/**'], Ant [pattern='/icons/**']]
+2025-05-01T17:22:21.411+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/js/**'], Ant [pattern='/js/**']]
+2025-05-01T17:22:21.411+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [hasRole('ROLE_ADMIN')] for Deferred [Mvc [pattern='/admin/**'], Ant [pattern='/admin/**']]
+2025-05-01T17:22:21.412+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [hasAnyRole('ROLE_USER','ROLE_ADMIN')] for Deferred [Mvc [pattern='/user/** , /account/**'], Ant [pattern='/user/** , /account/**']]
+2025-05-01T17:22:21.413+03:00 DEBUG 18232 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [authenticated] for any request
+2025-05-01T17:22:21.429+03:00 DEBUG 18232 --- [BoU] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, ConcurrentSessionFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, FilterSecurityInterceptor
+2025-05-01T17:22:21.712+03:00  INFO 18232 --- [BoU] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-01T17:22:21.723+03:00  INFO 18232 --- [BoU] [main] org.site.BoU.BoUApplication              : Started BoUApplication in 5.827 seconds (process running for 6.172)
+2025-05-01T17:22:22.188+03:00  INFO 18232 --- [BoU] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-01T17:22:22.188+03:00  INFO 18232 --- [BoU] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-05-01T17:22:22.189+03:00  INFO 18232 --- [BoU] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-05-01T17:22:22.200+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /home
+2025-05-01T17:22:22.205+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.206+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.session.SessionManagementFilter  : Request requested invalid session id 0FD2B6F8E8B578AC642E6EC7FE176326
+2025-05-01T17:22:22.211+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /home] with attributes [permitAll]
+2025-05-01T17:22:22.211+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /home
+2025-05-01T17:22:22.229+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-1] o.s.s.w.s.HttpSessionEventPublisher      : Publishing event: org.springframework.security.web.session.HttpSessionCreatedEvent[source=org.apache.catalina.session.StandardSessionFacade@77a4f74b]
+2025-05-01T17:22:22.541+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:22:22.541+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:22:22.541+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:22:22.541+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:22:22.542+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.542+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.542+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.542+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.544+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:22:22.544+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-5] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:22:22.544+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:22:22.544+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-3] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:22:22.544+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:22:22.544+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:22:22.544+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:22:22.544+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:22:22.559+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:22:22.559+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.560+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:22:22.560+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:22:22.565+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:22:22.565+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:22:22.565+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.565+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.566+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:22:22.566+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:22:22.566+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:22:22.566+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:22:22.568+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /icons/main-vologda.jpg
+2025-05-01T17:22:22.569+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:22:22.570+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/main-vologda.jpg] with attributes [permitAll]
+2025-05-01T17:22:22.571+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /icons/main-vologda.jpg
+2025-05-01T17:37:36.189+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /allDeposits
+2025-05-01T17:37:36.190+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:37:36.190+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-2] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /allDeposits] with attributes [permitAll]
+2025-05-01T17:37:36.190+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /allDeposits
+2025-05-01T17:37:36.257+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /style/style.css
+2025-05-01T17:37:36.257+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:37:36.257+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-4] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/style.css] with attributes [permitAll]
+2025-05-01T17:37:36.257+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /style/style.css
+2025-05-01T17:37:36.261+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /style/cursor.css
+2025-05-01T17:37:36.261+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /icons/vk.png
+2025-05-01T17:37:36.261+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /icons/vogu.png
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-8] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vk.png] with attributes [permitAll]
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-6] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /style/cursor.css] with attributes [permitAll]
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-7] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /icons/vogu.png] with attributes [permitAll]
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /icons/vk.png
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /style/cursor.css
+2025-05-01T17:37:36.262+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /icons/vogu.png
+2025-05-01T17:37:36.272+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /js/script.js
+2025-05-01T17:37:36.272+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2025-05-01T17:37:36.273+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-9] o.s.s.w.a.i.FilterSecurityInterceptor    : Authorized filter invocation [GET /js/script.js] with attributes [permitAll]
+2025-05-01T17:37:36.273+03:00 DEBUG 18232 --- [BoU] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /js/script.js
+2025-05-01T17:39:25.852+03:00  INFO 18232 --- [BoU] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-01T17:39:25.854+03:00  INFO 18232 --- [BoU] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-05-01T17:39:25.856+03:00  INFO 18232 --- [BoU] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-05-01T17:39:25.859+03:00 DEBUG 18232 --- [BoU] [SpringApplicationShutdownHook] o.s.s.w.s.HttpSessionEventPublisher      : Publishing event: org.springframework.security.web.session.HttpSessionDestroyedEvent[source=org.apache.catalina.session.StandardSessionFacade@77a4f74b]
+2025-05-01T17:39:27.714+03:00  INFO 24944 --- [BoU] [main] org.site.BoU.BoUApplication              : Starting BoUApplication using Java 22.0.1 with PID 24944 (E:\!Site-VKR\SITE\BoU\target\classes started by 10047 in E:\!Site-VKR\SITE\BoU)
+2025-05-01T17:39:27.716+03:00  INFO 24944 --- [BoU] [main] org.site.BoU.BoUApplication              : No active profile set, falling back to 1 default profile: "default"
+2025-05-01T17:39:28.679+03:00  INFO 24944 --- [BoU] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-01T17:39:28.741+03:00  INFO 24944 --- [BoU] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56 ms. Found 7 JPA repository interfaces.
+2025-05-01T17:39:29.413+03:00  INFO 24944 --- [BoU] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-05-01T17:39:29.424+03:00  INFO 24944 --- [BoU] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-05-01T17:39:29.425+03:00  INFO 24944 --- [BoU] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.30]
+2025-05-01T17:39:29.475+03:00  INFO 24944 --- [BoU] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-05-01T17:39:29.475+03:00  INFO 24944 --- [BoU] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1718 ms
+2025-05-01T17:39:29.706+03:00  INFO 24944 --- [BoU] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-01T17:39:29.800+03:00  INFO 24944 --- [BoU] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-05-01T17:39:29.849+03:00  INFO 24944 --- [BoU] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-01T17:39:30.223+03:00  INFO 24944 --- [BoU] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-01T17:39:30.247+03:00  INFO 24944 --- [BoU] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-01T17:39:30.509+03:00  INFO 24944 --- [BoU] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@53dba9cd
+2025-05-01T17:39:30.511+03:00  INFO 24944 --- [BoU] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-01T17:39:30.535+03:00  WARN 24944 --- [BoU] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-05-01T17:39:31.353+03:00  INFO 24944 --- [BoU] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-01T17:39:31.390+03:00  INFO 24944 --- [BoU] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-01T17:39:31.723+03:00  INFO 24944 --- [BoU] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-01T17:39:32.231+03:00  WARN 24944 --- [BoU] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-01T17:39:32.307+03:00  INFO 24944 --- [BoU] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-05-01T17:39:32.309+03:00  WARN 24944 --- [BoU] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-05-01T17:39:32.794+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for ExactUrl [processUrl='/signIn?error']
+2025-05-01T17:39:32.810+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for ExactUrl [processUrl='/signIn']
+2025-05-01T17:39:32.811+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for ExactUrl [processUrl='/signIn']
+2025-05-01T17:39:32.811+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Or [Ant [pattern='/logout', GET], Ant [pattern='/logout', POST], Ant [pattern='/logout', PUT], Ant [pattern='/logout', DELETE]]
+2025-05-01T17:39:32.811+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for ExactUrl [processUrl='/home']
+2025-05-01T17:39:32.811+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/home'], Ant [pattern='/home']]
+2025-05-01T17:39:32.811+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/register'], Ant [pattern='/register']]
+2025-05-01T17:39:32.811+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/signIn'], Ant [pattern='/signIn']]
+2025-05-01T17:39:32.811+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/clients/signIn'], Ant [pattern='/clients/signIn']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/clients/register'], Ant [pattern='/clients/register']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/'], Ant [pattern='/']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/style/**'], Ant [pattern='/style/**']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/favicon.ico'], Ant [pattern='/favicon.ico']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/error'], Ant [pattern='/error']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/allDeposits'], Ant [pattern='/allDeposits']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/cards'], Ant [pattern='/cards']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/aboutBank'], Ant [pattern='/aboutBank']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/icons/**'], Ant [pattern='/icons/**']]
+2025-05-01T17:39:32.812+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [permitAll] for Deferred [Mvc [pattern='/js/**'], Ant [pattern='/js/**']]
+2025-05-01T17:39:32.813+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [hasRole('ROLE_ADMIN')] for Deferred [Mvc [pattern='/admin/**'], Ant [pattern='/admin/**']]
+2025-05-01T17:39:32.815+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [hasAnyRole('ROLE_USER','ROLE_ADMIN')] for Deferred [Mvc [pattern='/user/** , /account/**'], Ant [pattern='/user/** , /account/**']]
+2025-05-01T17:39:32.815+03:00 DEBUG 24944 --- [BoU] [main] edFilterInvocationSecurityMetadataSource : Adding web access control expression [authenticated] for any request
+2025-05-01T17:39:32.828+03:00 DEBUG 24944 --- [BoU] [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, ConcurrentSessionFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, FilterSecurityInterceptor
+2025-05-01T17:39:33.080+03:00  INFO 24944 --- [BoU] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-05-01T17:39:33.096+03:00  INFO 24944 --- [BoU] [main] org.site.BoU.BoUApplication              : Started BoUApplication in 5.995 seconds (process running for 6.308)
