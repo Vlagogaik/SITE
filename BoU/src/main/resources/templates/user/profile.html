@@ -63,6 +63,7 @@
                 <li><a href="#" th:classappend="${activeSection=='transactions'}?'active':''" data-section="transactions">История операций</a></li>
             </ul>
         </aside>
+
         <section class="profile-content">
             <div id="section-personal" class="profile-section" th:classappend="${activeSection=='personal'}?'active':''">
                 <div class="profile-card">
@@ -211,6 +212,12 @@
                 </div>
             </div>
         </section>
+        <div class="error-popup" th:if="${error != null}">
+            <div class="error-popup-message" th:text="${error}"></div>
+        </div>
+        <div class="successful-popup" th:if="${success != null}">
+            <div class="successful-popup-message" th:text="${success}"></div>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -241,6 +248,11 @@
         </div>
     </footer>
 </div>
+
+<div th:if="${error}" class="error-popup" id="error-toast">
+    <div class="error-popup-message" th:text="${error}"></div>
+</div>
+
 <script>
     function showSection(section) {
       document.querySelectorAll('.profile-section')
@@ -258,7 +270,19 @@
       });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toast = document.getElementById('error-toast');
+      if (!toast) return;
 
+      toast.classList.add('active');
+
+      setTimeout(() => {
+        toast.classList.remove('active');
+      }, 5000);
+    });
+
+</script>
 <!--<script>-->
 <!--    function showSection(section) {-->
 <!--        document.querySelectorAll('.profile-section').forEach(s => s.style.display = 'none');-->

@@ -19,9 +19,8 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -54,8 +53,74 @@ public class DepositController {
             Model model, HttpSession session
     ) {
         ClientDeposit clientDeposit = clientDepositService.findById(id);
+        Deposits deposit = depositService.findByIdDeposit(clientDeposit.getIdDeposit().getIdDeposit());
+
+        if (!model.containsAttribute("activeSection")) {
+            model.addAttribute("activeSection", "personal");
+        }
+        String login = (String) session.getAttribute("login");
+
+        if (login != null) {
+            Clients client = clientService.findByLogin(login);
+            List<Accounts> Allaccounts = accountsService.findAllByClientId(client);
+
+            Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
+            Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
+            for (Accounts account : Allaccounts) {
+                ClientDeposit ALLclientDeposit = clientDepositService.findByAccountId(account.getIdAccount());
+                if (ALLclientDeposit != null && (!Objects.equals(ALLclientDeposit.getDepositStatus(), "c"))) {
+                    clientDepositsMap.put(account.getIdAccount(), ALLclientDeposit);
+                    Clients owner = account.getIdClient();
+                    if ((owner != null)) {
+                        List<Accounts> ownerAccounts = accountsService.findAllByClientId(owner);
+                        List<Accounts> availableAccounts = ownerAccounts.stream()
+                                .filter(acc -> !acc.getIdAccount().equals(account.getIdAccount()))
+                                .filter(acc -> "o".equals(acc.getStatus()))
+                                .collect(Collectors.toList());
+                        availableAccountsMap.put(account.getIdAccount(), availableAccounts);
+                    }
+                }
+            }
+            List<Accounts> uniqueAccounts = new ArrayList<>();
+            for (List<Accounts> list : availableAccountsMap.values()) {
+                uniqueAccounts.addAll(list);
+            }
+            uniqueAccounts = uniqueAccounts.stream().distinct().collect(Collectors.toList());
+            model.addAttribute("accounts", uniqueAccounts);
+            model.addAttribute("depaccounts", clientDepositsMap);
+            model.addAttribute("client", client);
+
+            List<Transaction> transactions = transactionService.findAllByClient(client);
+            model.addAttribute("transactions", transactions);
+        }
+
         if(clientDeposit.getDepositStatus().equals("ac") || clientDeposit.getDepositStatus().equals("c")){
             clientDeposit.setDepositStatus("o");
+        }
+        LocalDate today = clientDeposit.getOpenDate()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        LocalDate close = closeDate
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+
+        long monthsBetween = ChronoUnit.MONTHS.between(today.withDayOfMonth(1), close.withDayOfMonth(1));
+        if (monthsBetween < deposit.getMinTermDays() || monthsBetween > deposit.getMaxTermDays()) {
+            model.addAttribute("error", String.format(
+                    "Срок вклада должен быть от %d до %d месяцев. Вы выбрали: %d",
+                    deposit.getMinTermDays(), deposit.getMaxTermDays(), monthsBetween));
+            logger.warn("Срок вклада должен быть от {} до {} месяцев. Вы выбрали: {}",
+                    deposit.getMinTermDays(), deposit.getMaxTermDays(), monthsBetween);
+            return "user/profile";
+        }
+        Accounts accounts = accountsService.findById(clientDeposit.getIdAccount().getIdAccount());
+        if(accounts.getAmount() > deposit.getMaxAmount()){
+            model.addAttribute("error",
+                    "Сумма вклада слишком велика для пролонгации: " +accounts.getAmount() + " > " + deposit.getMaxAmount());
+            logger.warn("Сумма вклада слишком велика для пролонгации: {} > {}",accounts.getAmount() ,deposit.getMaxAmount());
+            return "user/profile";
         }
         clientDeposit.setCloseDate(closeDate);
         clientDepositService.save(clientDeposit);
@@ -243,9 +308,11 @@ public class DepositController {
         Accounts acc = accountsService.findById(clientDeposit.getIdAccount().getIdAccount());
         double amount;
         if(clientDeposit.getDepositStatus().equals("ac")){
-            amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed * deposit.getRate() / 100.0);
+//            amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed * deposit.getRate() / 100.0);
+            amount = acc.getAmount() +  Math.round(monthsPassed * deposit.getRate() / 100.0);
         }else{
-            amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed * 0.01);
+//            amount = clientDeposit.getInitialAmount() + acc.getAmount() +  Math.round(monthsPassed * 0.01);
+            amount = acc.getAmount() +  Math.round(monthsPassed * 0.01);
         }
         logger.info("Закрытие депозита. accountId={}, targetAccount={}, amount={}, opendate={}, datenow={}, MONTHS={}", accountId, targetAccount.getIdAccount(), amount, openDate, now, monthsPassed);
         transactionService.closeDeposit(accountId, targetAccount.getIdAccount(), amount);
