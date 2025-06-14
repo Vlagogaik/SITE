@@ -90,6 +90,9 @@
 <div th:if="${errorMessage}" class="error-popup" id="error-toast">
     <div class="error-popup-message" th:text="${errorMessage}"></div>
 </div>
+<div th:if="${success}" class="successful-popup" id="s-toast">
+    <div class="successful-popup-message" th:text="${success}"></div>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
       const toast = document.getElementById('error-toast');

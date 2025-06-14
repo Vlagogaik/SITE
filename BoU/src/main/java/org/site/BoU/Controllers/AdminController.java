@@ -192,7 +192,9 @@ public class AdminController {
         Accounts accountDel = accountsService.findById(id);
         ClientDeposit clientDepositOpt = clientDepositService.findByAccountId(accountDel.getIdAccount());
         model.addAttribute("accounts", accountsService.findAll());
-        model.addAttribute("clients", clientService.findByLogin(clientDepositOpt.getIdAccount().getIdClient().getLogin()));
+        if(clientDepositOpt != null){
+            model.addAttribute("clients", clientService.findByLogin(clientDepositOpt.getIdAccount().getIdClient().getLogin()));
+        }
         Map<Long, ClientDeposit> clientDepositsMap = new HashMap<>();
         Map<Long, List<Accounts>> availableAccountsMap = new HashMap<>();
         for (Accounts account : accountsService.findAll()) {
@@ -236,8 +238,7 @@ public class AdminController {
 
         if (optionalClient.isPresent()) {
             Clients client = optionalClient.get();
-
-            if (accountsService.getAccountsByClient(client) != null) {
+            if (!accountsService.getAccountsByClient(client).isEmpty()) {
                 model.addAttribute("errorId", id);
                 model.addAttribute("errorMessage", "Невозможно удалить клиента: у него есть счета.");
                 model.addAttribute("clients", clientService.findAll());

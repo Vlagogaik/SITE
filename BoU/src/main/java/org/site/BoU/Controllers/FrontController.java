@@ -172,7 +172,10 @@ public class FrontController {
             return "redirect:/user/allDepositsUser";
         } else {
             List<Deposits> deposits = depositService.getAllDeposits();
-            model.addAttribute("deposits", deposits);
+            List<Deposits> availableDep =deposits.stream()
+                    .filter(dep -> "o".equals(dep.getDepositStatus()))
+                    .collect(Collectors.toList());
+            model.addAttribute("deposits", availableDep);
             return "allDeposits";
         }
     }
@@ -182,12 +185,20 @@ public class FrontController {
         if (login != null) {
             Clients client = clientService.findByLogin(login);
             List<Deposits> deposits = depositService.getAllDeposits();
+            List<Deposits> availableDep =deposits.stream()
+                    .filter(dep -> "o".equals(dep.getDepositStatus()))
+                    .collect(Collectors.toList());
+            model.addAttribute("deposits", availableDep);
             List<Accounts> accounts = accountService.getOpenAccountsByClient(client);
             model.addAttribute("deposits", deposits);
             model.addAttribute("accounts", accounts);
             return "user/allDepositsUser";
         } else {
             List<Deposits> deposits = depositService.getAllDeposits();
+            List<Deposits> availableDep =deposits.stream()
+                    .filter(dep -> "o".equals(dep.getDepositStatus()))
+                    .collect(Collectors.toList());
+            model.addAttribute("deposits", availableDep);
             model.addAttribute("deposits", deposits);
             return "redirect:/allDeposits";
         }
